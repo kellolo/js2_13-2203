@@ -78,7 +78,7 @@
          this.container = '.cart-block';
          this.quantityBlock = document.querySelector('#quantity');
          this.priceBlock = document.querySelector('#price');
-         this.construct = () => this._init();
+         this._init();
 
      }
 
