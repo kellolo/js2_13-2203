@@ -11,11 +11,11 @@
 
  //let products = [] //массив объектов
  
- let catalog = {
+ class catalog = {
     items: [],
     container: '.products',
     cart: null,
-    construct (cart) {
+    constructor (cart) {
         this.cart = cart
         this._init () //_ - это обозначение инкапсулированного метода
     },
@@ -69,14 +69,14 @@
      }
  }
 
- let cart = {
+ class cart = {
     items: [],
     total: 0,
     sum: 0,
     container: '.cart-block',
     quantityBlock: document.querySelector ('#quantity'),
     priceBlock: document.querySelector ('#price'),
-    construct () {
+    constructor () {
         this._init ()
     },
     _init () {
@@ -155,6 +155,9 @@
     }
  }
 export default () => {
+    let catalog = new catalog
+    let cart = new cart
+
     catalog.construct (cart) //тут происходит создание объекта и вся прочая магия
     cart.construct ()
 }
