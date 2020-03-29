@@ -9,14 +9,21 @@
  'https://files.sandberg.it/products/images/lg/640-05_lg.jpg',
  'https://images-na.ssl-images-amazon.com/images/I/81PLqxtrJ3L._SX466_.jpg']
 
-class Catalog {
-    constructor(cart) {
-        this.items = []
-        this.container = '.products'
-        this.cart = cart
-        this._init ()
-    }
+ //let products = [] //массив объектов
+ 
+ class catalog
+ {
+     constructor()
+     {
+    this.items = [],
+    this.container = '.products',
+    this.cart = null
+     }
 
+    construct (cart) {
+        this.cart = cart
+        this._init () //_ - это обозначение инкапсулированного метода
+    }
     _init () {
         this._handleData ()
         this.render ()
@@ -65,21 +72,20 @@ class Catalog {
         })
         document.querySelector(this.container).innerHTML = str
      }
-}
+ }
 
- //let products = [] //массив объектов
- 
-class Cart {
-    constructor () {
-        this.items = []
-        this.total = 0
-        this.sum = 0
-        this.container = '.cart-block'
-        this.quantityBlock = document.querySelector ('#quantity')
+ class cart {
+     constructor(){
+        this.items = [],
+        this.total = 0,
+        this.sum = 0,
+        this.container = '.cart-block',
+        this.quantityBlock = document.querySelector ('#quantity'),
         this.priceBlock = document.querySelector ('#price')
+     }
+    construct () {
         this._init ()
     }
-
     _init () {
         this._handleEvents ()
     }
@@ -156,7 +162,9 @@ class Cart {
     }
  }
 
- export default () => {
-    let cart = new Cart()
-    let catalog = new Catalog(cart)
+ export default() =>{
+    catalog.construct (cart) //тут происходит создание объекта и вся прочая магия
+    cart.construct ()
+
  }
+ 
