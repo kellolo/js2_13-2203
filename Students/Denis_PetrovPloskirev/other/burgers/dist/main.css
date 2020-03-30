@@ -1,0 +1,171 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  padding: 50px;
+}
+
+h1 {
+  text-align: center;
+  text-transform: uppercase;
+  text-decoration: underline;
+}
+
+.fieldset {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  width: 510px;
+  margin: auto;
+}
+
+h2 {
+  flex: 1 0 500px;
+  margin-top: 30px;
+  text-align: center;
+  text-transform: uppercase;
+}
+
+label {
+  position: relative;
+  height: 200px;
+  text-align: center;
+  display: flex;
+  flex-direction: column-reverse;
+  padding-bottom: 25px;
+  border-bottom: 3px solid transparent;
+  cursor: pointer;
+  transition: all .2s;
+}
+
+label:hover {
+  border-color: darkgoldenrod
+}
+
+label:active {
+  border-color: darkgoldenrod;
+}
+
+label > .info {
+  display: block;
+  position: absolute;
+  line-height: 25px;
+  font-size: 13px;
+  text-align: left;
+  padding-left: 17px;
+  height: 25px;
+}
+
+label > .price {
+  bottom: 0;
+  left: 47%;
+  background: transparent url(images/7d723c9555e28105b995382e896427e4.png) no-repeat 0 40% / 18px;
+}
+
+label > .energy {
+  bottom: 0;
+  left: 35%;
+  background: transparent url(images/3e5173f2fe17461affc074198b630806.png) no-repeat 0 center / 20px;
+}
+
+#filling label > .price {
+  left: 50%;
+}
+
+#filling label > .energy {
+  left: 30%;
+}
+
+label.size,
+label.toppings {
+  flex-basis: 250px;
+  background: transparent no-repeat center center / 40%;
+}
+
+label.filling {
+  flex-basis: 33.333%;
+  background: transparent no-repeat center center / 55%;
+}
+
+label#big {
+  background-image: url(images/5b3191dcd2111852261733c47798534f.png);
+}
+
+label#small {
+  background-image: url(images/34f7415895d15b2d359d0958894fcbf2.png);
+}
+
+label#cheese {
+  background-image: url(images/539e6cdcd65f7400946e5c3d0ba3f789.png)
+}
+
+label#salad {
+  background-image: url(images/e3331179a40673e867220f9f03c6c316.png)
+}
+
+label#potatoes {
+  background-image: url(images/664332a555e44eda3e7414a7e30f8dc1.png)
+}
+
+label#flavoring {
+  background-image: url(images/911c912a1e5868c77c250ef840ac3992.png)
+}
+
+label#mayonnaise {
+  background-image: url(images/6e9b4e528bb4476fe580697f6bf6620c.png)
+}
+
+input:not([type='submit']) {
+  display: none;
+}
+
+.choice {
+  color: darkgoldenrod;
+}
+
+.sum {
+  width: 500px;
+  margin: 40px auto 10px auto;
+  border-top: 2px solid darkgoldenrod;
+}
+
+.description {
+  border-bottom: 1px solid black;
+}
+
+.sum p {
+  margin: 5px 0;
+}
+
+.sum > p {
+  font-size: 20px;
+}
+
+input[type='submit'] {
+  display:block;
+  width: 510px;
+  margin: 0 auto;
+  height: 80px;
+  background: transparent url(images/997803ac007d4820a06cc6e46c22b444.png) no-repeat center center / 60px;
+  outline: none;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all .2s;
+}
+
+input[type='submit']:hover {
+  background-color: darkgoldenrod;
+}
+
+input[type='submit']:active {
+  background-color: white;
+}
+
+.checked {
+  border-bottom: 3px solid darkgoldenrod;
+}
