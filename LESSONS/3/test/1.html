@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        let url = './catalog.json'
+
+        function makeGETRequest(url, callback) {
+            var xhr = new XMLHttpRequest();
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) { //4 === ok
+                    console.log(xhr)
+                    console.log(xhr.responseText)
+                    let a = JSON.parse(xhr.responseText)
+                    console.log(a)
+                    console.log(JSON.stringify(a))
+                }
+            }
+
+            xhr.open('GET', url, true);
+            xhr.send();
+        }
+
+        makeGETRequest(url)
+    </script>
+</body>
+</html>
