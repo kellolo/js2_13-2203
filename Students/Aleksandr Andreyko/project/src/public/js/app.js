@@ -1,4 +1,7 @@
-//ИМИТАЦИЯ РАБОТЫ БАЗЫ ДАННЫХ И СЕРВЕРА
+import './client'
+import makeGETRequest from './client';
+
+const API_URL = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses';
 
 let PRODUCTS_NAMES = ['Processor', 'Display', 'Notebook', 'Mouse', 'Keyboard']
 let PRICES = [100, 120, 1000, 15, 18]
@@ -14,7 +17,7 @@ class Catalog {
         this.items = []
         this.container = '.products'
         this.cart = cart
-        this._init()
+        // this._init()
    }
    
    _init () {
@@ -46,6 +49,19 @@ class Catalog {
        }
    }
 
+   fetchProducts () {
+       return new Promise ((onResponse, onError) => {
+            makeGETRequest(`${API_URL}/catalogData.json`)
+                .then((goods) => {
+                    onResponse()
+                    this.items = JSON.parse(goods)
+                }, (status) => {
+                    onError(status)
+                    console.log(`Ошибка обработки запроса со статусом ${status}`)
+                })
+       })
+   }
+
    render () {
        let str = ''
        this.items.forEach (item => {
@@ -68,6 +84,14 @@ class Catalog {
            `
        })
        document.querySelector(this.container).innerHTML = str
+       this._handleEvents()
+   }
+
+   renderNoGood (status) {
+    document.querySelector(this.container).innerHTML = 
+        `
+            <h1 style='color: #f00;'>Произошла ошибка ${status}!</h1>
+        `
    }
 }
 
@@ -164,6 +188,11 @@ class Cart {
 }
 
 export default () => {
-    new Catalog(new Cart)
-    new Cart
+    let k = new Catalog(new Cart)
+    k.fetchProducts ().then(() => {
+        k.render()
+    }, (status) => {
+        k.renderNoGood(status)
+    })
+    window.k = k
 }
