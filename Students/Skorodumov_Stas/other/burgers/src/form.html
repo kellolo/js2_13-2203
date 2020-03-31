@@ -6,12 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <title>Hamburger form</title>
-    <link rel="stylesheet" href="public/css/main.css">
+    <link rel="stylesheet" href="./public/css/main.css">
 </head>
 
 <body>
     <h2>Choose a hamburger</h2>
-    <form action="" id="uForm">
+    <form id="uForm">
         <fieldset>
             <label>
                 <input type="text" name="customer" id="customer"> Enter Your Name
@@ -22,66 +22,57 @@
         </fieldset>
         <fieldset>
             <label>
-                <input type="radio" name="size" value="big" id="big"> <b>big</b>, 100 rubles 40 calories
+                <input type="radio" name="size" data-price="100" data-calories="40" id="big"> <b>big</b>, 100 rubles 40 calories
             </label>
             <label>
-                <input type="radio" name="size" value="small" id="small"> <b>small</b>, 50 rubles 20 calories
-            </label>
-        </fieldset>
-        <fieldset>
-            <label>
-                <input type="radio" name="filling" value="cheese" id="cheese"> <b>cheese</b>, +10 rubles 20 calories
-            </label>
-            <label>
-                <input type="radio" name="filling" value="salad" id="salad"> <b>salad</b>, +20 rubles 5 calories
-            </label>
-            <label>
-                <input type="radio" name="filling" value="potatoes" id="potatoes"> <b>potatoes</b>, +15 rubles 10 calories
-            </label>
-            <label>
-                <input type="radio" name="filling" value="onion" id="onion"> <b>onion</b>, +30 rubles 8 calories
+                <input type="radio" name="size" data-price="50" data-calories="20" id="small"> <b>small</b>, 50 rubles 20 calories
             </label>
         </fieldset>
         <fieldset>
             <label>
-                <input type="checkbox" name="filling" value="spices" id="spices"> <b>spices</b>, +15 rubles 0 calories
+                <input type="radio" name="filling" data-price="10" data-calories="20" id="cheese"> <b>cheese</b>, +10 rubles 20 calories
             </label>
             <label>
-                <input type="checkbox" name="filling" value="mayonnaise" id="mayonnaise"> <b>mayonnaise</b>, +20 rubles 5 calories
+                <input type="radio" name="filling" data-price="20" data-calories="5" id="salad"> <b>salad</b>, +20 rubles 5 calories
             </label>
             <label>
-                <input type="checkbox" name="filling" value="ketchup" id="ketchup"> <b>ketchup</b>, +10 rubles 10 calories
+                <input type="radio" name="filling" data-price="15" data-calories="10" id="potatoes"> <b>potatoes</b>, +15 rubles 10 calories
+            </label>
+            <label>
+                <input type="radio" name="filling" data-price="30" data-calories="8" id="onion"> <b>onion</b>, +30 rubles 8 calories
+            </label>
+        </fieldset>
+        <fieldset>
+            <label>
+                <input type="checkbox" name="additive" data-price="15" data-calories="0" id="spices"> <b>spices</b>, +15 rubles 0 calories
+            </label>
+            <label>
+                <input type="checkbox" name="additive" data-price="20" data-calories="5" id="mayonnaise"> <b>mayonnaise</b>, +20 rubles 5 calories
+            </label>
+            <label>
+                <input type="checkbox" name="additive" data-price="10" data-calories="10" id="ketchup"> <b>ketchup</b>, +10 rubles 10 calories
+            </label>
+            <label>
+                <input type="checkbox" name="additive" data-price="0" data-calories="0" id="nullText" class="hidden" checked="checked">
             </label>
         </fieldset>
 
-        <label>
-            <input id="okBtn" type="submit" value="estimate">
+        <label class="lastLabel">
+            <input type="button" id="okBtn" value="estimate">
         </label>
+
         <div id="result">
             <div><b>Cost value:</b> <span id="price">0</span> rubles</div>
             <div><b>Сaloric intake:</b> <span id="calories">0</span> calories</div>
             <br>
             <br>
             <hr>
-            <div><b>Customer:</b> <span id="customerInput">______</span></div>
-            <div><b>Delivery:</b> <span id="addressInput"> _______</span></div>
+            <div class="checkIn"><b>Customer:</b> <span id="customerInput">______</span></div>
+            <div class="checkIn"><b>Delivery:</b> <span id="addressInput"> _______</span></div>
         </div>
     </form>
-    <script>
-        let inputC = document.querySelector('#customer')
-        inputC.addEventListener('keyup', function(event) {
-            let span = document.querySelector('#customerInput')
-            span.textContent = event.target.value
-        });
 
-        let inputA = document.querySelector('#address')
-        inputA.addEventListener('keyup', function(event) {
-            let span = document.querySelector('#addressInput')
-            span.textContent = event.target.value
-        });
-
-    </script>
-    <script src="public/js/main.js"></script>
+    <script src="./public/js/main.js"></script>
 </body>
 
 </html>
