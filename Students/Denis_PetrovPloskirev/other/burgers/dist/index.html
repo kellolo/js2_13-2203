@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Burgers</title>
+<link href="main.css" rel="stylesheet"></head>
+<body>
+    <form action="#">
+      <h1>Make your burger</h1>
+      <div id="size" class="fieldset">
+        <h2>Size</h2>
+        <label id="small" class="size">
+          <div class="info price"></div>
+          <div class="info energy"></div>
+          Small <input type="radio" name="size" value="small" data-price="50" data-energy="20">
+        </label>
+        <label id="big" class="size">
+          <div class="info price"></div>
+          <div class="info energy"></div>
+          Big <input type="radio" name="size" value="big" data-price="100" data-energy="40">
+        </label>
+      </div>
+      <div id="filling" class="fieldset">
+        <h2>filling</h2>
+        <label id="cheese" class="filling">
+          <div class="info price"></div>
+          <div class="info energy"></div>
+          Cheese
+          <input type="radio" name="filling" value="cheese" data-price="10" data-energy="20">
+        </label>
+        <label id="salad" class="filling">
+          <div class="info price"></div>
+          <div class="info energy"></div>
+          Salad
+          <input type="radio" name="filling" value="salad" data-price="20" data-energy="5">
+        </label>
+        <label id="potatoes" class="filling">
+          <div class="info price"></div>
+          <div class="info energy"></div>
+          Potatoes
+          <input type="radio" name="filling" value="potatoes" data-price="15" data-energy="10">
+        </label>
+      </div>
+      <div id="toppings" class="fieldset">
+        <h2>toppings</h2>
+        <label id="flavoring" class="toppings">
+          <div class="info price"></div>
+          <div class="info energy"></div>
+          Flavouring
+          <input type="checkbox" name="toppings" value="flavoring" data-price="15" data-energy="0">
+        </label>
+        <label id="mayonnaise" class="toppings">
+          <div class="info price"></div>
+          <div class="info energy"></div>
+          Mayonaise
+          <input type="checkbox" name="toppings" value="mayonnaise" data-price="20" data-energy="5">
+        </label>
+      </div>
+      <div class="sum">
+        <h2 class="choice">Your choice</h2>
+        <div class="description">
+          <p class="chosenSize">Size: <span></span></p>
+          <p class="chosenFilling">Filling: <span></span></p>
+          <p class="chosenToppings">Toppings: <span></span></p>
+        </div>
+        <p>Cost: <span id="cost">0</span></p>
+        <p>Energy: <span id="energy">0</span></p>
+      </div>
+      <input type="submit" value="">
+    </form>
+
+<script src="main.js"></script></body>
+</html>
