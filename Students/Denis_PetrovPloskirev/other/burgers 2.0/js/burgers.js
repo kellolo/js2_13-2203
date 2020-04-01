@@ -7,6 +7,7 @@ class Menu {
   constructor(container, url) {
     this.container = document.querySelector(container)
     this.url = url
+    this.chosedMeals = []
     this._init()
   }
 
@@ -117,7 +118,6 @@ class Menu {
   }
 
   _makeBurger(e) {
-    this.chosedMeals = []
     e.preventDefault()
     let burger = new Burger('size', 'filling', 'toppings', 'price', 'energy')
     this.chosedMeals.push(burger)
