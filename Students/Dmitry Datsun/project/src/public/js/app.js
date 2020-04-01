@@ -9,12 +9,38 @@
  'https://files.sandberg.it/products/images/lg/640-05_lg.jpg',
  'https://images-na.ssl-images-amazon.com/images/I/81PLqxtrJ3L._SX466_.jpg']
 
+class Product {
+    constructor(index) {
+        this.product_name = PRODUCTS_NAMES [index]
+        this.price = PRICES [index]
+        this.id_product = IDS [index]
+        this.img = IMGS [index]
+    }
+}
+
+class ProductQ extends Product {
+    constructor(idx) {
+        super(idx)
+        this.quantity = 1
+    }
+}
+
 class Catalog {
     constructor(cart) {
         this.items = []
         this.container = '.products'
         this.cart = cart
         this._init ()
+    }
+
+    find (idx) {
+        this.items.forEach ( item => {
+            if (item.id_product == idx) {
+                console.log(item)
+                return item
+            }
+
+        })
     }
 
     _init () {
@@ -31,17 +57,19 @@ class Catalog {
     }
     _handleData () {
         for (let i = 0; i < IDS.length; i++) {
-            this.items.push (this._createNewProduct (i))
+            this.items.push (new Product(i))
         }
     }
-    _createNewProduct (index) {
-        return {
-            product_name: PRODUCTS_NAMES [index],
-            price: PRICES [index],
-            id_product: IDS [index],
-            img: IMGS [index]
-        }
-    }
+    // _createNewProduct (index) {
+    //     return new Product(index)
+        
+    //     // return {
+    //     //     product_name: PRODUCTS_NAMES [index],
+    //     //     price: PRICES [index],
+    //     //     id_product: IDS [index],
+    //     //     img: IMGS [index]
+    //     // }
+    // }
     render () {
         let str = ''
         this.items.forEach (item => {
@@ -92,12 +120,22 @@ class Cart {
     }
     addProduct (product) {
         let id = product.dataset['id']
+        console.log(this.items)
         let find = this.items.find (product => product.id_product === id)
+
+        this.items.forEach(item => {
+            console.log(item)
+            if (item.id_product === id) {
+                console.log("!")
+            }
+        })
+        console.log(find)
         if (find) {
             find.quantity++
         } else {
             let prod = this._createNewProduct (product)
-            this.items.push (prod)
+            // this.items.push (prod)
+            this.items.push (new ProductQ(id))
         }
          
         this._checkTotalAndSum ()
