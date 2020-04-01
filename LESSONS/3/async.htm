@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <script>
+        //xmlHttpRequest
+        let url = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses/catalogData.json'
+
+        function makeGETRequest(url, callback) {
+            var xhr = new XMLHttpRequest();
+
+            xhr.onreadystatechange = function () {
+                if (xhr.readyState === 4) { //4 === ok
+                    console.log(xhr)
+                    console.log(xhr.responseText)
+                }
+            }
+
+            xhr.open('GET', url, true);
+            xhr.send();
+        }
+
+
+        //Promise
+        // function promiseAsync (a) {
+        //     return new Promise((res, rej) => {
+        //         if(a) {
+        //             res(a)
+        //         } else {
+        //             rej('some error')
+        //         }
+        //     })
+        // }
+
+
+        // function process (data) {
+        //     promiseAsync(data)
+        //         .then(resolvedData => {
+        //             console.log(resolvedData)
+        //             return resolvedData
+        //         })
+        //         .then(data => {
+        //             if (typeof data === 'number') {
+        //                 console.log('Number')
+        //             } else if (typeof data === 'string') {
+        //                 console.log('String')
+        //             } else {
+        //                 console.log('Unknown')
+        //             }
+        //         })
+        //         .catch(err => {
+        //             console.log(err)
+        //         })
+        //         .finally(() => {
+        //             console.log('end of promise')
+        //         })
+        // }
+
+
+        //cb
+        // let a = 0
+        // function async(cb) {
+        //     setTimeout (() => {
+        //         a++
+        //         cb()
+        //     }, 1500)
+        // }
+
+        // function main (p) {
+        //     async(p)
+        // }
+
+        // function dataProcess() {
+        //     return `data: ${a}`
+        // }
+
+        // main(() => {
+        //     console.log(dataProcess())
+        //     main(() => {
+        //         console.log(dataProcess())
+        //         main(() => {
+        //             console.log(dataProcess())
+        //             main(() => {
+        //                 console.log(dataProcess())
+        //             })
+        //         })
+        //     })
+        // })
+        // let d = null
+
+        // function async (t) {
+        //     if(d == null) {
+        //         d = 10
+        //     }
+        //     setTimeout(() => {
+        //         // console.log ('data loaded ' + d + '; time ' + t)
+        //         return d + 5
+        //     }, t)
+        // }
+
+        // function process() {
+        //     async(0)
+        //     async(100)
+        //     async(2)
+        //     async(4000)
+        //     async(400)
+        //     setTimeout(() => {console.log(`data = ${d}`)}, 0)
+        // }
+
+        // process()
+        // // http Requests
+        // // filesWorks
+    </script>
+</body>
+</html>
