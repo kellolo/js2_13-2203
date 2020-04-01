@@ -1,29 +1,15 @@
-import './client'
-import makeGETRequest from './client';
+import makeGETRequest from './client'
 
-const API_URL = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses';
-
-let PRODUCTS_NAMES = ['Processor', 'Display', 'Notebook', 'Mouse', 'Keyboard']
-let PRICES = [100, 120, 1000, 15, 18]
-let IDS = [0, 1, 2, 3, 4]
-let IMGS = ['https://cs8.pikabu.ru/post_img/big/2017/12/25/5/1514188160141511997.jpg',
-  'https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/HMUB2?wid=1144&hei=1144&fmt=jpeg&qlt=80&op_usm=0.5,0.5&.v=1563827752399',
-  'https://zeon18.ru/files/item/Xiaomi-Mi-Notebook-Air-4G-Officially-Announced-Weboo-co-2%20(1)_1.jpg',
-  'https://files.sandberg.it/products/images/lg/640-05_lg.jpg',
-  'https://images-na.ssl-images-amazon.com/images/I/81PLqxtrJ3L._SX466_.jpg']
+const API_URL = 'https://raw.githubusercontent.com/allkeck/store-api/master/responses'
+const IMG_PREFIX = 'https://muehle-shaving.ru/images/muhle/products/'
 
 class Catalog {
   constructor(cart) {
     this.items = []
     this.container = '.products'
     this.cart = cart
-    // this._init()
-  }
-
-  _init() {
-    this._handleData()
-    this.render()
-    this._handleEvents()
+    this.url = `${API_URL}/catalogData.json`
+    this.wrongUrl = true
   }
 
   _handleEvents() {
@@ -51,7 +37,7 @@ class Catalog {
 
   fetchProducts() {
     return new Promise((onResponse, onError) => {
-      makeGETRequest(`${API_URL}/catalogData.json`)
+      makeGETRequest(this.url)
         .then((goods) => {
           onResponse()
           this.items = JSON.parse(goods)
@@ -59,6 +45,10 @@ class Catalog {
           onError(status)
           console.log(`Ошибка обработки запроса со статусом ${status}`)
         })
+    }).then(() => {
+      this.render()
+    }, (status) => {
+      this.renderNoGood(status)
     })
   }
 
@@ -67,11 +57,11 @@ class Catalog {
     this.items.forEach(item => {
       str += `
                <div class="product-item">
-                   <img src="${item.img}" alt="${item.product_name}">
+                   <img src="${IMG_PREFIX + item.img}" alt="${item.product_name}">
                    <!--img src="${item.img}" width="300" height="200" alt="${item.product_name}"-->
                    <div class="desc">
                        <h1>${item.product_name}</h1>
-                       <p>${item.price}</p>
+                       <p>${item.price} &#8381;</p>
                        <button 
                        class="buy-btn" 
                        name="buy-btn"
@@ -90,8 +80,10 @@ class Catalog {
   renderNoGood(status) {
     document.querySelector(this.container).innerHTML =
       `
-            <h1 style='color: #f00;'>Произошла ошибка ${status}!</h1>
-        `
+        <h1 class="error">Произошла ошибка ${status}!</h1>
+        <button class="refresh-data">Повторить попытку!</button>
+      `
+    this._handleEvents()
   }
 }
 
@@ -189,10 +181,6 @@ class Cart {
 
 export default () => {
   let k = new Catalog(new Cart)
-  k.fetchProducts().then(() => {
-    k.render()
-  }, (status) => {
-    k.renderNoGood(status)
-  })
+  k.fetchProducts()
   window.k = k
 }
