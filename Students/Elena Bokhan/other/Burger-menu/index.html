@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<title>Burger menu</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" href="css/style.css">
+</head>
+
+<body>
+	<section>
+		<main>
+		<form id="uForm">
+			<div class="menu">
+				<div class="wrp-all-burgers">
+					<div class="wrp-burger">
+						<div class="desk">
+							<img src="img/big-burger-name.png" alt="">
+							<div class="burger-price">100 $</div>
+							<span class="burger-calories">400 cl</span>	
+						</div>
+						<input type="radio" name="size" data-price="100" data-calories="400" id="big-size">
+						<label for="big-size">
+						<img src="img/big-burger.png" alt="burger" width="300" height="200">
+						</label>		
+					</div>
+					<hr>
+					<div class="wrp-burger">
+						<div class="desk">
+							<img src="img/small-burger-name.png" >
+							<div class="burger-price">70 $</div>
+							<span class="burger-calories">350 cl</span>	
+						</div>
+						<input type="radio" name="size" data-price="70" data-calories="350" id="small-size">
+						<label for="small-size">
+						<img src="img/small-burger.png" alt="burger" width="300" height="200">
+						</label>		
+					</div>							
+				</div>
+				<div class="fillings-block">
+					<div class="wrp-fillings-desk">
+						<div class="filling-head">choose <br>
+							<span>filling</span>
+						</div>
+						<div class="filling-item-desk">
+							<div class="filling-name">
+								<span>cheese</span>
+							</div>
+							<div class="filling-price">
+								70 $
+							</div>
+							<div class="filling-calories">
+								250 cl
+							</div>
+						</div>
+						<div class="filling-item-desk">
+							<div class="filling-name">
+								<span>salad</span>
+							</div>
+							<div class="filling-price">
+								30 $
+							</div>
+							<div class="filling-calories">
+								40 cl
+							</div>
+						</div>
+						<div class="filling-item-desk">
+							<div class="filling-name">
+								<span>chips</span>
+							</div>
+							<div class="filling-price">
+								60 $
+							</div>
+							<div class="filling-calories">
+								370 cl
+							</div>
+						</div>
+					</div>
+					<div class="wrp-fillings">
+						<div class="item-fillings">
+							<input type="radio" name="filling" data-price="70" data-calories="250" id="cheese">
+							<label for="cheese">
+								<div class="clip-filling">
+									<img src="img/cheese.jpg"width="200" height="200">
+								</div>
+							</label>
+						</div>
+						<div class="item-fillings">
+							<input type="radio" name="filling" data-price="30" data-calories="40" id="salad">
+							<label for="salad">
+								<div class="clip-filling">
+									<img src="img/salad.jpg" width="200" height="200">
+								</div>
+							</label>
+						</div>
+						<div class="item-fillings">
+							<input type="radio" name="filling" data-price="60" data-calories="370" id="chips">
+							<label for="chips">
+								<div class="clip-filling">
+									<img src="img/chips.jpg" width="200" height="200">
+								</div>
+							</label>
+						</div>	
+					</div>	
+				</div>				
+			</div>
+			<div class="adds-and-total">
+				<div class="adds-frame">
+					adds
+				</div>
+				<div class="adds">					
+					<div class="add-item">
+						<div class="add-souse-desk">
+							<div class="add-name">
+								souse
+							</div>
+							<div class="add-price">
+								20 $ 5 cl
+							</div>
+						</div>
+						<input type="checkbox" name="adds" data-price="20" data-calories="5" id="add-souse">
+						<label for="add-souse">
+						<img src="img/souse.png" width="160" alt="adds"></label>
+					</div>
+					<div class="add-item">
+						<div class="add-souse-desk">
+							<div class="add-name">
+								spicy
+							</div>
+							<div class="add-price">
+								15 $ 0 cl
+							</div>
+						</div>
+						<input type="checkbox" name="adds" data-price="15" data-calories="0" id="add-spicy">
+						<label for="add-spicy">
+							<img src="img/spicy.png" width="220" alt="spicy">
+						</label>
+					</div>
+				</div>
+				<div class="total-block">Total:
+					<hr class="total-line">
+					<div class="total-name">burger</div>
+					<div class="total-price">$</div>
+					<div class="total-calories">cl</div>
+				</div>
+			</div>	
+		</form>
+	</main>
+	</section>
+	<script src="script.js"></script>
+</body>
+
+</html>
