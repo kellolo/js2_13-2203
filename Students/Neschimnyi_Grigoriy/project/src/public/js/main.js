@@ -1,30 +1,66 @@
 //ИМИТАЦИЯ РАБОТЫ БАЗЫ ДАННЫХ И СЕРВЕРА
 
-let PRODUCTS_NAMES = ['Processor', 'Display', 'Notebook', 'Mouse', 'Keyboard']
-let PRICES = [100, 120, 1000, 15, 18]
-let IDS = [0, 1, 2, 3, 4]
-let IMGS = ['https://cs8.pikabu.ru/post_img/big/2017/12/25/5/1514188160141511997.jpg',
-    'https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/HMUB2?wid=1144&hei=1144&fmt=jpeg&qlt=80&op_usm=0.5,0.5&.v=1563827752399',
-    'https://zeon18.ru/files/item/Xiaomi-Mi-Notebook-Air-4G-Officially-Announced-Weboo-co-2%20(1)_1.jpg',
-    'https://files.sandberg.it/products/images/lg/640-05_lg.jpg',
-    'https://images-na.ssl-images-amazon.com/images/I/81PLqxtrJ3L._SX466_.jpg'
-]
+// let PRODUCTS_NAMES = ['Processor', 'Display', 'Notebook', 'Mouse', 'Keyboard']
+// let PRICES = [100, 120, 1000, 15, 18]
+// let IDS = [0, 1, 2, 3, 4]
+// let IMGS = ['https://cs8.pikabu.ru/post_img/big/2017/12/25/5/1514188160141511997.jpg',
+//     'https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/HMUB2?wid=1144&hei=1144&fmt=jpeg&qlt=80&op_usm=0.5,0.5&.v=1563827752399',
+//     'https://zeon18.ru/files/item/Xiaomi-Mi-Notebook-Air-4G-Officially-Announced-Weboo-co-2%20(1)_1.jpg',
+//     'https://files.sandberg.it/products/images/lg/640-05_lg.jpg',
+//     'https://images-na.ssl-images-amazon.com/images/I/81PLqxtrJ3L._SX466_.jpg'
+// ]
 
-//let products = [] //массив объектов
+// function promiseForReadyState(arg) {
+//     return new Promise((res, rej) => {
+//         if (arg === 4) {
+//             res(arg)
+//         }
+//     })
+// }
+
+//     let promise = promiseForReadyState(xhr.readyState)
+//     .then(res => {
+//         let a = JSON.parse(xhr.responseText)
+//         return a
+//     })
+//     .catch(rej => {
+//         console.log(rej)
+//     })
+//     .finally(() => {
+//         console.log('promise finished')
+//     })
+// }
+let url = '../src/public/json/catalog.json';
 
 class Catalog {
     constructor(cart) {
         this.items = [],
         this.container = '.products',
-        
-        this.cart = cart
+        this.cart = cart,
+        this.response = [],
+        this.makeGETRequest(url),
         this._init()
     }
 
     _init() {
-        this._handleData()
-        this.render()
-        this._handleEvents()
+        // this.productsNew = JSON.parse(this.products)
+        console.log(this.response)
+        // this._handleData()
+        // this.render()
+        // this._handleEvents()
+    }
+
+    makeGETRequest(url) {
+        var xhr = new XMLHttpRequest();
+
+        xhr.open('GET', url, true);
+        xhr.send();
+
+        xhr.onreadystatechange = function() {
+            if (xhr.readyState === 4) {
+                this.response = JSON.parse(xhr.responseText)
+            }
+        }
     }
 
     _handleEvents() {
@@ -36,17 +72,18 @@ class Catalog {
     }
 
     _handleData() {
-        for (let i = 0; i < IDS.length; i++) {
+        for (let i = 0; i < this.products.length; i++) {
             this.items.push(this._createNewProduct(i))
+            console.log(this._createNewProduct(i))
         }
     }
 
     _createNewProduct(index) {
         return {
-            product_name: PRODUCTS_NAMES[index],
-            price: PRICES[index],
-            id_product: IDS[index],
-            img: IMGS[index]
+            product_name: this.products[index].product_name,
+            id_product: this.products[index].product_id,
+            price: this.products[index].price,
+            img: this.products[index].image
         }
     }
 
@@ -78,13 +115,13 @@ class Catalog {
 class Cart {
     constructor() {
         this.items = [],
-        this.total = 0,
-        this.sum = 0,
-        this.container = '.cart-block',
-        this.quantityBlock = document.querySelector('#quantity'),
-        this.priceBlock = document.querySelector('#price'),
+            this.total = 0,
+            this.sum = 0,
+            this.container = '.cart-block',
+            this.quantityBlock = document.querySelector('#quantity'),
+            this.priceBlock = document.querySelector('#price'),
 
-        this._init()
+            this._init()
     }
 
     _init() {
