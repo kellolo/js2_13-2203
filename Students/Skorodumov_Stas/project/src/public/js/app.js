@@ -1,4 +1,4 @@
-//ИМИТАЦИЯ РАБОТЫ БАЗЫ ДАННЫХ И СЕРВЕРА
+//--------------------------------------DB imitation---------------
 
 let PRODUCTS_NAMES = ['Processor', 'Display', 'Notebook', 'Mouse', 'Keyboard']
 let PRICES = [100, 120, 1000, 15, 18]
@@ -12,6 +12,7 @@ let IMGS = [
 ]
 //let products = [] //массив объектов
 
+//--------------------------------------class Catalog---------------
 class Catalog {
     constructor(PRODUCTS_NAMES, PRICES, IDS, IMGS, cart = null) {
         this.items = []
@@ -71,6 +72,7 @@ class Catalog {
     }
 }
 
+//--------------------------------------class Cart---------------
 class Cart {
     constructor() {
         this.items = []
