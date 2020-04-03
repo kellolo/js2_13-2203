@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // let url = './catalog.json'
+
+        // function makeGETRequest(url, callback) {
+        //     var xhr = new XMLHttpRequest();
+
+        //     xhr.onreadystatechange = function () {
+        //         if (xhr.readyState === 4) {
+        //             console.log(xhr)
+        //             console.log(xhr.responseText)
+        //             let a = JSON.parse(xhr.responseText)
+        //             console.log(a)
+        //             console.log(JSON.stringify(a))
+        //         }
+        //     }
+
+        //     xhr.open('GET', url, true);
+        //     xhr.send();
+        // } 
+
+        // makeGETRequest(url)
+
+        const url = './catalog.json'
+
+        function makeGETRequest (url) {
+            return new Promise((resolve, reject = console.error) => {
+                let xhr = new XMLHttpRequest();
+
+                xhr.open('GET', url, true);
+                xhr.onreadystatechange = () => {
+                    if (xhr.readyState === 4) {
+                        resolve(xhr.responseText)
+                        console.log(xhr)
+                        console.log('Response ' + xhr.responseText)
+                        let jsonObj = JSON.parse(xhr.responseText)
+                        console.log(jsonObj)
+                        console.log(JSON.stringify(jsonObj))
+                    } else if (xhr.status === 200) {
+                        console.log('Status ' + xhr.statusText)
+                    }
+                    else {
+                        reject(xhr.status)
+                    }    
+                }
+                xhr.send();
+            });
+        }
+
+        makeGETRequest(url);
+
+    </script>
+</body>
+</html>
