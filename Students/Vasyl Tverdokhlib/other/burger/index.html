@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div id="burgers">
+        <fieldset>
+            <label>
+                <input name="burger" value="smb" type="radio" data-price = "50" data-calories="20" checked>
+                <img src="img/sm.jpg" alt="">
+                <span>Бургер Маленький</span>
+            </label>
+            <label>
+                <input name="burger" value="bigb" type="radio" data-price = "100" data-calories="40">
+                <img src="img/big.jpg" alt="">
+                <span>Бургер Большой</span>
+            </label>
+        </fieldset>
+        <fieldset>
+            <label>
+                <input name="filling" value="cheese" type="radio" data-price="10" data-calories="20" checked>
+                <img src="img/cheese.jpg" alt="">
+                <span>Сыр</span>
+            </label>
+            <label>
+                <input name="filling" value="salad" type="radio" data-price="20" data-calories="5">
+                <img src="img/salad.jpg" alt="">
+                <span>Салат</span>
+            </label>
+            <label>
+                <input name="filling" value="potatoes" type="radio" data-price="15" data-calories="10">
+                <img src="img/potatoes.jpg" alt="">
+                <span>Картошка</span>
+            </label>
+        </fieldset>
+        <fieldset>
+            <label>
+                <input name="additive" value="seasoning" type="checkbox" data-price="15" data-calories="0">
+                <img src="img/seasoning.jpg" alt="">
+                <span>Приправа</span>
+            </label>
+            <label>
+                <input name="additive" value="mayonnaise" type="checkbox" data-price="20" data-calories="5">
+                <img src="img/mayonnaise.jpg" alt="">
+                <span>Майонез</span>
+            </label>
+        </fieldset>
+        <div class="priceAndCalories"></div>
+        <button>Оформить заказ</button>
+    </div>
+    <script>
+        let form = document.getElementById("burgers")
+        let includes = form.getElementsByTagName("input")
+        let priceAndCalories = form.getElementsByClassName("priceAndCalories")[0]
+        let price = 0
+        let calories = 0
+
+        for(let i = 0; i< includes.length; i++){
+            includes[i].addEventListener("change",changeChoise)
+        }
+
+        class Order{
+            constructor(burger, filling, price, calories, arr){
+                this._burger = this.getName(burger)
+                this._filling = this.getName(filling)
+                this._price = price
+                this._calories= calories
+                this._additive = []
+                if(arr.length) 
+                for(let i = 0; i<arr.length;i++) this._additive.push(arr[i].value)
+            }
+            getName(name){
+                return form.querySelector(`input[name = ${name}]:checked`).value
+            }
+        }
+        
+        function alertObj(o){var s="";for(k in o){s+=k+": "+o[k]+"\r\n";}alert(s);}
+        form.getElementsByTagName("button")[0].addEventListener("click", function(){
+            let order = new Order(
+                'burger',
+                'filling',
+                price,
+                calories,
+                form.querySelectorAll(`input[name = additive]:checked`)
+            )
+            alertObj(order)
+            console.log(order)
+        })
+        
+        function changeChoise(){
+            price = 0
+            calories = 0
+            for(let i = 0; i<includes.length;i++){
+                if(includes[i].checked){
+                    price += parseInt(includes[i].dataset["price"])
+                    calories += parseInt(includes[i].dataset["calories"])
+                    includes[i].parentElement.getElementsByTagName("img")[0].style.border = "3px solid red"
+                }else{
+                    includes[i].parentElement.getElementsByTagName("img")[0].style.border = "3px solid silver"
+                }
+            }
+            priceAndCalories.innerHTML = `Цена = ${price}р. <br> Калории = ${calories}`
+        }
+
+        changeChoise()
+    </script>
+</body>
+</html>
