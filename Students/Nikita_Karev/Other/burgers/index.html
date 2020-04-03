@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>BurgerHouse</title>
+    <link rel="stylesheet" href="../burgers/css/style.css">
+    <link rel="shortcut icon" href="../burgers/img/favicon.ico" type="image/x-icon">
+</head>
+<body>
+    <span class="title1">Burger House</span>
+    <span class="title2">Let me help you make a choice!</span>
+    <form action="#" id="uForm">
+        <span class="burgerChoose">Choose your burger</span>
+        <div class="burgersDiv">
+            <label class="burgerLabel">
+                <img class="imgBurger" src="../burgers/img/hamburger.png" alt="hamburger" width="100" height="100">
+                <input class="burger1" type="radio" name="hamb" value="classic" data-price="275" data-cals="800">
+                <span>Hamburger - 275 &#8381;</span>
+            </label>
+            <label>
+                <img class="imgBurger" src="../burgers/img/grandburger.png" alt="grandburger" width="100" height="100">
+                <input class="burger2" type="radio" name="hamb" value="big" data-price="440" data-cals="1600">
+                <span>Grandburger - 440 &#8381;</span>
+            </label>
+            <label>
+                <img class="imgBurger" src="../burgers/img/cheeseburger.png" alt="cheeseburger" width="100" height="100">
+                <input class="burger3" type="radio" name="hamb" value="small" data-price="385" data-cals="1000">
+                <span>Cheeseburger - 385 &#8381;</span>
+            </label>
+        </div>
+        <span class="toppingChoose">Choose toppings for your burger</span>
+        <div class="toppingDiv">
+            <label class="toppingLabel">
+                <img class="imgTopping" src="../burgers/img/salad.png" alt="salad" width="170" height="100">
+                <input class="topping2" type="checkbox" name="topping" value="salad" data-price="35" data-cals="35">
+                <span>Salad - 35 &#8381;</span>
+            </label>
+            <label class="toppingLabel">
+                <img class="imgTopping" src="../burgers/img/cheese.png" alt="cheese" width="100" height="100">
+                <input class="topping1" type="checkbox" name="topping" value="cheese" data-price="40" data-cals="150">
+                <span>Cheese - 40 &#8381;</span>
+            </label>
+            <label class="toppingLabel">
+                <img class="imgTopping" src="../burgers/img/potato.png" alt="potato" width="170" height="100">
+                <input class="topping3" type="checkbox" name="topping" value="potato" data-price="25" data-cals="80">
+                <span>Potato - 25 &#8381;</span>
+            </label>
+        </div>
+        <span class="drinkChoose">Choose your drink</span>
+        <div class="drinkDiv">
+            <label class="drinkLabel">
+                <img class="imgDrink" src="../burgers/img/cola.png" alt="cola" width="100" height="100">
+                <input class="drink1" type="radio" name="drink" value="cola" data-price="100" data-cals="10">
+                <span>Cola - 100 &#8381;</span>
+            </label>
+            <label class="drinkLabel">
+                <img class="imgDrink" src="../burgers/img/fanta.png" alt="fanta" width="100" height="100">
+                <input class="drink2" type="radio" name="drink" value="fanta" data-price="80" data-cals="25">
+                <span>Fanta - 80 &#8381;</span>
+            </label>
+            <label class="drinkLabel">
+                <img class="imgDrink" src="../burgers/img/sprite.png" alt="sprite" width="100" height="100">
+                <input class="drink3" type="radio" name="drink" value="sprite" data-price="90" data-cals="15">
+                <span>Sprite - 90 &#8381;</span>
+            </label>
+        </div>
+
+        <div class="orderRes">
+            <p class="orderCalories">Number of calories: <span id="cals"></span></p>
+            <p class="orderPrice">Price: <span id="price"></span></p>
+        </div>
+
+    </form>
+
+    <button id="okBtn">Buy</button>
+
+    <script src="../burgers/js/script.js"></script>
+    
+</body>
+</html>
