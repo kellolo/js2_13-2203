@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>3</title>
+</head>
+<body>
+    <script>
+        let url = 'https://raw.githubusercontent.com/kellolo/js2_13-2203/master/LESSONS/3/test/catalog.json'
+        function makeGETRequest() {
+            return new Promise((resolve, reject) => {
+                let xhr = new XMLHttpRequest();
+                xhr.open('GET', url, true);
+                xhr.send();
+                xhr.onreadystatechange = () => {
+                    if (xhr.readyState === 4) {
+                        if(xhr.status == 200){
+                            resolve(JSON.parse(xhr.responseText));
+                        } else {
+                            reject('Error, something went wrong')
+                        }
+                    }
+                }
+            })
+        }
+        makeGETRequest();
+    </script>
+</body>
