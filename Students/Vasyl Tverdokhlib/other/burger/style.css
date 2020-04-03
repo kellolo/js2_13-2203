@@ -1,0 +1,20 @@
+#burgers{
+    max-width: 500px;
+    margin: 20px auto;
+}
+#burgers fieldset{
+    text-align: center;
+}
+#burgers label{
+    display: inline-block;
+    cursor: pointer;
+}
+#burgers label img{
+    display: block;
+    width: 100px;
+    height: 100px;
+    margin: 0 20px;
+}
+#burgers input{
+    opacity: 0;
+}
