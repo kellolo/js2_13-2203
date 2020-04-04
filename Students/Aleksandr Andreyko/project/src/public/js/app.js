@@ -7,7 +7,7 @@ class Catalog {
   constructor(cart) {
     this.items = []
     this.filteredItems = []
-    this.container = '.products'
+    this.container = '.content'
     this.cart = cart
     this.url = `${API_URL}/catalogData.json`
     this.wrongUrl = true
@@ -81,7 +81,7 @@ class Catalog {
                </div>
            `
     })
-    document.querySelector(this.container).innerHTML = str
+    document.querySelector(this.container).innerHTML = `<div class="catalog">${str}</div>`
     this._handleEvents()
   }
 
@@ -92,6 +92,43 @@ class Catalog {
         <button class="refresh-data">Повторить попытку!</button>
       `
     this._handleEvents()
+  }
+}
+
+class Form {
+  constructor() {
+    this.container = '.content'
+    this.url = `${API_URL}/feedbackForm.json`
+    this.formData = ''
+    this._fetchFormData()
+  }
+
+  _fetchFormData() {
+    let request = makeGETRequest(this.url)
+    request.then(
+      (data) => {
+        this.formData = JSON.parse(data)
+      },
+      (status) => {
+        console.log(status)
+      }
+    )
+  }
+
+  render() {
+    let fields = ''
+    this.formData.fields.forEach(item => {
+      fields += `<div><input type="text" placeholder="${item.label}"></div>`
+    })
+    let str =
+      `
+        <h1>${this.formData.heading}</h1>
+        <form action="#">
+          ${fields}
+          <button type="submit" class="feedback-form-submit">Отправить</button>
+        </form>
+      `
+    document.querySelector(this.container).innerHTML = `<div class="feedback">${str}</div>`
   }
 }
 
@@ -191,6 +228,25 @@ export default () => {
   let k = new Catalog(new Cart)
   k.fetchProducts()
   window.k = k
+
+  window.f = new Form()
+
+  let navigation = document.querySelector('.navigation')
+  navigation.addEventListener('click', (e) => {
+    const navItem = e.target.getAttribute('data-navitem')
+    switch (navItem) {
+      case 'catalog':
+        window.k.render()
+        break;
+
+      case 'feedback':
+        window.f.render()
+        break;
+    
+      default:
+        break;
+    }
+  })
 
   let [btnSearch, searchField] = [document.querySelector('.btn-search'),
                                   document.querySelector('.search-field')]
