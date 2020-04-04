@@ -1,27 +1,48 @@
+ 'use strict'
  //ИМИТАЦИЯ РАБОТЫ БАЗЫ ДАННЫХ И СЕРВЕРА
 
- let PRODUCTS_NAMES = ['Processor', 'Display', 'Notebook', 'Mouse', 'Keyboard']
- let PRICES = [100, 120, 1000, 15, 18]
- let IDS = [0, 1, 2, 3, 4]
- let IMGS = ['https://cs8.pikabu.ru/post_img/big/2017/12/25/5/1514188160141511997.jpg', 
- 'https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/HMUB2?wid=1144&hei=1144&fmt=jpeg&qlt=80&op_usm=0.5,0.5&.v=1563827752399',
- 'https://zeon18.ru/files/item/Xiaomi-Mi-Notebook-Air-4G-Officially-Announced-Weboo-co-2%20(1)_1.jpg',
- 'https://files.sandberg.it/products/images/lg/640-05_lg.jpg',
- 'https://images-na.ssl-images-amazon.com/images/I/81PLqxtrJ3L._SX466_.jpg']
+let productList = []
+let url = './src/public/js/catalog.json'
+
+class ProductCart {
+    constructor (id) {
+        productList.forEach(item => {
+            if (item.id_product == id) {
+                this.product = item
+            }
+        })
+        this.quantity = 1
+    }
+}
+
+function makeGETRequest(url) {
+    return new Promise (function (res, rej) {
+        var xhr = new XMLHttpRequest();
+
+        xhr.onreadystatechange = function () {
+            if (xhr.readyState === 4) {
+                xhr.status == 200 ? res(JSON.parse(xhr.responseText)) : rej(new Error(`Ошибка загрузки ${url}`))
+            }
+        }
+    
+        xhr.open('GET', url, true);
+        xhr.send();
+    })
+}
 
 class Catalog {
     constructor(cart) {
-        this.items = []
+        this.items = productList
         this.container = '.products'
         this.cart = cart
         this._init ()
     }
 
     _init () {
-        this._handleData ()
         this.render ()
         this._handleEvents ()
     }
+
     _handleEvents () {
         document.querySelector (this.container).addEventListener ('click', (evt) => {
             if (evt.target.name === 'buy-btn') {
@@ -29,26 +50,13 @@ class Catalog {
             }
         })
     }
-    _handleData () {
-        for (let i = 0; i < IDS.length; i++) {
-            this.items.push (this._createNewProduct (i))
-        }
-    }
-    _createNewProduct (index) {
-        return {
-            product_name: PRODUCTS_NAMES [index],
-            price: PRICES [index],
-            id_product: IDS [index],
-            img: IMGS [index]
-        }
-    }
+
     render () {
         let str = ''
         this.items.forEach (item => {
             str += `
                 <div class="product-item">
-                    <img src="https://placehold.it/300x200" alt="${item.product_name}">
-                    <!--img src="${item.img}" width="300" height="200" alt="${item.product_name}"-->
+                    <img src="${item.img}" alt="${item.product_name}">
                     <div class="desc">
                         <h1>${item.product_name}</h1>
                         <p>${item.price}</p>
@@ -63,12 +71,11 @@ class Catalog {
                 </div>
             `
         })
+
         document.querySelector(this.container).innerHTML = str
      }
 }
 
- //let products = [] //массив объектов
- 
 class Cart {
     constructor () {
         this.items = []
@@ -83,6 +90,7 @@ class Cart {
     _init () {
         this._handleEvents ()
     }
+
     _handleEvents () {
         document.querySelector (this.container).addEventListener ('click', (evt) => {
             if (evt.target.name === 'del-btn') {
@@ -90,30 +98,32 @@ class Cart {
             }
         })
     }
+
+    findItem (id) {
+        let result
+        this.items.forEach(item => {
+            if (item.product.id_product == id) {
+                result = item
+            }
+        })
+        return result
+    }
+    
     addProduct (product) {
         let id = product.dataset['id']
-        let find = this.items.find (product => product.id_product === id)
-        if (find) {
+        if (find = this.findItem (id)) {
             find.quantity++
         } else {
-            let prod = this._createNewProduct (product)
-            this.items.push (prod)
+            this.items.push (new ProductCart(id))
         }
          
         this._checkTotalAndSum ()
         this.render ()
     }
-    _createNewProduct (prod) {
-        return {
-            product_name: prod.dataset['name'],
-            price: prod.dataset['price'],
-            id_product: prod.dataset['id'],
-            quantity: 1
-        }
-    }
+
     deleteProduct (product) {
         let id = product.dataset['id']
-        let find = this.items.find (product => product.id_product === id)
+        let find = this.findItem (id)
         if (find.quantity > 1) {
             find.quantity--
         } else {
@@ -129,34 +139,44 @@ class Cart {
         let pr = 0
         this.items.forEach (item => {
             qua += item.quantity
-            pr += item.price * item.quantity
+            pr += item.product.price * item.quantity
         })
         this.total = qua
         this.sum = pr
     }
+
     render () {
         let itemsBlock = document.querySelector (this.container).querySelector ('.cart-items')
         let str = ''
         this.items.forEach (item => {
-            str += `<div class="cart-item" data-id="${item.id_product}">
+            str += `<div class="cart-item" data-id="${item.product.id_product}">
                     <img src="https://placehold.it/100x80" alt="">
                     <div class="product-desc">
-                        <p class="product-title">${item.product_name}</p>
+                        <p class="product-title">${item.product.product_name}</p>
                         <p class="product-quantity">${item.quantity}</p>
-                        <p class="product-single-price">${item.price}</p>
+                        <p class="product-single-price">${item.product.price}</p>
                     </div>
                     <div class="right-block">
-                        <button name="del-btn" class="del-btn" data-id="${item.id_product}">&times;</button>
+                        <button name="del-btn" class="del-btn" data-id="${item.product.id_product}">&times;</button>
                     </div>
                 </div>`
         })
+
         itemsBlock.innerHTML = str
         this.quantityBlock.innerText = this.total
         this.priceBlock.innerText = this.sum
     }
  }
 
- export default () => {
-    let cart = new Cart()
-    let catalog = new Catalog(cart)
- }
+export default () => {
+    makeGETRequest (url)
+    .then (
+        list => {
+            productList = list
+            new Catalog(new Cart())
+        }
+    )
+    .catch (
+        err => alert(err)
+    )
+}
