@@ -1,28 +1,32 @@
  //ИМИТАЦИЯ РАБОТЫ БАЗЫ ДАННЫХ И СЕРВЕРА
 
- let PRODUCTS_NAMES = ['Processor', 'Display', 'Notebook', 'Mouse', 'Keyboard']
- let PRICES = [100, 120, 1000, 15, 18]
- let IDS = [0, 1, 2, 3, 4]
- let IMGS = ['https://cs8.pikabu.ru/post_img/big/2017/12/25/5/1514188160141511997.jpg', 
- 'https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/HMUB2?wid=1144&hei=1144&fmt=jpeg&qlt=80&op_usm=0.5,0.5&.v=1563827752399',
- 'https://zeon18.ru/files/item/Xiaomi-Mi-Notebook-Air-4G-Officially-Announced-Weboo-co-2%20(1)_1.jpg',
- 'https://files.sandberg.it/products/images/lg/640-05_lg.jpg',
- 'https://images-na.ssl-images-amazon.com/images/I/81PLqxtrJ3L._SX466_.jpg']
+ let url = "https://raw.githubusercontent.com/a-skrynnikov/online-store-api/master/responses/catalogData.json";
+
+//  let PRODUCTS_NAMES = ["Processor", "Display", "Notebook", "Mouse", "Keyboard"]
+//  let PRICES = [100, 120, 1000, 15, 18]
+//  let IDS = [0, 1, 2, 3, 4]
+//  let IMGS = [
+//    "https://cs8.pikabu.ru/post_img/big/2017/12/25/5/1514188160141511997.jpg",
+//    "https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/HMUB2?wid=1144&hei=1144&fmt=jpeg&qlt=80&op_usm=0.5,0.5&.v=1563827752399",
+//    "https://zeon18.ru/files/item/Xiaomi-Mi-Notebook-Air-4G-Officially-Announced-Weboo-co-2%20(1)_1.jpg",
+//    "https://files.sandberg.it/products/images/lg/640-05_lg.jpg",
+//    "https://images-na.ssl-images-amazon.com/images/I/81PLqxtrJ3L._SX466_.jpg"
+//  ]
 
  //let products = [] //массив объектов
  
- class Catalog {
-    constructor (cart = null, IDS, PRODUCTS_NAMES, PRICES, IMGS) {
+ class Catalog  {
+    constructor (cart) {
         this.cart = cart
         this.container = ".products"
         this.items = []
-        this._init (IDS, PRODUCTS_NAMES, PRICES, IMGS) //_ - это обозначение инкапсулированного метода
+        this._init () //_ - это обозначение инкапсулированного метода
     }
-    _init (IDS, PRODUCTS_NAMES, PRICES, IMGS) {
-        this.IDS = IDS
+    _init () {
         this._handleData ()
-        this.render ()
-        this._handleEvents ()
+          .then(data => this.items = data)
+          .then(() => this.render())
+          .then(() => this._handleEvents())
     }
     _handleEvents () {
         document.querySelector (this.container).addEventListener ('click', (evt) => {
@@ -32,17 +36,20 @@
         })
     }
     _handleData () {
-        for (let i = 0; i < IDS.length; i++) {
-            this.items.push (this._createNewProduct (i))
-        }
-    }
-    _createNewProduct (index) {
-        return {
-            product_name: PRODUCTS_NAMES [index],
-            price: PRICES [index],
-            id_product: IDS [index],
-            img: IMGS [index]
-        }
+        return new Promise((resolve, reject) => {
+            let xhr = new XMLHttpRequest();
+            xhr.open('GET', url, true);
+            xhr.send();
+            xhr.onreadystatechange = () => {
+                if (xhr.readyState === 4) {
+                     if(xhr.status == 200){
+                        resolve(JSON.parse(xhr.responseText));
+                    } else {
+                        reject('Error')
+                        }
+                }
+            }
+        })
     }
     render () {
         let str = ''
@@ -155,7 +162,8 @@
     }
  }
 
+ let cart = new Cart()
+
  export default () => {
- new Catalog (new Cart(), IDS, PRODUCTS_NAMES, PRICES, IMGS) //тут происходит создание объекта и вся прочая магия
- new Cart()
+ new Catalog (cart) //тут происходит создание объекта и вся прочая магия
  }
