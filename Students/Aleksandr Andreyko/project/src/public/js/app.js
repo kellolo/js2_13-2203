@@ -6,6 +6,7 @@ const IMG_PREFIX = 'https://muehle-shaving.ru/images/muhle/products/'
 class Catalog {
   constructor(cart) {
     this.items = []
+    this.filteredItems = []
     this.container = '.products'
     this.cart = cart
     this.url = `${API_URL}/catalogData.json`
@@ -35,12 +36,19 @@ class Catalog {
     }
   }
 
+  filterProducts(value) {
+    let filter = new RegExp('^.*' + value + '.*$', 'i')
+    this.filteredItems = this.items.filter(item => filter.test(item.product_name))
+    this.render()
+  }
+
   fetchProducts() {
     return new Promise((onResponse, onError) => {
       makeGETRequest(this.url)
         .then((goods) => {
           onResponse()
           this.items = JSON.parse(goods)
+          this.filteredItems = JSON.parse(goods)
         }, (status) => {
           onError(status)
           console.log(`Ошибка обработки запроса со статусом ${status}`)
@@ -54,7 +62,7 @@ class Catalog {
 
   render() {
     let str = ''
-    this.items.forEach(item => {
+    this.filteredItems.forEach(item => {
       str += `
                <div class="product-item">
                    <img src="${IMG_PREFIX + item.img}" alt="${item.product_name}">
@@ -183,4 +191,10 @@ export default () => {
   let k = new Catalog(new Cart)
   k.fetchProducts()
   window.k = k
+
+  let [btnSearch, searchField] = [document.querySelector('.btn-search'),
+                                  document.querySelector('.search-field')]
+  btnSearch.addEventListener('click', () => {
+    k.filterProducts(searchField.value)
+  })
 }
