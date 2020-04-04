@@ -1,52 +1,74 @@
- //ИМИТАЦИЯ РАБОТЫ БАЗЫ ДАННЫХ И СЕРВЕРА
+//  //ИМИТАЦИЯ РАБОТЫ БАЗЫ ДАННЫХ И СЕРВЕРА
 
- let PRODUCTS_NAMES = ['Processor', 'Display', 'Notebook', 'Mouse', 'Keyboard']
- let PRICES = [100, 120, 1000, 15, 18]
- let IDS = [0, 1, 2, 3, 4]
- let IMGS = ['https://cs8.pikabu.ru/post_img/big/2017/12/25/5/1514188160141511997.jpg', 
- 'https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/HMUB2?wid=1144&hei=1144&fmt=jpeg&qlt=80&op_usm=0.5,0.5&.v=1563827752399',
- 'https://zeon18.ru/files/item/Xiaomi-Mi-Notebook-Air-4G-Officially-Announced-Weboo-co-2%20(1)_1.jpg',
- 'https://files.sandberg.it/products/images/lg/640-05_lg.jpg',
- 'https://images-na.ssl-images-amazon.com/images/I/81PLqxtrJ3L._SX466_.jpg']
+//  let PRODUCTS_NAMES = ['Processor', 'Display', 'Notebook', 'Mouse', 'Keyboard']
+//  let PRICES = [100, 120, 1000, 15, 18]
+//  let IDS = [0, 1, 2, 3, 4]
+//  let IMGS = ['https://cs8.pikabu.ru/post_img/big/2017/12/25/5/1514188160141511997.jpg',
+//      'https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/HMUB2?wid=1144&hei=1144&fmt=jpeg&qlt=80&op_usm=0.5,0.5&.v=1563827752399',
+//      'https://zeon18.ru/files/item/Xiaomi-Mi-Notebook-Air-4G-Officially-Announced-Weboo-co-2%20(1)_1.jpg',
+//      'https://files.sandberg.it/products/images/lg/640-05_lg.jpg',
+//      'https://images-na.ssl-images-amazon.com/images/I/81PLqxtrJ3L._SX466_.jpg'
+//  ]
 
- //let products = [] //массив объектов
- 
- let catalog = {
-    items: [],
-    container: '.products',
-    cart: null,
-    construct (cart) {
+let url = 'https://raw.githubusercontent.com/Pavel748/JS-hw/master/catalog.json'
+
+// function makeGetRequest(url) {
+//     var xhr = new XMLHttpRequest()
+
+//     xhr.onreadystatechange = function() {
+//         if (xhr.readyState === 4) {
+//             let a = JSON.parse(xhr.responseText)
+
+//         }
+//     }
+//     xhr.open('GET', url, true);
+//     xhr.send();
+// }
+
+// makeGetRequest(url)
+
+
+
+class Catalog {
+    constructor(cart) {
         this.cart = cart
-        this._init () //_ - это обозначение инкапсулированного метода
-    },
-    _init () {
-        this._handleData ()
-        this.render ()
-        this._handleEvents ()
-    },
-    _handleEvents () {
-        document.querySelector (this.container).addEventListener ('click', (evt) => {
+        this.container = ".products"
+        this.items = []
+        this._init()
+    }
+    _init() {
+        this._handleData()
+            .then(data => this.items = data)
+            .then(() => this.render())
+            .then(() => this._handleEvents())
+    }
+    _handleEvents() {
+        document.querySelector(this.container).addEventListener('click', (evt) => {
             if (evt.target.name === 'buy-btn') {
-                this.cart.addProduct (evt.target)
+                this.cart.addProduct(evt.target)
             }
         })
-    },
-    _handleData () {
-        for (let i = 0; i < IDS.length; i++) {
-            this.items.push (this._createNewProduct (i))
-        }
-    },
-    _createNewProduct (index) {
-        return {
-            product_name: PRODUCTS_NAMES [index],
-            price: PRICES [index],
-            id_product: IDS [index],
-            img: IMGS [index]
-        }
-    },
-    render () {
+    }
+    _handleData() {
+        return new Promise((resolve, reject) => {
+            let xhr = new XMLHttpRequest();
+            xhr.onreadystatechange = () => {
+                if (xhr.readyState === 4) {
+                    if (xhr.status == 200) {
+                        resolve(JSON.parse(xhr.responseText));
+                    } else {
+                        reject('Error')
+                    }
+                }
+            }
+            xhr.open('GET', url, true);
+            xhr.send();
+        })
+    }
+
+    render() {
         let str = ''
-        this.items.forEach (item => {
+        this.items.forEach(item => {
             str += `
                 <div class="product-item">
                     <img src="https://placehold.it/300x200" alt="${item.product_name}">
@@ -66,77 +88,83 @@
             `
         })
         document.querySelector(this.container).innerHTML = str
-     }
- }
+    }
+}
 
- let cart = {
-    items: [],
-    total: 0,
-    sum: 0,
-    container: '.cart-block',
-    quantityBlock: document.querySelector ('#quantity'),
-    priceBlock: document.querySelector ('#price'),
-    construct () {
-        this._init ()
-    },
-    _init () {
-        this._handleEvents ()
-    },
-    _handleEvents () {
-        document.querySelector (this.container).addEventListener ('click', (evt) => {
+class Cart {
+    constructor(cont, quantity, price) {
+        this.items = [],
+            this.total = 0,
+            this.sum = 0,
+            this.container = cont,
+            this.quantityBlock = document.querySelector(quantity),
+            this.priceBlock = document.querySelector(price)
+        this._init()
+    }
+
+    _init() {
+        this._handleEvents()
+
+    }
+
+    _handleEvents() {
+        document.querySelector(this.container).addEventListener('click', (evt) => {
             if (evt.target.name === 'del-btn') {
-                this.deleteProduct (evt.target)
+                this.deleteProduct(evt.target)
             }
         })
-    },
-    addProduct (product) {
+    }
+    addProduct(product) {
         let id = product.dataset['id']
-        let find = this.items.find (product => product.id_product === id)
+        let find = this.items.find(product => product.id_product === id)
         if (find) {
             find.quantity++
         } else {
-            let prod = this._createNewProduct (product)
-            this.items.push (prod)
+            let prod = this._createNewProduct(product)
+            this.items.push(prod)
         }
-         
-        this._checkTotalAndSum ()
-        this.render ()
-    },
-    _createNewProduct (prod) {
+
+        this._checkTotalAndSum()
+        this.render()
+    }
+
+    _createNewProduct(prod) {
         return {
             product_name: prod.dataset['name'],
             price: prod.dataset['price'],
             id_product: prod.dataset['id'],
             quantity: 1
         }
-    },
-    deleteProduct (product) {
+    }
+
+    deleteProduct(product) {
         let id = product.dataset['id']
-        let find = this.items.find (product => product.id_product === id)
+        let find = this.items.find(product => product.id_product === id)
         if (find.quantity > 1) {
             find.quantity--
         } else {
-            this.items.splice (this.items.indexOf(find), 1)
+            this.items.splice(this.items.indexOf(find), 1)
         }
-         
-        this._checkTotalAndSum ()
-        this.render ()
-    },
-    
-    _checkTotalAndSum () {
+
+        this._checkTotalAndSum()
+        this.render()
+    }
+
+    _checkTotalAndSum() {
         let qua = 0
         let pr = 0
-        this.items.forEach (item => {
+        this.items.forEach(item => {
             qua += item.quantity
             pr += item.price * item.quantity
         })
         this.total = qua
         this.sum = pr
-    },
-    render () {
-        let itemsBlock = document.querySelector (this.container).querySelector ('.cart-items')
+    }
+
+    render() {
+        let itemsBlock = document.querySelector(this.container).querySelector('.cart-items')
         let str = ''
-        this.items.forEach (item => {
+        this.items.forEach(item => {
             str += `<div class="cart-item" data-id="${item.id_product}">
                     <img src="https://placehold.it/100x80" alt="">
                     <div class="product-desc">
@@ -153,8 +181,13 @@
         this.quantityBlock.innerText = this.total
         this.priceBlock.innerText = this.sum
     }
- }
-export default ()=>{
-    catalog.construct (cart) //тут происходит создание объекта и вся прочая магия
-    cart.construct ()
+}
+
+let catalog = new Catalog('.products')
+let cart = new Cart('.cart-block', '#quantity', '#price')
+
+export default () => {
+
+    catalog.construct(cart) //тут происходит создание объекта и вся прочая магия
+
 }

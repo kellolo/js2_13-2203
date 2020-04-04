@@ -1,0 +1,206 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  padding: 10px;
+}
+
+.checker {
+  position: fixed;
+  z-index: 9999;
+  top: 0;
+  left: 0;
+  height: 100vh;
+  width: 100vw;
+  background-color: #fff;
+  display: none;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+}
+
+@media (max-height: 600px) {
+  .checker {
+    display: flex;
+  }
+}
+
+h1 {
+  text-align: center;
+  text-transform: uppercase;
+  text-decoration: underline;
+  font-size: 3vh;
+}
+
+@media (max-height: 750px) {
+  h1 {
+    font-size: 22px;
+  }
+}
+
+.fieldset {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  flex-wrap: wrap;
+  width: 510px;
+  margin: auto;
+}
+
+h2 {
+  flex: 1 0 500px;
+  margin-top: 2.5vh;
+  text-align: center;
+  text-transform: uppercase;
+  font-size: 2.1vh;
+}
+
+@media (max-height: 750px) {
+  h2 {
+    font-size: 16px;
+  }
+}
+
+label {
+  position: relative;
+  height: 15.5vh;
+  text-align: center;
+  text-transform: capitalize;
+  display: flex;
+  flex-direction: column-reverse;
+  padding-bottom: 3vh;
+  border-bottom: 3px solid transparent;
+  cursor: pointer;
+  transition: all .2s;
+}
+
+label:hover {
+  border-color: darkgoldenrod
+}
+
+label:active {
+  border-color: darkgoldenrod;
+}
+
+label > .info {
+  display: block;
+  position: absolute;
+  line-height: 25px;
+  font-size: 13px;
+  text-align: left;
+  padding-left: 17px;
+  height: 25px;
+}
+
+label > .price {
+  bottom: 0;
+  left: 50%;
+  background: transparent url('../img/price.png') no-repeat 0 40% / 18px;
+}
+
+label > .energy {
+  bottom: 0;
+  left: 30%;
+  background: transparent url('../img/energy.png') no-repeat 0 center / 20px;
+}
+
+label {
+  flex-basis: 33.333%;
+  background: transparent no-repeat center 20% / 7vh;
+}
+
+label#big {
+  background-image: url('../img/big.png');
+}
+
+label#small {
+  background-image: url('../img/small.png');
+}
+
+label#cheese {
+  background-image: url('../img/cheese.png')
+}
+
+label#salad {
+  background-image: url('../img/salad.png')
+}
+
+label#potatoes {
+  background-image: url('../img/potato.png')
+}
+
+label#flavoring {
+  background-image: url('../img/flavouring.png')
+}
+
+label#mayonaise {
+  background-image: url('../img/mayonaise.png')
+}
+
+input:not([type='submit']) {
+  display: none;
+}
+
+.choice {
+  color: darkgoldenrod;
+}
+
+.sum {
+  width: 500px;
+  margin: 3.5vh auto 1vh auto;
+  border-top: 2px solid darkgoldenrod;
+}
+
+.description {
+  border-bottom: 1px solid black;
+}
+
+.sum p {
+  margin: .4vh 0;
+  font-size: 1.4vh;
+}
+
+@media (max-height: 750px) {
+  .sum p {
+    font-size: 10px;
+  }
+}
+
+.sum > p {
+  font-size: 1.5vh;
+}
+
+@media (max-height: 750px) {
+  .sum > p {
+    font-size: 12px;
+  }
+}
+
+input[type='submit'] {
+  display:block;
+  width: 510px;
+  margin: 0 auto;
+  height: 7vh;
+  background: transparent url('../img/confirm.png') no-repeat center center;
+  background-size: auto 80%;
+  outline: none;
+  border: 1px solid transparent;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: all .2s;
+}
+
+input[type='submit']:hover {
+  background-color: darkgoldenrod;
+}
+
+input[type='submit']:active {
+  background-color: white;
+}
+
+.checked {
+  border-bottom: 3px solid darkgoldenrod;
+}

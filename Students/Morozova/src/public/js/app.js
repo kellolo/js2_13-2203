@@ -11,6 +11,7 @@
 
  //let products = [] //массив объектов
  
+<<<<<<< HEAD
  let catalog = {
     items: [],
     container: '.products',
@@ -19,23 +20,47 @@
         this.cart = cart
         this._init () //_ - это обозначение инкапсулированного метода
     },
+=======
+ class Catalog  {
+     constructor (container, cart) {
+    this.items = [];
+    this.container = container;
+    this.cart = cart;
+}
+    construct (cart) {
+        this.cart = cart
+        this._init () //_ - это обозначение инкапсулированного метода
+    }
+>>>>>>> 5161b9d915b6f39951e6827f7a8724f8a48f550e
     _init () {
         this._handleData ()
         this.render ()
         this._handleEvents ()
+<<<<<<< HEAD
     },
+=======
+    }
+>>>>>>> 5161b9d915b6f39951e6827f7a8724f8a48f550e
     _handleEvents () {
         document.querySelector (this.container).addEventListener ('click', (evt) => {
             if (evt.target.name === 'buy-btn') {
                 this.cart.addProduct (evt.target)
             }
         })
+<<<<<<< HEAD
     },
+=======
+    }
+>>>>>>> 5161b9d915b6f39951e6827f7a8724f8a48f550e
     _handleData () {
         for (let i = 0; i < IDS.length; i++) {
             this.items.push (this._createNewProduct (i))
         }
+<<<<<<< HEAD
     },
+=======
+    }
+>>>>>>> 5161b9d915b6f39951e6827f7a8724f8a48f550e
     _createNewProduct (index) {
         return {
             product_name: PRODUCTS_NAMES [index],
@@ -43,7 +68,11 @@
             id_product: IDS [index],
             img: IMGS [index]
         }
+<<<<<<< HEAD
     },
+=======
+    }
+>>>>>>> 5161b9d915b6f39951e6827f7a8724f8a48f550e
     render () {
         let str = ''
         this.items.forEach (item => {
@@ -68,6 +97,7 @@
         document.querySelector(this.container).innerHTML = str
      }
  }
+<<<<<<< HEAD
 
  let cart = {
     items: [],
@@ -82,13 +112,37 @@
     _init () {
         this._handleEvents ()
     },
+=======
+   let Catalog = new Catalog('.products', null);
+
+ class Cart {
+     constructor () {
+    this.items = [];
+    this.total = 0;
+    this.sum = 0;
+    this.container = '.cart-block';
+    this.quantityBlock = document.querySelector ('#quantity');
+    this.priceBlock = document.querySelector ('#price');
+
+}
+    construct () {
+        this._init ()
+    }
+    _init () {
+        this._handleEvents ()
+    }
+>>>>>>> 5161b9d915b6f39951e6827f7a8724f8a48f550e
     _handleEvents () {
         document.querySelector (this.container).addEventListener ('click', (evt) => {
             if (evt.target.name === 'del-btn') {
                 this.deleteProduct (evt.target)
             }
         })
+<<<<<<< HEAD
     },
+=======
+    }
+>>>>>>> 5161b9d915b6f39951e6827f7a8724f8a48f550e
     addProduct (product) {
         let id = product.dataset['id']
         let find = this.items.find (product => product.id_product === id)
@@ -101,7 +155,11 @@
          
         this._checkTotalAndSum ()
         this.render ()
+<<<<<<< HEAD
     },
+=======
+    }
+>>>>>>> 5161b9d915b6f39951e6827f7a8724f8a48f550e
     _createNewProduct (prod) {
         return {
             product_name: prod.dataset['name'],
@@ -109,7 +167,11 @@
             id_product: prod.dataset['id'],
             quantity: 1
         }
+<<<<<<< HEAD
     },
+=======
+    }
+>>>>>>> 5161b9d915b6f39951e6827f7a8724f8a48f550e
     deleteProduct (product) {
         let id = product.dataset['id']
         let find = this.items.find (product => product.id_product === id)
@@ -121,7 +183,11 @@
          
         this._checkTotalAndSum ()
         this.render ()
+<<<<<<< HEAD
     },
+=======
+    }
+>>>>>>> 5161b9d915b6f39951e6827f7a8724f8a48f550e
     
     _checkTotalAndSum () {
         let qua = 0
@@ -132,7 +198,11 @@
         })
         this.total = qua
         this.sum = pr
+<<<<<<< HEAD
     },
+=======
+    }
+>>>>>>> 5161b9d915b6f39951e6827f7a8724f8a48f550e
     render () {
         let itemsBlock = document.querySelector (this.container).querySelector ('.cart-items')
         let str = ''
@@ -154,6 +224,10 @@
         this.priceBlock.innerText = this.sum
     }
  }
+<<<<<<< HEAD
+=======
+let Cart = new Cart();
+>>>>>>> 5161b9d915b6f39951e6827f7a8724f8a48f550e
 
  export default () => {
       catalog.construct (cart) //тут происходит создание объекта и вся прочая магия
