@@ -118,7 +118,7 @@ class Form {
   render() {
     let fields = ''
     this.formData.fields.forEach(item => {
-      fields += `<div><input type="text" placeholder="${item.label}"></div>`
+      fields += `<div><input type="text" placeholder="${item.label}" data-validate="${item.validation}"></div>`
     })
     let str =
       `
@@ -129,6 +129,24 @@ class Form {
         </form>
       `
     document.querySelector(this.container).innerHTML = `<div class="feedback">${str}</div>`
+    document.querySelector('.feedback-form-submit').addEventListener('click', (e) => {
+      e.preventDefault()
+      let inputs = [...document.querySelectorAll('.feedback input')]
+      inputs.forEach(item => {
+        let regValidate = new RegExp(item.getAttribute('data-validate'))
+        if(!regValidate.test(item.value)) {
+          item.classList.add('error-field')
+        } else if(item.classList.contains('error-field')) {
+          item.classList.remove('error-field')
+        }
+      })
+
+      if(!inputs.some((item) => {item.classList.contains('error-field')})) {
+        alert('Ошибка отправки')
+      } else {
+        alert('Сообщение отправлено')
+      }
+    })
   }
 }
 

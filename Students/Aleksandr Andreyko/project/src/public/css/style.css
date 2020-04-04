@@ -48,6 +48,9 @@ button:focus{
 .feedback {
     padding: 30px;
 }
+.error-field {
+    border-color: #f00;
+}
 .error {
     font-size: 20px;
     color: #f00;
