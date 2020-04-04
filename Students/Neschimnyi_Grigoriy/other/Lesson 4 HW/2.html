@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+
+        // можно было уложиться в одну регулярку let regexp1 = /(\s'|'(\s|\.|\,))/gi
+        // , но тогда пропали бы точки, пробелы и запятые после кавычек
+        let text = `Lorem ipsum dolor sit amet, 'consectetuer adipiscing eli't'. Aenean commodo ligula eget dolor. 'Aenean massa'. Cum sociis natoque penatibus et magni's dis parturient montes, 'nascetur ridiculus mus'. Donec quam feli's, ultricies nec, 'pellentesque eu', pretium quis, sem. Null'a consequat massa quis enim.`;
+        let regexp1 = /\s'/gi
+        let regexp2 = /'\s/gi
+        let regexp3 = /'\./gi
+        let regexp4 = /'\,/gi
+        text = text.replace(regexp1, ' "')
+        text = text.replace(regexp2, '" ')
+        text = text.replace(regexp3, '".')
+        text = text.replace(regexp4, '",')
+        console.log(text)
+    </script>
+</body>
+</html>
