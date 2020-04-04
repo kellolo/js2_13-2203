@@ -14,6 +14,9 @@ function makeGETRequest(url, callback) {
         if (xhr.readyState === 4) {
             console.log(xhr);
             console.log(xhr.responseText);
+            let a = JSON.parse(xhr.responseText);
+            console.log(a);
+            console.log(JSON.stringify(a));
         }
     }
 
