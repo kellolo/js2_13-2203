@@ -1,6 +1,8 @@
-import "./public/css/style.css"
-import "./public/css/normalize.css"
-import "./public/js/main.js"
+import './public/css/style.css'
+import './public/css/normalize.css'
+import app from './public/js/main.js'
+
+app()
 
 
       
