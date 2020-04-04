@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+    <script src="main.js" defer></script>
+</head>
+
+<body>
+    <form action="#" id="uForm">
+        <fieldset>
+            <label>
+                <input type="radio" name="Size" value="smallBurger" data-price="50" data-calories="20"> Small Burger (50 рублей, 20 калорий)
+            </label>
+            <label>
+                <input type="radio" name="Size" value="bigBurger" data-price="100" data-calories="40"> Big Burger (100 рублей, 40 калорий)
+            </label>
+        </fieldset>
+        <fieldset>
+            <label>
+                <input type="radio" name="Filler" value="cheese" data-price="10" data-calories="20"> Сыр (+10 рублей, +20 калорий)
+            </label>
+            <label>
+                <input type="radio" name="Filler" value="salad" data-price="20" data-calories="5"> Салат (+20 рублей, +5 калорий)
+            </label>
+            <label>
+                <input type="radio" name="Filler" value="potato" data-price="15" data-calories="10"> Картошка (+15 рублей, +10 калорий)
+            </label>
+        </fieldset>
+        <fieldset>
+            <label>
+                <input type="checkbox" name="Condiments" value="spices" data-price="15" data-calories="0"> Приправа (+15 рублей, +0 калорий)
+            </label>
+            <label>
+                <input type="checkbox" name="Condiments" value="mayonnaise" data-price="20" data-calories="5"> Майонез (+20 рублей, +5 калорий)
+            </label>
+        </fieldset>
+    </form>
+    <button id="okBtn"> Check Out </button>
+
+</body>
+
+</html>

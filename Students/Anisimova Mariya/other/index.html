@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Make your burger</title>
+    <style>
+        form {
+            width: 300px
+        }
+        label {
+            display: inline-block;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <form action="#" id="uForm">
+        <fieldset>
+            <label>
+                <input type="radio" name="size" value="Little" data-calories=20 data-cost=50> Little
+            </label>
+            <label>
+                <input type="radio" name="size" value="Big" data-calories=40 data-cost=100> Big
+            </label>
+        </fieldset>
+        <fieldset>
+            <label>
+                <input type="radio" name="filling" value="Cheese" data-calories=20 data-cost=10> Cheese
+            </label>
+            <label>
+                <input type="radio" name="filling" value="Salad" data-calories=5 data-cost=20> Salad
+            </label>
+            <label>
+                <input type="radio" name="filling" value="Potato" data-calories=10 data-cost=15> Potato
+            </label>
+        </fieldset>
+        <fieldset>
+            <label>
+                <input type="checkbox" name="seasonings" value="Seasoning" data-calories=0 data-cost=15> Seasoning
+            </label>
+            <label>
+                <input type="checkbox" name="seasonings" value="Mayonnaise" data-calories=5 data-cost=20> Mayonnaise
+            </label>
+        </fieldset>
+    </form>
+    Ccal: <div id = 'fccal'></div>
+    Cost : <div id = 'fcost'></div>
+    <button id="okBtn">Order</button>
+
+    <script>
+        let form = document.querySelector ('#uForm')
+        let btn = document.querySelector ('#okBtn')
+        let ccal
+        let cost
+        let fccal = document.getElementById('fccal')
+        let fcost = document.getElementById('fcost')
+        let arorder = []
+
+        btn.addEventListener ('click', addOrder)
+
+        function addOrder () {
+            ccal = 0
+            cost = 0
+            let newOrder = new Order ('size', 'filling', 'seasonings')
+            arorder.push (newOrder)
+            fccal.innerHTML = ccal
+            fcost.innerHTML = cost
+            console.log(arorder, ccal, cost)
+        }
+
+        class Order {
+            constructor (size, filling, seasonings) {
+                this.Size = this._checkSize (size)
+                this.Filling = this._checkFilling (filling)
+                this.Seasonings = this._getArray (seasonings)
+                //this.canBeMother = this._checkMom (gender)
+            }
+            _checkSize (attrName) {
+                let obj = document.querySelector (`input[name=${attrName}]:checked`)
+                ccal += Number(obj.dataset['calories'])
+                cost += Number(obj.dataset['cost'])
+                return obj.value
+            }
+            _checkFilling (attrName) {
+                let obj = document.querySelector (`input[name=${attrName}]:checked`)
+                ccal += Number(obj.dataset['calories'])
+                cost += Number(obj.dataset['cost'])
+                return obj.value
+            }
+            _getArray (attrName) {
+                let objArr = [...document.querySelectorAll (`input[name=${attrName}]:checked`)]
+                let arr = []
+                if (objArr.length == 1){
+                    ccal += Number(objArr[0].dataset['calories'])
+                    cost += Number(objArr[0].dataset['cost'])
+                } else if (objArr.length == 2) {
+                    ccal += Number(objArr[0].dataset['calories'])
+                    cost += Number(objArr[0].dataset['cost'])
+                    ccal += Number(objArr[1].dataset['calories'])
+                    cost += Number(objArr[1].dataset['cost'])
+                }
+                objArr.forEach (el => {
+                    arr.push (el.value)
+                })
+                return arr
+            }
+            ////_checkMom (attrName) {
+            ////    let obj = document.querySelector (`input[name=${attrName}]:checked`)
+            ////    console.dir (obj)
+            ////    return +obj.dataset['mother'] ? true : false
+            ////}
+        }
+        
+    </script>
+</body>
+</html>
