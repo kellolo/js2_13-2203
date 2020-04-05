@@ -17,7 +17,6 @@ class List {
         return false
     }
     getData(url) {
-        console.log(url)
         return fetch(url)
         //axios
 
@@ -107,8 +106,6 @@ class Cart extends List {
         super(url, container);
         this.quantityBlock = document.querySelector ('#quantity')
         this.priceBlock = document.querySelector ('#price')
-        this.total = 0
-        this.sum = 0
     }
 
     _init() {
@@ -116,19 +113,16 @@ class Cart extends List {
             .then(d => d.json())
             .then(data => {
                 this.items = data.contents
-                this.sum = data.amount
-                this.total = data.countGoods
             })
             .finally (() => {
-                this.render()
-                this.renderQuality ()
+                this._render()
                 this._eventHandler()
             })
     }
 
-    renderQuality () {
-        this.quantityBlock.innerText = this.total
-        this.priceBlock.innerText = this.sum
+    _render () {
+        this.render()
+        this._checkTotalAndSum
     }
 
     _eventHandler() {
@@ -139,10 +133,10 @@ class Cart extends List {
         })
     }
 
-    _findItem (id) {
+    _findItem (item) {
         let result
+        let id = Number(item.dataset.id)
         this.items.forEach(item => {
-            console.log("item")
             if (item.id_product == id) {
                 result = item
             }
@@ -156,46 +150,45 @@ class Cart extends List {
             .then(data => {
                 //{result: 1}
                 if (data.result) {
-                    let id = item.dataset.id
-                    if (find = this._findItem (id)) {
+                    if (find = this._findItem (item)) {
                         find.quantity++
                     } else {
-                        this.items.push (new ProductCart(id))
+                        let obj = {
+                            id_product: +item.dataset.id,
+                            product_name: item.dataset.name,
+                            price: +item.dataset.price,
+                            quantity: 1
+                        }
+                        this.items.push (obj)
                     }
-                    //доделать
+                    this._render()
                     console.log(`Add ${item.dataset.name}`)
-                    this._checkTotalAndSum ()
-                    this.render()
-                    this.renderQuality ()
                 }
             })
     }
 
     removeProduct(item) {
-        let id = item.dataset.id
-        let find = this._findItem (id)
+        let find = this._findItem (item)
         if (find.quantity > 1) {
             find.quantity--
         } else {
             this.items.splice (this.items.indexOf(find), 1)
         }
          
-        this._checkTotalAndSum ()
-        this.render ()
-        this.renderQuality ()
+        this._render ()
         console.log(`Removed ${item.dataset.name}`)
     }
 
     _checkTotalAndSum () {
-        let qua = 0
-        let pr = 0
+        let total = 0
+        let price = 0
         this.items.forEach (item => {
-            qua += item.quantity
-            pr += item.price * item.quantity
+            total += item.quantity
+            price += item.price * item.quantity
         })
-        this.total = qua
-        this.sum = pr
-    }
+        this.quantityBlock.innerText = total
+        this.priceBlock.innerText = price
+ }
 
  }
 
