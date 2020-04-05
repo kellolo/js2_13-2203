@@ -115,6 +115,29 @@ class Catalog extends List {
     }
 }
 
+//-------------------class CartItem-------------------
+class CartItem extends ListItem {
+    constructor(obj) {
+        super(obj);
+        this.quantity = obj.quantity;
+    }
+    render() {
+        return `<div class="cart-item" data-id="${this.id_product}">
+                    <img src="${this.img}" width="100" height="80" alt="${this.product_name}">
+                    <div class="product-desc">
+                        <p class="product-title">${this.product_name}</p>
+                        <p class="product-quantity">${this.quantity}</p>
+                        <p class="product-price">${this.price}</p>
+                    </div>
+                    <div class="right-block">
+                        <button name="del-btn" class="del-btn" data-id="${this.id_product}">&times;</button>
+                    </div>
+                </div>
+                `
+    }
+}
+
+
 //--------------------------------------class Cart---------------
 class Cart extends List {
     constructor(container = ".cart-block", url = "/getBasket.json") {
@@ -186,34 +209,13 @@ class Cart extends List {
     _updateCart(product) {
         let block = document.querySelector(`.cart-item[data-id="${product.id_product}"]`);
         block.querySelector('.product-quantity').textContent = `Quantity: ${product.quantity}`;
-        block.querySelector('.product-price').textContent = `$${product.quantity * product.price}`;
+        block.querySelector('.product-price').textContent = `$: ${product.quantity * product.price}`;
     }
 }
 
 //-------------------class CatalogItem-------------------
 class CatalogItem extends ListItem {};
 
-//-------------------class CartItem-------------------
-class CartItem extends ListItem {
-    constructor(obj) {
-        super(obj);
-        this.quantity = obj.quantity;
-    }
-    render() {
-        return `<div class="cart-item" data-id="${this.id_product}">
-                    <img src="${this.img}" width="100" height="80" alt="${this.product_name}">
-                    <div class="product-desc">
-                        <p class="product-title">${this.product_name}</p>
-                        <p class="product-quantity">${this.quantity}</p>
-                        <p class="product-single-price">${this.price}</p>
-                    </div>
-                    <div class="right-block">
-                        <button name="del-btn" class="del-btn" data-id="${this.id_product}">&times;</button>
-                    </div>
-                </div>
-                `
-    }
-}
 
 //-------------------dependencies and export-------------------
 let newlist = {
