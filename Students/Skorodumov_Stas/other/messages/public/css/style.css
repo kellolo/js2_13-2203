@@ -45,11 +45,13 @@
 #user-text {
     width: 100%;
     margin: 10px 0;
-    height: 60px;
+    height: 70px;
     resize: none;
     text-indent: 20px;
     padding: 12px 0;
-    font-size: 16px;
+    font-size: 14px;
+    padding-left: 20px;
+    padding-right: 10px;
 }
 
 #user-name,

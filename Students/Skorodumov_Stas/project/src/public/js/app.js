@@ -35,16 +35,16 @@ class List {
         this.allProducts = [];
         this._init();
     }
-    
+
     _init() {
         return false
     }
 
     getData(url) {
-        
+
         return fetch(url ? url : `${API_URL + this.url}`)
             .then(result => result.json())
-           
+
     }
 
     handleData(data) {
@@ -76,7 +76,7 @@ class ListItem {
         this.price = obj.price;
         this.img = obj.img;
     }
-    render() { 
+    render() {
         return `<div class="product-item">
                 <img class='item_image' src="${this.img}" alt="${this.product_name}">                  
                 <div class="desc">
@@ -115,6 +115,29 @@ class Catalog extends List {
     }
 }
 
+//-------------------class CartItem-------------------
+class CartItem extends ListItem {
+    constructor(obj) {
+        super(obj);
+        this.quantity = obj.quantity;
+    }
+    render() {
+        return `<div class="cart-item" data-id="${this.id_product}">
+                    <img src="${this.img}" width="100" height="80" alt="${this.product_name}">
+                    <div class="product-desc">
+                        <p class="product-title">${this.product_name}</p>
+                        <p class="product-quantity">${this.quantity}</p>
+                        <p class="product-price">${this.price}</p>
+                    </div>
+                    <div class="right-block">
+                        <button name="del-btn" class="del-btn" data-id="${this.id_product}">&times;</button>
+                    </div>
+                </div>
+                `
+    }
+}
+
+
 //--------------------------------------class Cart---------------
 class Cart extends List {
     constructor(container = ".cart-block", url = "/getBasket.json") {
@@ -124,7 +147,7 @@ class Cart extends List {
                 this.handleData(data.contents);
             });
     }
-    
+
     _init() {
         document.querySelector('.btn-cart').addEventListener('click', () => {
             document.querySelector(this.container).classList.toggle('invisible');
@@ -134,8 +157,8 @@ class Cart extends List {
                 this.removeProduct(event.target);
             }
         })
-    }     
-    
+    }
+
     addProduct(item) {
         this.getData(`${API_URL}/addToBasket.json`)
             .then(data => {
@@ -153,17 +176,17 @@ class Cart extends List {
                             price: +item.dataset.price,
                             img: imgData, //доделать картинку
                             quantity: 1
-                        };                        
+                        };
                         this.goods = [product];
                         this.render();
                     }
                 } else {
                     alert('Error');
                 }
-            console.log(`Add ${item.dataset.name}`)
+                console.log(`Add ${item.dataset.name}`)
             })
     }
-    
+
     removeProduct(item) {
         this.getData(`${API_URL}/deleteFromBasket.json`)
             .then(data => {
@@ -186,39 +209,21 @@ class Cart extends List {
     _updateCart(product) {
         let block = document.querySelector(`.cart-item[data-id="${product.id_product}"]`);
         block.querySelector('.product-quantity').textContent = `Quantity: ${product.quantity}`;
-        block.querySelector('.product-price').textContent = `$${product.quantity * product.price}`;
+        block.querySelector('.product-price').textContent = `$: ${product.quantity * product.price}`;
     }
 }
 
 //-------------------class CatalogItem-------------------
-class CatalogItem extends ListItem { };
+class CatalogItem extends ListItem {};
 
-//-------------------class CartItem-------------------
-class CartItem extends ListItem {
-    constructor(obj) {
-        super(obj);
-        this.quantity = obj.quantity;
-    }
-    render() {        
-       return `<div class="cart-item" data-id="${this.id_product}">
-                    <img src="${this.img}" width="100" height="80" alt="${this.product_name}">
-                    <div class="product-desc">
-                        <p class="product-title">${this.product_name}</p>
-                        <p class="product-quantity">${this.quantity}</p>
-                        <p class="product-single-price">${this.price}</p>
-                    </div>
-                    <div class="right-block">
-                        <button name="del-btn" class="del-btn" data-id="${this.id_product}">&times;</button>
-                    </div>
-                </div>
-                `
-    }
-}
 
 //-------------------dependencies and export-------------------
-let newlist = {Catalog: CatalogItem, Cart: CartItem};
+let newlist = {
+    Catalog: CatalogItem,
+    Cart: CartItem
+};
 
 export default () => {
- let cart = new Cart()
- let catalog = new Catalog(cart)
+    let cart = new Cart()
+    let catalog = new Catalog(cart)
 }
