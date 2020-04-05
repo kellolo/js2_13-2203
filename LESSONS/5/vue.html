@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <!--h1>{{ hello + ' ' + fromInput }}</h1>
+        <input type="text" v-model.lazy="fromInput"> 
+        <br>
+        <button @click="show = !show">{{ !show ? 'Show' : 'Hide' }}</button>
+        <button @click="show = !show">{{ compTest }}</button> //computed
+        <div v-if="show">
+            <p>Qwe 123 qwe qwe</p>
+        </div>
+        <div v-else-if="!show && fromInput === '123'">
+            <p>Предыдущий блок скрыт</p>
+        </div>
+        <div v-else>3rd</div-->
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        let app = new Vue ({
+            el: '#app',
+            data: {
+                //state (набор реактивных свойств компонента, предн для внутренней организации компонента)
+                // hello: 'Hello Vue',
+                // fromInput: '',
+                // show: true
+            },
+            methods: {
+                //методы
+            },
+            computed: {
+                //функции, которые возвращают значения
+                // compTest() {
+                //     return !this.show ? 'Show' : 'Hide'
+                // }
+            },
+            //hooks
+            mounted() {
+                // console.log('I am ready')
+            },
+        })
+    </script>
+</body>
+</html>
