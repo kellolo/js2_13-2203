@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <script>
+        let url = 'https://raw.githubusercontent.com/Altereyo/json-s/master/catalog.json'
+
+        function newPromise(arg) {
+            return new Promise((res, rej) => {
+                if (arg === 4) {
+                    res('readystate: ' + arg)
+                }
+            })
+        }
+
+        function makeGETRequest(url) {
+            var xhr = new XMLHttpRequest();
+
+            xhr.onreadystatechange = function () {
+                let promise = newPromise(xhr.readyState)
+                    .then(res => {
+                        let a = JSON.parse(xhr.responseText)
+                        console.log(a)
+                    })
+                    .catch(rej => {
+                        console.log(rej)
+                    })
+                    .finally(() => {
+                        console.log('promise finished')
+                    })
+            }
+
+            xhr.open('GET', url, true);
+            xhr.send();
+        }
+        makeGETRequest(url)
+    </script>
+</body>
+
+</html>

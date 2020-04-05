@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Messages form</title>
+    <link rel="stylesheet" href="./public/css/style.css">
+</head>
+
+<body>
+    <div class="center">
+        <h2 id="form-title">Форма отправки сообщения</h2>
+        <form method="post" class="message-form">
+            <p id="form-description">Заполните все данныe</p>
+            <textarea id="user-text" name="textarea" placeholder="Напишите Ваше сообщение" required></textarea>
+            <input id="user-name" type="text" name="name" placeholder="Укажите Ваше имя" required>
+            <input id="user-email" type="text" name="email" placeholder="Укажите email" required>
+            <input id="user-phone" type="tel" name="phone" placeholder="Укажите номер телефона" required>
+            <input id="user-submit" type="submit" value="Отправить">
+        </form>
+    </div>
+</body>
+
+</html>
