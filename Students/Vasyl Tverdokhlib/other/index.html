@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        #dz4{
+            width: 100%;
+            height: 100%;
+        }
+        form{
+            width: 400px;
+            margin: 0 auto;
+        }
+        form input{
+            border: 2px solid gray;
+            margin: 5px;
+            width: 280px;
+        }
+        .nameInput{
+            display: inline-block;
+            width: 100px;
+        }
+    </style>
+</head>
+<body>
+    <hr>
+    <form action="">
+        <div>
+            <span class="nameInput">Имя</span>
+            <input id = "name" type="text">
+            <span id="nameErr" style="opacity: 0;">только символы</span>
+        </div>
+        <div>
+            <span class="nameInput">Телефон</span>
+            <input id = "tel" type="text">
+            <span id="telErr" style="opacity: 0;">Error</span>
+        </div>
+        <div>
+            <span class="nameInput">E-mail</span>
+            <input id = "email" type="text">
+            <span id="emailErr" style="opacity: 0;">Error</span>
+        </div>
+        <textarea id="dz4" rows="10"></textarea>
+        <button id = "btn">Отправить</button>
+        
+    </form>
+    <script>
+        //делал на быструю руку, много повторов не оптимально
+        const name = document.getElementById('name')
+        const tel = document.getElementById('tel')
+        const text = document.getElementById('dz4')
+        const email = document.getElementById('email')
+        text.oninput = function(){
+            text.value=text.value.replace(/\B\'|\'\B/g,"\"")
+            text.value=text.value.replace(/\b\"\b/g,"\'")
+        }
+        
+        class User{
+            constructor(){
+                this._name = ""
+                this._tel = ""
+                this._email = ""
+            }
+            set_name(name){
+                if((/[a-z]/i).test(name.value)){
+                    this._name = name.value
+                    nameErr.style.opacity = "0"
+                    name.parentElement.style.background = "none"
+                    return true
+                }else{
+                    nameErr.style.opacity = "1"
+                    name.parentElement.style.background = "Tomato"
+                    return false
+                }
+                
+            }
+            set_tel(tel){
+                if(!(/\+7\(?[0-9]{3}\)?[0-9]{3}\-?[0-9]{4}/).test(tel.value)||
+                    (/.+\+7\(?[0-9]{3}\)?[0-9]{3}\-?[0-9]{4}/).test(tel.value)||
+                    (/\+7\(?[0-9]{3}\)?[0-9]{3}\-?[0-9]{4}.+/).test(tel.value)){
+                    telErr.style.opacity= "1"
+                    tel.parentElement.style.background = "Tomato"
+                    return false
+                }else{
+                    this._tel = tel.value
+                    telErr.style.opacity= "0"
+                    tel.parentElement.style.background = "none"
+                    return true
+                }
+                
+            }
+            set_email(email){
+                if(!(/([a-z0-9_\.-]+)@([a-z0-9_\.-]+)\.([a-z\.]{2,6})/).test(email.value)){
+                    emailErr.style.opacity= "1"
+                    email.parentElement.style.background = "Tomato"
+                    return false
+                }else{
+                    this._email = email.value
+                    emailErr.style.opacity= "0"
+                    email.parentElement.style.background = "none"
+                    return true
+                }
+                
+            }
+        }
+        let obj = new User()
+
+        name.oninput = ()=>{
+            obj.set_name(name)
+            
+        }
+        tel.oninput = ()=>{
+            obj.set_tel(tel)
+        }
+        email.oninput = ()=>{
+            obj.set_email(email)
+        }
+        btn.onclick = ()=>{
+            
+            if(!obj.set_name(name)) return false
+            if(!obj.set_tel(tel)) return false
+            if(!obj.set_email(email)) return false
+        }
+        
+        
+    </script>
+</body>
+</html>

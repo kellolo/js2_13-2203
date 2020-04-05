@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="style.css" />
+    <title>Form</title>
+</head>
+
+<body>
+    <form action="#" method="POST">
+        <fieldset>
+            <legend>Введите Ваши данные</legend>
+            <div class="part">
+                <label for="name">Введите Ваше имя</label>
+                <input type="text" id="name" placeholder="Иванов Иван Иванович" />
+                <span class="error-text">Введите корректное имя. Имя должно содержать только буквы</span>
+            </div>
+            <div class="part">
+                <label for="phone">Введите Ваш номер телефона</label>
+                <input type="text" id="phone" placeholder="+7(000)000-0000" />
+                <span class="error-text">Введите корректный номер телефона. Номер телефона должен иметь вид +7(000)000-0000</span>
+            </div>
+            <div class="part">
+                <label for="email">Введите Ваш e-mail</label>
+                <input type="email" id="email" placeholder="e-mail" />
+                <span class="error-text">Введите корректный e-mail. E-mail должен содержать латинские буквы, цифры, @ и .</span>
+            </div>
+            <div class="part">
+                <span class="message">Введите Ваше сообщение</span>
+                <textarea name="comment" id="comment" cols="30" rows="5"></textarea>
+            </div>
+            <button>отправить</button>
+        </fieldset>
+    </form>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
