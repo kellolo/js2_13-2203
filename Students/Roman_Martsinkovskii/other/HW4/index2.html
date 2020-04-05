@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HW4</title>
+    
+</head>
+<body>
+    <style>
+        .error {
+            display: none;
+            color: red;
+            text-transform: uppercase;
+        }
+        div {
+            padding: 10px;
+        }
+    </style>
+    <fieldset>
+        <legend>Форма</legend>
+        <div>
+            <label for="name">Имя</label>
+            <input type="text" id="name" placeholder="Введите имя">
+            <span class="error">Имя содержит только буквы.</span>
+        </div>
+        <div>
+            <label for="phone">Телефон</label>
+            <input type="text" id="phone" placeholder="Ваш Номер">
+            <span class="error">Телефон имеет вид +7(000)000-0000.</span>
+        </div>
+        <div>
+            <label for="mail">Mail</label>
+            <input type="text" id="mail" placeholder="Ваш Mail">
+            <span class="error">E-mail имеет вид mymail@mail.ru, или my.mail@mail.ru, или my-mail@mail.ru.</span>
+        </div>
+        <button>Отправить</button>
+    </fieldset>
+    <script>
+        let name = document.getElementById('name')
+        let phone = document.getElementById('phone')
+        let mail = document.getElementById('mail')
+
+        let namereg = /[а-ёя]/g;
+        let phonereg = /\+7\([0-9]{3}\)[0-9]{3}\-[0-9]{4}/g;
+        let mailreg = /([a-z]+|[a-z]+\.[a-z]+|[a-z]+\-[a-z]+)\@mail\.ru/g;
+    </script>
+    
+</body>
+</html>
