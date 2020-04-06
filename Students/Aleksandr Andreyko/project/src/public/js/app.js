@@ -1,147 +1,75 @@
-<<<<<<< HEAD
- //ИМИТАЦИЯ РАБОТЫ БАЗЫ ДАННЫХ И СЕРВЕРА
+import makeGETRequest from './client'
 
- let PRODUCTS_NAMES = ['Processor', 'Display', 'Notebook', 'Mouse', 'Keyboard']
- let PRICES = [100, 120, 1000, 15, 18]
- let IDS = [0, 1, 2, 3, 4]
- let IMGS = ['https://cs8.pikabu.ru/post_img/big/2017/12/25/5/1514188160141511997.jpg', 
- 'https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/HMUB2?wid=1144&hei=1144&fmt=jpeg&qlt=80&op_usm=0.5,0.5&.v=1563827752399',
- 'https://zeon18.ru/files/item/Xiaomi-Mi-Notebook-Air-4G-Officially-Announced-Weboo-co-2%20(1)_1.jpg',
- 'https://files.sandberg.it/products/images/lg/640-05_lg.jpg',
- 'https://images-na.ssl-images-amazon.com/images/I/81PLqxtrJ3L._SX466_.jpg']
-
- //let products = [] //массив объектов
- 
- let catalog = {
-    items: [],
-    container: '.products',
-    cart: null,
-    construct (cart) {
-        this.cart = cart
-        this._init () //_ - это обозначение инкапсулированного метода
-    },
-    _init () {
-        this._handleData ()
-        this.render ()
-        this._handleEvents ()
-    },
-    _handleEvents () {
-        document.querySelector (this.container).addEventListener ('click', (evt) => {
-            if (evt.target.name === 'buy-btn') {
-                this.cart.addProduct (evt.target)
-            }
-        })
-    },
-    _handleData () {
-        for (let i = 0; i < IDS.length; i++) {
-            this.items.push (this._createNewProduct (i))
-        }
-    },
-    _createNewProduct (index) {
-        return {
-            product_name: PRODUCTS_NAMES [index],
-            price: PRICES [index],
-            id_product: IDS [index],
-            img: IMGS [index]
-        }
-    },
-    render () {
-        let str = ''
-        this.items.forEach (item => {
-            str += `
-                <div class="product-item">
-                    <img src="https://placehold.it/300x200" alt="${item.product_name}">
-                    <!--img src="${item.img}" width="300" height="200" alt="${item.product_name}"-->
-                    <div class="desc">
-                        <h1>${item.product_name}</h1>
-                        <p>${item.price}</p>
-                        <button 
-                        class="buy-btn" 
-                        name="buy-btn"
-                        data-name="${item.product_name}"
-                        data-price="${item.price}"
-                        data-id="${item.id_product}"
-                        >Купить</button>
-                    </div>
-                </div>
-            `
-        })
-        document.querySelector(this.container).innerHTML = str
-     }
- }
-
- let cart = {
-    items: [],
-    total: 0,
-    sum: 0,
-    container: '.cart-block',
-    quantityBlock: document.querySelector ('#quantity'),
-    priceBlock: document.querySelector ('#price'),
-    construct () {
-        this._init ()
-    },
-    _init () {
-        this._handleEvents ()
-    },
-=======
-//ИМИТАЦИЯ РАБОТЫ БАЗЫ ДАННЫХ И СЕРВЕРА
-
-let PRODUCTS_NAMES = ['Processor', 'Display', 'Notebook', 'Mouse', 'Keyboard']
-let PRICES = [100, 120, 1000, 15, 18]
-let IDS = [0, 1, 2, 3, 4]
-let IMGS = ['https://cs8.pikabu.ru/post_img/big/2017/12/25/5/1514188160141511997.jpg', 
-'https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/HMUB2?wid=1144&hei=1144&fmt=jpeg&qlt=80&op_usm=0.5,0.5&.v=1563827752399',
-'https://zeon18.ru/files/item/Xiaomi-Mi-Notebook-Air-4G-Officially-Announced-Weboo-co-2%20(1)_1.jpg',
-'https://files.sandberg.it/products/images/lg/640-05_lg.jpg',
-'https://images-na.ssl-images-amazon.com/images/I/81PLqxtrJ3L._SX466_.jpg']
+const API_URL = 'https://raw.githubusercontent.com/allkeck/store-api/master/responses'
+const IMG_PREFIX = 'https://muehle-shaving.ru/images/muhle/products/'
 
 class Catalog {
-   constructor(cart) {
-        this.items = []
-        this.container = '.products'
-        this.cart = cart
-        this._init()
-   }
-   
-   _init () {
-       this._handleData ()
-       this.render ()
-       this._handleEvents ()
-   }
+  constructor(cart) {
+    this.items = []
+    this.filteredItems = []
+    this.container = '.content'
+    this.cart = cart
+    this.url = `${API_URL}/catalogData.json`
+    this.wrongUrl = true
+  }
 
-   _handleEvents () {
-       document.querySelector (this.container).addEventListener ('click', (evt) => {
-           if (evt.target.name === 'buy-btn') {
-               this.cart.addProduct (evt.target)
-           }
-       })
-   }
+  _handleEvents() {
+    document.querySelector(this.container).addEventListener('click', (evt) => {
+      if (evt.target.name === 'buy-btn') {
+        this.cart.addProduct(evt.target)
+      }
+    })
+  }
 
-   _handleData () {
-       for (let i = 0; i < IDS.length; i++) {
-           this.items.push (this._createNewProduct (i))
-       }
-   }
+  _handleData() {
+    for (let i = 0; i < IDS.length; i++) {
+      this.items.push(this._createNewProduct(i))
+    }
+  }
 
-   _createNewProduct (index) {
-       return {
-           product_name: PRODUCTS_NAMES [index],
-           price: PRICES [index],
-           id_product: IDS [index],
-           img: IMGS [index]
-       }
-   }
+  _createNewProduct(index) {
+    return {
+      product_name: PRODUCTS_NAMES[index],
+      price: PRICES[index],
+      id_product: IDS[index],
+      img: IMGS[index]
+    }
+  }
 
-   render () {
-       let str = ''
-       this.items.forEach (item => {
-           str += `
+  filterProducts(value) {
+    let filter = new RegExp('^.*' + value + '.*$', 'i')
+    this.filteredItems = this.items.filter(item => filter.test(item.product_name))
+    this.render()
+  }
+
+  fetchProducts() {
+    return new Promise((onResponse, onError) => {
+      makeGETRequest(this.url)
+        .then((goods) => {
+          onResponse()
+          this.items = JSON.parse(goods)
+          this.filteredItems = JSON.parse(goods)
+        }, (status) => {
+          onError(status)
+          console.log(`Ошибка обработки запроса со статусом ${status}`)
+        })
+    }).then(() => {
+      this.render()
+    }, (status) => {
+      this.renderNoGood(status)
+    })
+  }
+
+  render() {
+    let str = ''
+    this.filteredItems.forEach(item => {
+      str += `
                <div class="product-item">
-                   <img src="${item.img}" alt="${item.product_name}">
+                   <img src="${IMG_PREFIX + item.img}" alt="${item.product_name}">
                    <!--img src="${item.img}" width="300" height="200" alt="${item.product_name}"-->
                    <div class="desc">
                        <h1>${item.product_name}</h1>
-                       <p>${item.price}</p>
+                       <p>${item.price} &#8381;</p>
                        <button 
                        class="buy-btn" 
                        name="buy-btn"
@@ -152,107 +80,151 @@ class Catalog {
                    </div>
                </div>
            `
-       })
-       document.querySelector(this.container).innerHTML = str
-   }
+    })
+    document.querySelector(this.container).innerHTML = `<div class="catalog">${str}</div>`
+    this._handleEvents()
+  }
+
+  renderNoGood(status) {
+    document.querySelector(this.container).innerHTML =
+      `
+        <h1 class="error">Произошла ошибка ${status}!</h1>
+        <button class="refresh-data">Повторить попытку!</button>
+      `
+    this._handleEvents()
+  }
+}
+
+class Form {
+  constructor() {
+    this.container = '.content'
+    this.url = `${API_URL}/feedbackForm.json`
+    this.formData = ''
+    this._fetchFormData()
+  }
+
+  _fetchFormData() {
+    let request = makeGETRequest(this.url)
+    request.then(
+      (data) => {
+        this.formData = JSON.parse(data)
+      },
+      (status) => {
+        console.log(status)
+      }
+    )
+  }
+
+  render() {
+    let fields = ''
+    this.formData.fields.forEach(item => {
+      fields += `<div><input type="text" placeholder="${item.label}" data-validate="${item.validation}"></div>`
+    })
+    let str =
+      `
+        <h1>${this.formData.heading}</h1>
+        <form action="#">
+          ${fields}
+          <button type="submit" class="feedback-form-submit">Отправить</button>
+        </form>
+      `
+    document.querySelector(this.container).innerHTML = `<div class="feedback">${str}</div>`
+    document.querySelector('.feedback-form-submit').addEventListener('click', (e) => {
+      e.preventDefault()
+      let inputs = [...document.querySelectorAll('.feedback input')]
+      inputs.forEach(item => {
+        let regValidate = new RegExp(item.getAttribute('data-validate'))
+        if(!regValidate.test(item.value)) {
+          item.classList.add('error-field')
+        } else if(item.classList.contains('error-field')) {
+          item.classList.remove('error-field')
+        }
+      })
+
+      if(!inputs.some((item) => {item.classList.contains('error-field')})) {
+        alert('Ошибка отправки')
+      } else {
+        alert('Сообщение отправлено')
+      }
+    })
+  }
 }
 
 class Cart {
-    constructor() {
-        this.items = []
-        this.total = 0
-        this.sum = 0
-        this.container = '.cart-block'
-        this.quantityBlock = document.querySelector ('#quantity')
-        this.priceBlock = document.querySelector ('#price')
-        this._init()
+  constructor() {
+    this.items = []
+    this.total = 0
+    this.sum = 0
+    this.container = '.cart-block'
+    this.quantityBlock = document.querySelector('#quantity')
+    this.priceBlock = document.querySelector('#price')
+    this._init()
+  }
+
+  _init() {
+    this._handleEvents()
+  }
+
+  _handleEvents() {
+    document.querySelector(this.container).addEventListener('click', (evt) => {
+      if (evt.target.name === 'del-btn') {
+        this.deleteProduct(evt.target)
+      }
+    })
+  }
+
+  addProduct(product) {
+    let id = product.dataset['id']
+    let find = this.items.find(product => product.id_product === id)
+    if (find) {
+      find.quantity++
+    } else {
+      let prod = this._createNewProduct(product)
+      this.items.push(prod)
     }
 
-    _init () {
-        this._handleEvents ()
+    this._checkTotalAndSum()
+    this.render()
+  }
+
+  _createNewProduct(prod) {
+    return {
+      product_name: prod.dataset['name'],
+      price: prod.dataset['price'],
+      id_product: prod.dataset['id'],
+      quantity: 1
     }
- 
->>>>>>> 5161b9d915b6f39951e6827f7a8724f8a48f550e
-    _handleEvents () {
-        document.querySelector (this.container).addEventListener ('click', (evt) => {
-            if (evt.target.name === 'del-btn') {
-                this.deleteProduct (evt.target)
-            }
-        })
-<<<<<<< HEAD
-    },
-=======
+  }
+
+  deleteProduct(product) {
+    let id = product.dataset['id']
+    let find = this.items.find(product => product.id_product === id)
+    if (find.quantity > 1) {
+      find.quantity--
+    } else {
+      this.items.splice(this.items.indexOf(find), 1)
     }
- 
->>>>>>> 5161b9d915b6f39951e6827f7a8724f8a48f550e
-    addProduct (product) {
-        let id = product.dataset['id']
-        let find = this.items.find (product => product.id_product === id)
-        if (find) {
-            find.quantity++
-        } else {
-            let prod = this._createNewProduct (product)
-            this.items.push (prod)
-        }
-         
-        this._checkTotalAndSum ()
-        this.render ()
-<<<<<<< HEAD
-    },
-=======
-    }
- 
->>>>>>> 5161b9d915b6f39951e6827f7a8724f8a48f550e
-    _createNewProduct (prod) {
-        return {
-            product_name: prod.dataset['name'],
-            price: prod.dataset['price'],
-            id_product: prod.dataset['id'],
-            quantity: 1
-        }
-<<<<<<< HEAD
-    },
-=======
-    }
- 
->>>>>>> 5161b9d915b6f39951e6827f7a8724f8a48f550e
-    deleteProduct (product) {
-        let id = product.dataset['id']
-        let find = this.items.find (product => product.id_product === id)
-        if (find.quantity > 1) {
-            find.quantity--
-        } else {
-            this.items.splice (this.items.indexOf(find), 1)
-        }
-         
-        this._checkTotalAndSum ()
-        this.render ()
-<<<<<<< HEAD
-    },
-=======
-    }
->>>>>>> 5161b9d915b6f39951e6827f7a8724f8a48f550e
-    
-    _checkTotalAndSum () {
-        let qua = 0
-        let pr = 0
-        this.items.forEach (item => {
-            qua += item.quantity
-            pr += item.price * item.quantity
-        })
-        this.total = qua
-        this.sum = pr
-<<<<<<< HEAD
-    },
-=======
-    }
- 
->>>>>>> 5161b9d915b6f39951e6827f7a8724f8a48f550e
-    render () {
-        let itemsBlock = document.querySelector (this.container).querySelector ('.cart-items')
-        let str = ''
-        this.items.forEach (item => {
-            str += `<div class="cart-item" data-id="${item.id_product}">
+
+    this._checkTotalAndSum()
+    this.render()
+  }
+
+  _checkTotalAndSum() {
+    let qua = 0
+    let pr = 0
+    this.items.forEach(item => {
+      qua += item.quantity
+      pr += item.price * item.quantity
+    })
+    this.total = qua
+    this.sum = pr
+  }
+
+  render() {
+    let itemsBlock = document.querySelector(this.container).querySelector('.cart-items')
+    let str = ''
+    this.items.forEach(item => {
+      str += `<div class="cart-item" data-id="${item.id_product}">
                     <img src="https://placehold.it/100x80" alt="">
                     <div class="product-desc">
                         <p class="product-title">${item.product_name}</p>
@@ -263,23 +235,40 @@ class Cart {
                         <button name="del-btn" class="del-btn" data-id="${item.id_product}">&times;</button>
                     </div>
                 </div>`
-        })
-        itemsBlock.innerHTML = str
-        this.quantityBlock.innerText = this.total
-        this.priceBlock.innerText = this.sum
-    }
-<<<<<<< HEAD
- }
-
- export default () => {
-    catalog.construct (cart) //тут происходит создание объекта и вся прочая магия
-    cart.construct ()
- }
-=======
+    })
+    itemsBlock.innerHTML = str
+    this.quantityBlock.innerText = this.total
+    this.priceBlock.innerText = this.sum
+  }
 }
 
 export default () => {
-    new Catalog(new Cart)
-    new Cart
+  let k = new Catalog(new Cart)
+  k.fetchProducts()
+  window.k = k
+
+  window.f = new Form()
+
+  let navigation = document.querySelector('.navigation')
+  navigation.addEventListener('click', (e) => {
+    const navItem = e.target.getAttribute('data-navitem')
+    switch (navItem) {
+      case 'catalog':
+        window.k.render()
+        break;
+
+      case 'feedback':
+        window.f.render()
+        break;
+    
+      default:
+        break;
+    }
+  })
+
+  let [btnSearch, searchField] = [document.querySelector('.btn-search'),
+                                  document.querySelector('.search-field')]
+  btnSearch.addEventListener('click', () => {
+    k.filterProducts(searchField.value)
+  })
 }
->>>>>>> 5161b9d915b6f39951e6827f7a8724f8a48f550e

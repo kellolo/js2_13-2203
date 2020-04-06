@@ -5,27 +5,19 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-<<<<<<< HEAD
-    "build": "webpack --mode development"
-=======
     "build": "webpack --mode development",
     "dev": "webpack-dev-server --open"
->>>>>>> 5161b9d915b6f39951e6827f7a8724f8a48f550e
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
-<<<<<<< HEAD
-    "webpack": "^4.42.1",
-    "webpack-cli": "^3.3.11"
-=======
-    "css-loader": "^3.4.2",
-    "html-webpack-plugin": "^4.0.2",
-    "mini-css-extract-plugin": "^0.9.0",
     "webpack": "^4.42.1",
     "webpack-cli": "^3.3.11",
+    "css-loader": "^3.4.2",
+    "file-loader": "^6.0.0",
+    "html-webpack-plugin": "^4.0.2",
+    "mini-css-extract-plugin": "^0.9.0",
     "webpack-dev-server": "^3.10.3"
->>>>>>> 5161b9d915b6f39951e6827f7a8724f8a48f550e
   }
 }

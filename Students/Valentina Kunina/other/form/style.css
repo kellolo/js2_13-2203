@@ -1,0 +1,103 @@
+form {
+    padding: 10px;
+    margin: 0 auto;
+    border-radius: 10px;
+    border: 2px solid #ccc;
+    width: 600px;
+    box-sizing: border-box;
+}
+
+fieldset {
+    border: none;
+}
+
+legend {
+    text-align: center;
+    font-size: 25px;
+    font-weight: bold;
+    color: grey;
+}
+
+.part {
+    margin: 0 0 13px 0;
+    width: 100%;
+}
+
+label,
+.message {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: bold;
+    color: grey;
+}
+
+input {
+    width: 99%;
+    padding: 5px;
+    height: 20px;
+    border-radius: 5px;
+    border: 2px solid #ccc;
+    outline: none;
+    margin-bottom: 5px;
+    color: #000000;
+    font-size: 15px;
+}
+
+input:focus {
+    border: 2px solid green;
+}
+
+input.invalid:focus {
+    border: 2px solid red;
+}
+
+input::placeholder {
+    font-size: 15px;
+    color: #ccc;
+}
+
+button {
+    width: 50%;
+    height: 25px;
+    display: block;
+    margin: auto;
+    border-radius: 5px;
+    outline: none;
+    text-transform: uppercase;
+}
+
+button:hover {
+    background-color: #ccc;
+}
+
+button:active {
+    background-color: darkgray;
+}
+
+textarea {
+    width: 100%;
+    height: 200px;
+    resize: none;
+    border-radius: 5px;
+    border: 2px solid #ccc;
+    outline: none;
+    font-size: 15px;
+    padding: 5px;
+}
+
+textarea:focus {
+    border: 2px solid green;
+}
+
+.error-text {
+    visibility: hidden;
+    color: red;
+}
+
+.invalid {
+    border: 2px solid red;
+}
+
+.invalid + .error-text {
+    visibility: visible;
+}

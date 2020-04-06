@@ -1,0 +1,32 @@
+[
+    {
+        "product_id": 0,
+        "product_name": "Processor",
+        "price": 100,
+        "image": "https://cs8.pikabu.ru/post_img/big/2017/12/25/5/1514188160141511997.jpg"
+    },
+    {
+        "product_id": 1,
+        "product_name": "Display",
+        "price": 120,
+        "image": "https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/HMUB2?wid=1144&hei=1144&fmt=jpeg&qlt=80&op_usm=0.5,0.5&.v=1563827752399"
+    },
+    {
+        "product_id": 2,
+        "product_name": "Notebook",
+        "price": 1000,
+        "image": "https://zeon18.ru/files/item/Xiaomi-Mi-Notebook-Air-4G-Officially-Announced-Weboo-co-2%20(1)_1.jpg"
+    },
+    {
+        "product_id": 3,
+        "product_name": "Mouse",
+        "price": 15,
+        "image": "https://files.sandberg.it/products/images/lg/640-05_lg.jpg"
+    },
+    {
+        "product_id": 4,
+        "product_name": "Keyboard",
+        "price": 18,
+        "image": "https://images-na.ssl-images-amazon.com/images/I/81PLqxtrJ3L._SX466_.jpg"
+    }
+]
