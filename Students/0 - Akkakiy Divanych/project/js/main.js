@@ -14,7 +14,7 @@ let IMGS = ['https://cs8.pikabu.ru/post_img/big/2017/12/25/5/1514188160141511997
 let catalog = {
     items: [],
     container: '.products',
-    cart: null,
+    
     construct(cart) {
         this.cart = cart
         this._init() //_ - это обозначение инкапсулированного метода
