@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    body {
+      width: 800px;
+      margin: 0 auto;
+      line-height: 1.5;
+    }
+    h1 {
+      text-align: center;
+    }
+    .textBlock {
+      border: 1px solid #000;
+      padding: 10px;
+      min-height: 250px;
+    }
+    p {
+      font-size: 20px;
+      text-indent: 20px;
+    }
+    button {
+      display: block;
+      margin: 0 auto;
+      font-size: 16px;
+      border-radius: 5px;
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <h1>Regular expression</h1>
+  <div class="textBlock">
+    <h2>Исходный текст</h2>
+    <p id="inputText">
+      'I want to go swimming,' said Matthew. 'I can't stand staying in doors all
+day.' 'I thought you had homework to do,' said Mum. 'Oh Mum,' said
+Matthew. 'I've almost finished it. Can't I just take an hour off.' 'Yes you
+can take an hour off,' said Mum. 'But only when you've finished your
+work.' 'But it'll be closed if I don't go soon!' said Bob. 'Then you'd
+better get a move on, hadn't you?' said Mum. Aren't 
+</p>
+<button onclick="editText('#inputText', '#outputText')">Отредактировать текст</button>
+  </div>
+
+  <div class="textBlock">
+    <h2>Отредактированный текст</h2>
+    <p id="outputText"></p>
+
+  </div>
+
+  <script>
+    function editText(inputID, outputID) {
+      let reg = /(\'(?=\s)|((\s)\'))/g
+      // let reg2 = /\'((.|\s)+?)\'(?=\s)/gi
+      let inputContent = document.querySelector(inputID).textContent
+      let outputContent = inputContent.replace(reg, `$3"`)
+      // let outputContent = inputContent.replace(reg2, `"$1"`)
+      console.log(inputContent.match(reg))
+      document.querySelector(outputID).textContent = outputContent
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+
+        let text = `Lorem ipsum dolor sit amet, 'consectetuer adipiscing eli't'. Aenean commodo ligula eget dolor. 'Aenean massa.' Cum sociis natoque penatibus et magni's dis parturient montes, 'nascetur ridiculus mus'. Donec quam feli's, ultricies nec, 'pellentesque eu', pretium quis, sem. Null'a consequat massa quis enim.`;
+        let regexp = /'/g;
+
+        text = text.replace(regexp, '"');
+        console.log(text);
+    </script>
+</body>
+</html>
