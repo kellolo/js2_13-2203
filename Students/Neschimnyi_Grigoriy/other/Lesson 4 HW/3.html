@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        div {
+            padding: 5px
+        }
+        p {
+            margin: 0;
+        }
+        fieldset {
+            width: 50%;
+        }
+        input, textarea {
+            width: 300px;
+            position: relative;
+        }
+    </style>
+</head>
+<body>
+
+        <fieldset>
+            <legend><b>Обратная связь</b></legend>
+
+            <div>
+                <p>Ваше Имя и Фамилия:</p>
+                <input id="name" type="text">
+                <br>
+                <small style="display: none">Имя должно содержать только буквы</small>
+            </div>
+
+            <div>
+                <p>Телефонный номер:</p>
+                <input id="phone" type="text">
+                <br>
+                <small style="display: none">Телефон имеет вид +7(000)000-0000</small>
+            </div>
+
+            <div>
+                <p>Email:</p>
+                <input id="mail" type="text">
+                <br>
+                <small style="display: none">E-mail имеет вид mymail@mail.ru, или my.mail@mail.ru, или my-mail@mail.ru.</small>
+            </div>
+
+            <p>Сообщение:</p>
+            <textarea name="message" id="" cols="30" rows="10"></textarea>
+            <br>
+
+        </fieldset>
+        <button>Отправить</button>
+
+    <script>
+        let name = document.getElementById('name')
+        let phone = document.getElementById('phone')
+        let mail = document.getElementById('mail')
+        
+        let nameRegexp = /([a-z]+\s[a-z]+|[а-яё]+\s[а-яё]+)/gi
+        let phoneRegexp = /\+7\([0-9]{3}\)[0-9]{3}\-[0-9]{4}/gi
+        let mailRegexp = /([a-z]+|[a-z]+\.[a-z]+|[a-z]+\-[a-z]+)\@mail\.ru/gi
+
+        function addValidate (field, regexp) {
+            field.addEventListener('keyup', () => {
+                if (regexp.test(field.value)) {
+                    field.parentNode.style.outline = 'none'
+                    field.parentNode.children[3].style.display = 'none'
+                }
+                else {
+                    field.parentNode.style.outline = '2px solid red'
+                    field.parentNode.children[3].style.display = 'inline'
+                }
+            })
+        }
+        addValidate(name, nameRegexp)
+        addValidate(phone, phoneRegexp)
+        addValidate(mail, mailRegexp)
+    </script>
+</body>
+</html>
