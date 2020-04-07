@@ -1,0 +1,14 @@
+ 
+  .box .input_error,
+  .box .p_error {
+    border-color: red;
+    color: red;
+  }
+  
+  .box .p_error {
+    color: red;
+  }
+  
+  .box .text-error {
+    color: red;
+  }

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>HW4</title>
+</head>
+
+<body>
+    <script>
+        let txt =
+            `' Lorem, ipsum dolor sit amet consectetur adipisicing elit. 'Quaerat, atque harum! Iure pariatur' excepturi fugiat autem aspernatur sapiente quidem minima!' + aren't John's`;
+        const reg = /'\W/g;
+        const reg2 = /\W'/g;
+        txt = txt.replace(reg, '"');
+        txt = txt.replace(reg2, '"');
+        console.log(txt);
+    </script>
+</body>
+
+</html>

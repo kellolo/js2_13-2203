@@ -9,7 +9,19 @@ module.exports = {
         use: [
           MiniCssExtractPlugin.loader, 'css-loader'
         ],
-      }
+      },
+      {
+        test: /\.(png|jpe?g|gif|webp)$/i,
+        use: [
+          {
+            loader: 'file-loader',
+            options: {
+              outputPath: 'images',
+              name: '[name].[ext]',
+            },
+          },
+        ],
+      },
     ]
   },
   plugins: [
