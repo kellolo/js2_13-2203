@@ -5,8 +5,13 @@ header{
     display: flex;
     background-color: #2f2a2d;
     justify-content: space-between;
+    align-items: center;
     color: #fafafa;
     padding: 30px 80px;
+}
+.navigation {
+    margin-right: auto;
+    margin-left: 30px;
 }
 button:focus{
     outline: none;
@@ -33,19 +38,22 @@ button:focus{
 .btn-cart, .logo{
     align-self: center;
 }
-/*.products {*/
-/*display: flex;*/
-/*justify-content: space-between;*/
-/*flex-wrap: wrap;*/
-/*padding: 40px 80px;*/
-/*}*/
-.products{
+.catalog{
     column-gap: 30px;
     display: grid;
-    grid-template-columns: repeat(auto-fit, 200px);
+    grid-template-columns: repeat(auto-fit, 250px);
     grid-template-rows: 1fr;
     padding: 40px 80px;
-    justify-content: space-between;
+}
+.feedback {
+    padding: 30px;
+}
+.error-field {
+    border-color: #f00;
+}
+.error {
+    font-size: 20px;
+    color: #f00;
 }
 p {
     margin: 0 0 5px 0;
@@ -66,11 +74,9 @@ img {
     border: 1px solid #c0c0c040;
     padding: 15px
 }
-
 .desc h1 {
     font-size: 1em;
 }
-
 .cart{
     position: relative;
 }
@@ -86,7 +92,6 @@ img {
     color: black;
     width: 300px;
 }
-
 .invisible{
     display: none;
 }
@@ -101,7 +106,6 @@ img {
     border-right: 10px solid transparent;
     border-bottom: 10px solid white;
 }
-
 .buy-btn, .del-btn{
     margin-top: 5px;
     background-color: #2f2a2d;
@@ -174,13 +178,11 @@ img {
     border: none;
     border-bottom: 2px solid #fafafa;
 }
-
 .d-flex {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
 }
-
 .d-block {
     display: block
 }
