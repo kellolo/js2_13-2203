@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Task#3</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="box" >
+        <h1>Заполните анкету</h1>		 
+        <form name="regform" onsubmit="return formValidation(event)">
+        <h2 id="box-in-head">Введите свои данные:</h2>
+            <p>Имя: 
+                <input type="text" name="name" class="box-in"></p><br />
+                <span class="text-error box-in"></span>	 
+            <p>E-mail: 
+                <input type="text" name="email" class="box-in"> </p><br /> 
+                <span class="text-error box-in"></span>	
+            <p>Телефон: 
+                <input type="text" name="phone" onclick="this.value=''" value="+7(000)000-0000" class="box-in"> </p><br />
+                <span class="text-error box-in"></span>	
+            <p> Комментарий: 
+                <textarea name="comment" class="box-in"> </textarea></p> 
+            <p>
+                <input type="submit" value="Отправить" name="submitButton">	 
+            </p>		 
+        </form>     
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>

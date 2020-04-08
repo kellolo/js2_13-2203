@@ -6,7 +6,8 @@ const IMG_PREFIX = 'https://muehle-shaving.ru/images/muhle/products/'
 class Catalog {
   constructor(cart) {
     this.items = []
-    this.container = '.products'
+    this.filteredItems = []
+    this.container = '.content'
     this.cart = cart
     this.url = `${API_URL}/catalogData.json`
     this.wrongUrl = true
@@ -35,12 +36,19 @@ class Catalog {
     }
   }
 
+  filterProducts(value) {
+    let filter = new RegExp('^.*' + value + '.*$', 'i')
+    this.filteredItems = this.items.filter(item => filter.test(item.product_name))
+    this.render()
+  }
+
   fetchProducts() {
     return new Promise((onResponse, onError) => {
       makeGETRequest(this.url)
         .then((goods) => {
           onResponse()
           this.items = JSON.parse(goods)
+          this.filteredItems = JSON.parse(goods)
         }, (status) => {
           onError(status)
           console.log(`Ошибка обработки запроса со статусом ${status}`)
@@ -54,7 +62,7 @@ class Catalog {
 
   render() {
     let str = ''
-    this.items.forEach(item => {
+    this.filteredItems.forEach(item => {
       str += `
                <div class="product-item">
                    <img src="${IMG_PREFIX + item.img}" alt="${item.product_name}">
@@ -73,7 +81,7 @@ class Catalog {
                </div>
            `
     })
-    document.querySelector(this.container).innerHTML = str
+    document.querySelector(this.container).innerHTML = `<div class="catalog">${str}</div>`
     this._handleEvents()
   }
 
@@ -84,6 +92,61 @@ class Catalog {
         <button class="refresh-data">Повторить попытку!</button>
       `
     this._handleEvents()
+  }
+}
+
+class Form {
+  constructor() {
+    this.container = '.content'
+    this.url = `${API_URL}/feedbackForm.json`
+    this.formData = ''
+    this._fetchFormData()
+  }
+
+  _fetchFormData() {
+    let request = makeGETRequest(this.url)
+    request.then(
+      (data) => {
+        this.formData = JSON.parse(data)
+      },
+      (status) => {
+        console.log(status)
+      }
+    )
+  }
+
+  render() {
+    let fields = ''
+    this.formData.fields.forEach(item => {
+      fields += `<div><input type="text" placeholder="${item.label}" data-validate="${item.validation}"></div>`
+    })
+    let str =
+      `
+        <h1>${this.formData.heading}</h1>
+        <form action="#">
+          ${fields}
+          <button type="submit" class="feedback-form-submit">Отправить</button>
+        </form>
+      `
+    document.querySelector(this.container).innerHTML = `<div class="feedback">${str}</div>`
+    document.querySelector('.feedback-form-submit').addEventListener('click', (e) => {
+      e.preventDefault()
+      let inputs = [...document.querySelectorAll('.feedback input')]
+      inputs.forEach(item => {
+        let regValidate = new RegExp(item.getAttribute('data-validate'))
+        if(!regValidate.test(item.value)) {
+          item.classList.add('error-field')
+        } else if(item.classList.contains('error-field')) {
+          item.classList.remove('error-field')
+        }
+      })
+
+      if(!inputs.some((item) => {item.classList.contains('error-field')})) {
+        alert('Ошибка отправки')
+      } else {
+        alert('Сообщение отправлено')
+      }
+    })
   }
 }
 
@@ -183,4 +246,29 @@ export default () => {
   let k = new Catalog(new Cart)
   k.fetchProducts()
   window.k = k
+
+  window.f = new Form()
+
+  let navigation = document.querySelector('.navigation')
+  navigation.addEventListener('click', (e) => {
+    const navItem = e.target.getAttribute('data-navitem')
+    switch (navItem) {
+      case 'catalog':
+        window.k.render()
+        break;
+
+      case 'feedback':
+        window.f.render()
+        break;
+    
+      default:
+        break;
+    }
+  })
+
+  let [btnSearch, searchField] = [document.querySelector('.btn-search'),
+                                  document.querySelector('.search-field')]
+  btnSearch.addEventListener('click', () => {
+    k.filterProducts(searchField.value)
+  })
 }

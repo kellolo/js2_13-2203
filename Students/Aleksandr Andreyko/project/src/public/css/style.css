@@ -5,8 +5,13 @@ header{
     display: flex;
     background-color: #2f2a2d;
     justify-content: space-between;
+    align-items: center;
     color: #fafafa;
     padding: 30px 80px;
+}
+.navigation {
+    margin-right: auto;
+    margin-left: 30px;
 }
 button:focus{
     outline: none;
@@ -33,12 +38,18 @@ button:focus{
 .btn-cart, .logo{
     align-self: center;
 }
-.products{
+.catalog{
     column-gap: 30px;
     display: grid;
     grid-template-columns: repeat(auto-fit, 250px);
     grid-template-rows: 1fr;
     padding: 40px 80px;
+}
+.feedback {
+    padding: 30px;
+}
+.error-field {
+    border-color: #f00;
 }
 .error {
     font-size: 20px;
