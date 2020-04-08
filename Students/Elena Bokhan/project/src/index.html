@@ -14,8 +14,8 @@
             <div class="logo">E-shop</div>
             <div class="cart">
                 <form action="#" class="search-form">
-                    <input type="text" class="search-field">
-                    <button class="btn-search">
+                    <input type="text" class="search-field" @input="search=$event.target.value">
+                    <button class="btn-search" @click="searchItem">
                         <i class="fas fa-search"></i>
                     </button>
                 </form>
