@@ -1,3 +1,5 @@
+ //vue
+ 
  //fakes
  const catalogImage ='https://placehold.it/200x150';
  const cartImage = 'https://placehold.it/100x80';
