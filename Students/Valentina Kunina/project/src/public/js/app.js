@@ -1,214 +1,266 @@
-//fakes
-const catalogImage = "https://placehold.it/200x150";
-const cartImage = "https://placehold.it/100x80";
-const API =
-  "https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses";
+let app = new Vue({
+    el: "#app",
+    data: {
+        catalog: {
+            items: [],
+            urlCatalog: "/src/public/json/catalog.json",
+        },
 
-//PARENTS
-class List {
-  constructor(url, container) {
-    this.url = url;
-    this.container = container;
-    this.items = [];
-    this._init();
-  }
+        cart: {
+            items: [],
+            urlCart: "/src/public/json/getCart.json",
+            show: false,
+        },
 
-  _init() {
-    return false;
-  }
+        fromInputSearch: ''
+    },
 
-  getData(url) {
-    return fetch(url);
-    //axios
+    methods: {
+        showCart() {
+            this.cart.show = !this.cart.show;
+        },
 
-    // return new Promise ((res, rej) => {
-    //     let xhr = new XMLHttpRequest()
+        getData(url) {
+            return fetch(url).then((data) => data.json());
+        },
 
-    //     xhr.onreadystatechange = () => {
-    //         if(xhr.readyState === 4) {
-    //             if(xhr.status === 200) {
-    //                 res(JSON.parse(xhr.responseText))
-    //             } else {
-    //                 rej()
-    //             }
-    //         }
-    //     }
+        findItem(search) {
+            return this.catalog.items.filter((item) => {
+                let searchString = search.toLowerCase();
+                let searchItem = item.product_name.toLowerCase();
+                return searchItem.startsWith(searchString);
+            })
+        },
 
-    //     xhr.open('GET', url, true)
-    //     xhr.send()
-    // })
-  }
+        // see() {
+        //     console.log(this.catalog.items)
+        // }
+    },
 
-  render() {
-    let block = document.querySelector(this.container);
-    let htmlStr = "";
-    this.items.forEach(item => {
-      //   debugger;
-      let newProd = new dependencies[this.constructor.name](item);
-      htmlStr += newProd.render();
-    });
-    block.innerHTML = htmlStr;
-  }
-}
-
-class ListItem {
-  constructor(obj, img = catalogImage) {
-    this.item = obj;
-    this.img = img;
-  }
-
-  render() {
-    return `
-            <div class="product-item">
-                <img src="https://placehold.it/300x200" alt="${this.item.product_name}">
-                <!--img src="${this.img}" width="300" height="200" alt="${this.item.product_name}"-->
-                <div class="desc">
-                    <h1>${this.item.product_name}</h1>
-                    <p>${this.item.price}</p>
-                    <button
-                    class="buy-btn"
-                    name="buy-btn"
-                    data-name="${this.item.product_name}"
-                    data-price="${this.item.price}"
-                    data-id="${this.item.id_product}"
-                    >Купить</button>
-                </div>
-            </div>
-        `;
-  }
-}
-
-//CHILDREN
-class Catalog extends List {
-  constructor(cart, url = "/catalogData.json", container = ".products") {
-    super(url, container);
-    this.cart = cart;
-  }
-
-  _init() {
-    this.getData(API + this.url)
-      .then(d => d.json())
-      .then(data => {
-        this.items = data;
-      })
-      .finally(() => {
-        this.render();
-        this._eventHandler();
-      });
-  }
-
-  _eventHandler() {
-    document.querySelector(this.container).addEventListener("click", evt => {
-      if (evt.target.name === "buy-btn") {
-        this.cart.addProduct(evt.target);
-      }
-    });
-  }
-}
-
-class Cart extends List {
-  constructor(url = "/getBasket.json", container = ".cart-block") {
-    super(url, container);
-  }
-
-  _init() {
-    this.getData(API + this.url)
-      .then(d => d.json())
-      .then(data => {
-        this.items = data.contents;
-      })
-      .finally(() => {
-        this.render();
-        this._eventHandler();
-      });
-  }
-
-  _eventHandler() {
-    document.querySelector(this.container).addEventListener("click", evt => {
-      if (evt.target.name === "del-btn") {
-        this.removeProduct(evt.target);
-      }
-    });
-  }
-
-  addProduct(item) {
-    fetch(API + "/addToBasket.json")
-      .then(d => d.json())
-      .then(data => {
-        //{result: 1}
-        if (data.result) {
-          //доделать
-          let id = Number(item.dataset["id"]);
-          let find = this.items.find(item => item.id_product === id);
-          if (find) {
-            find.quantity++;
-          } else {
-            this.items.push(prod);
-          }
-        } else {
-          throw new Error("Invalid server response");
+    computed: {
+        displayItems() {
+            return this.fromInputSearch ? this.findItem(this.fromInputSearch) : this.catalog.items;
         }
-      })
-      .then(() => {
-        this.render();
-      });
-  }
+    },
 
-  removeProduct(item) {
-    fetch(API + "/deleteFromBasket.json")
-      .then(data => data.json())
-      .then(data => {
-        if (data.result) {
-          const id = Number(item.dataset["id"]);
-          let find = this.items.find(item => item.id_product === id);
-          if (find.quantity > 1) {
-            find.quantity--;
-          } else {
-            this.items.splice(this.items.indexOf(find), 1);
-          }
-          console.log(`Removed ${item.dataset.name}`);
-        } else {
-          throw new Error("Invalid server response");
-        }
-      })
-      .then(() => {
-        this.render();
-      });
-  }
-}
+    async mounted() {
+        this.catalog.items = await this.getData(this.catalog.urlCatalog);
+        this.cart.items = await this.getData(this.cart.urlCart);
+        // this.see();
+    },
+});
 
-class CatalogItem extends ListItem {}
-class CartItem extends ListItem {
-  constructor(obj, img = cartImage) {
-    super(obj, img);
-  }
+// //fakes
+// const catalogImage = "https://placehold.it/200x150";
+// const cartImage = "https://placehold.it/100x80";
+// const API =
+//   "https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses";
 
-  render() {
-    return `<div class="cart-item" data-id="${this.item.id_product}">
-                    <img src="${this.img}" alt="">
-                    <div class="product-desc">
-                        <p class="product-title">${this.item.product_name}</p>
-                        <p class="product-quantity">${this.item.quantity}</p>
-                        <p class="product-single-price">${this.item.price}</p>
-                    </div>
-                    <div class="right-block">
-                        <button name="del-btn" class="del-btn"
-                        data-id="${this.item.id_product}"
-                        data-name="${this.item.product_name}">&times;</button>
-                    </div>
-                </div>`;
-  }
-}
+// //PARENTS
+// class List {
+//   constructor(url, container) {
+//     this.url = url;
+//     this.container = container;
+//     this.items = [];
+//     this._init();
+//   }
 
-let dependencies = {
-  Catalog: CatalogItem,
-  Cart: CartItem
-};
+//   _init() {
+//     return false;
+//   }
 
-export default () => {
-  let cart = new Cart();
-  let catalog = new Catalog(cart);
-};
+//   getData(url) {
+//     return fetch(url);
+//     //axios
+
+//     // return new Promise ((res, rej) => {
+//     //     let xhr = new XMLHttpRequest()
+
+//     //     xhr.onreadystatechange = () => {
+//     //         if(xhr.readyState === 4) {
+//     //             if(xhr.status === 200) {
+//     //                 res(JSON.parse(xhr.responseText))
+//     //             } else {
+//     //                 rej()
+//     //             }
+//     //         }
+//     //     }
+
+//     //     xhr.open('GET', url, true)
+//     //     xhr.send()
+//     // })
+//   }
+
+//   render() {
+//     let block = document.querySelector(this.container);
+//     let htmlStr = "";
+//     this.items.forEach(item => {
+//       //   debugger;
+//       let newProd = new dependencies[this.constructor.name](item);
+//       htmlStr += newProd.render();
+//     });
+//     block.innerHTML = htmlStr;
+//   }
+// }
+
+// class ListItem {
+//   constructor(obj, img = catalogImage) {
+//     this.item = obj;
+//     this.img = img;
+//   }
+
+//   render() {
+//     return `
+//             <div class="product-item">
+//                 <img src="https://placehold.it/300x200" alt="${this.item.product_name}">
+//                 <!--img src="${this.img}" width="300" height="200" alt="${this.item.product_name}"-->
+//                 <div class="desc">
+//                     <h1>${this.item.product_name}</h1>
+//                     <p>${this.item.price}</p>
+//                     <button
+//                     class="buy-btn"
+//                     name="buy-btn"
+//                     data-name="${this.item.product_name}"
+//                     data-price="${this.item.price}"
+//                     data-id="${this.item.id_product}"
+//                     >Купить</button>
+//                 </div>
+//             </div>
+//         `;
+//   }
+// }
+
+// //CHILDREN
+// class Catalog extends List {
+//   constructor(cart, url = "/catalogData.json", container = ".products") {
+//     super(url, container);
+//     this.cart = cart;
+//   }
+
+//   _init() {
+//     this.getData(API + this.url)
+//       .then(d => d.json())
+//       .then(data => {
+//         this.items = data;
+//       })
+//       .finally(() => {
+//         this.render();
+//         this._eventHandler();
+//       });
+//   }
+
+//   _eventHandler() {
+//     document.querySelector(this.container).addEventListener("click", evt => {
+//       if (evt.target.name === "buy-btn") {
+//         this.cart.addProduct(evt.target);
+//       }
+//     });
+//   }
+// }
+
+// class Cart extends List {
+//   constructor(url = "/getBasket.json", container = ".cart-block") {
+//     super(url, container);
+//   }
+
+//   _init() {
+//     this.getData(API + this.url)
+//       .then(d => d.json())
+//       .then(data => {
+//         this.items = data.contents;
+//       })
+//       .finally(() => {
+//         this.render();
+//         this._eventHandler();
+//       });
+//   }
+
+//   _eventHandler() {
+//     document.querySelector(this.container).addEventListener("click", evt => {
+//       if (evt.target.name === "del-btn") {
+//         this.removeProduct(evt.target);
+//       }
+//     });
+//   }
+
+//   addProduct(item) {
+//     fetch(API + "/addToBasket.json")
+//       .then(d => d.json())
+//       .then(data => {
+//         //{result: 1}
+//         if (data.result) {
+//           //доделать
+//           let id = Number(item.dataset["id"]);
+//           let find = this.items.find(item => item.id_product === id);
+//           if (find) {
+//             find.quantity++;
+//           } else {
+//             this.items.push(prod);
+//           }
+//         } else {
+//           throw new Error("Invalid server response");
+//         }
+//       })
+//       .then(() => {
+//         this.render();
+//       });
+//   }
+
+//   removeProduct(item) {
+//     fetch(API + "/deleteFromBasket.json")
+//       .then(data => data.json())
+//       .then(data => {
+//         if (data.result) {
+//           const id = Number(item.dataset["id"]);
+//           let find = this.items.find(item => item.id_product === id);
+//           if (find.quantity > 1) {
+//             find.quantity--;
+//           } else {
+//             this.items.splice(this.items.indexOf(find), 1);
+//           }
+//           console.log(`Removed ${item.dataset.name}`);
+//         } else {
+//           throw new Error("Invalid server response");
+//         }
+//       })
+//       .then(() => {
+//         this.render();
+//       });
+//   }
+// }
+
+// class CatalogItem extends ListItem {}
+// class CartItem extends ListItem {
+//   constructor(obj, img = cartImage) {
+//     super(obj, img);
+//   }
+
+//   render() {
+//     return `<div class="cart-item" data-id="${this.item.id_product}">
+//                     <img src="${this.img}" alt="">
+//                     <div class="product-desc">
+//                         <p class="product-title">${this.item.product_name}</p>
+//                         <p class="product-quantity">${this.item.quantity}</p>
+//                         <p class="product-single-price">${this.item.price}</p>
+//                     </div>
+//                     <div class="right-block">
+//                         <button name="del-btn" class="del-btn"
+//                         data-id="${this.item.id_product}"
+//                         data-name="${this.item.product_name}">&times;</button>
+//                     </div>
+//                 </div>`;
+//   }
+// }
+
+// let dependencies = {
+//   Catalog: CatalogItem,
+//   Cart: CartItem
+// };
+
+// export default () => {
+//   let cart = new Cart();
+//   let catalog = new Catalog(cart);
+// };
 
 //ИМИТАЦИЯ РАБОТЫ БАЗЫ ДАННЫХ И СЕРВЕРА
 
