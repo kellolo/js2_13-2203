@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        const regexp = /^'|(\s)'|(-)'|'(\s)|'$/gm
+        let strSingle = prompt('Введите текст', "-'They think it's a good idea,' said John.\n-'I don't agree,' I replied.");
+
+        if (typeof strSingle == "string") {
+            let strDouble = strSingle.replace(regexp, '$1$2"$3')
+            console.log(strDouble)
+            alert(strDouble)
+        }
+    </script>
+</body>
+</html>
