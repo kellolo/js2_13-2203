@@ -1,3 +1,53 @@
+//PARENTS
+
+class List {
+constructor(url, container){
+  this.url = url;
+  this.container = container;
+  this.items = [];
+  this._init();
+}
+_init() {
+
+  return false
+}
+getData(url){
+   return  fetch(API + url)
+}
+}
+
+
+
+
+
+class ListItem {
+
+}
+
+//CHILDREN
+class Catalog extends List {}
+class Cart extends List {}
+
+
+class CatalogItem extends List {}
+class CartItem extends List {}
+
+
+
+
+export default () => {
+  const cart = new Cart();
+  new Catalog(cart);
+};
+
+
+
+
+
+
+
+
+
 //ИМИТАЦИЯ РАБОТЫ БАЗЫ ДАННЫХ И СЕРВЕРА
 
 // let PRODUCTS_NAMES = ["Processor", "Display", "Notebook", "Mouse", "Keyboard"];
@@ -201,7 +251,7 @@ class Cart {
   }
 }
 
-export default () => {
+/*export default () => {
   const cart = new Cart();
   new Catalog(cart);
-};
+};*/
