@@ -5,7 +5,8 @@ let app = new Vue({
         items: [],
         itemsCart:[],
         url: "http://localhost:8080/src/data/catalogData.json",
-        show:false
+        show:false,
+        search:'',
     },
     methods: {
         getData() {
@@ -37,10 +38,12 @@ let app = new Vue({
             } else {
                 this.itemsCart.splice(this.itemsCart.indexOf(find), 1)
             }
+        },
+        searchItem(){
+            this.items = this.items.filter(elem=>elem.product_name==this.search)
         }
     },
     async mounted() {
-        this.items = await this.getData();
-        console.log(this.items)
+        this.items = await this.getData();        
     }
 })
