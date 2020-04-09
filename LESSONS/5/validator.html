@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        input {
+            width: 200px;
+            padding: 5px 10px;
+            margin: 10px 0;
+        }
+        input:focus{
+            outline: none;
+        }
+        button{
+            border: none;
+            background: rebeccapurple;
+            color: white;
+            padding: 10px 20px;
+            text-transform: uppercase;
+            font-weight: bold;
+            border-radius: 5px;
+        }
+        .error-msg{
+            color: red;
+            margin: 10px 0;
+        }
+        .invalid{
+            border: 2px solid red;
+        }
+        .valid{
+            border: 2px solid green;
+        }
+    </style>
+</head>
+<body>
+<form action="#" method="post" class="some" id="myform">
+    <div>
+        <label>
+            Your name <br>
+            <input type="text" name="name" id="name">
+        </label>
+    </div>
+    <div>
+        <label>
+            Your phone <br>
+            <input type="tel" name="phone" id="phone">
+        </label>
+    </div>
+    <div>
+        <label>
+            Your email <br>
+            <input type="email" name="email" id="email">
+        </label>
+    </div>
+    <div>
+        <label>
+            Your comment: <br>
+            <input type="text"> 
+        </label>
+    </div>
+    <button id="val-btn">Submit</button>
+</form>
+
+<script>
+    window.onload = () => {
+        document.querySelector('#myform').addEventListener('submit', e => {
+            let valid = new Validator('myform');
+            console.log (valid)
+            if(!valid.valid){
+                e.preventDefault();
+            }
+        })
+    }
+
+    class Validator {
+    constructor (form) {
+        this.patterns = {
+            name: /^[a-zа-яё]+$/i,
+            secondname: /^[a-zа-яё]+$/i,
+            phone: /^\+7\(\d{3}\)\d{3}-\d{4}$/,
+            email: /^[\w._-]+@\w+\.[a-z]{2,4}$/
+        }
+
+        this.errors = {
+            name: 'Имя содержит только буквы',
+            secondname: 'Фамилия содержит только буквы',
+            phone: 'Шаблон телефона +7(000)000-0000',
+            email: 'Шаблон e-mail mymail@mail.ru, my.mail@mail.ru, my-mail@mail.ru'
+        }
+
+        this.errorClass = 'error-msg'
+        this.form = form
+        this.valid = false
+        this._validateForm ()
+    }
+
+    _validateForm () {
+        let errors = [... document.getElementById(this.form).querySelectorAll (`.${this.errorClass}`)]
+        for (let error of errors) {
+            error.remove ()
+        }
+
+        let formFields = [... document.getElementById(this.form).querySelectorAll ('input')]
+        formFields.forEach (el => {this._validateField (el)})
+
+        if (![... document.getElementById(this.form).querySelectorAll ('.invalid')].length) {
+            this.valid = true
+        }
+    }
+
+    _validateField (field) {
+        if (this.patterns [field.name]) {
+            if (!this.patterns [field.name].test (field.value)) { // regExp.test (string) // true - если совпадение / false - если "не думаю"
+                field.classList.add ('invalid')
+                this._addErrorMsg (field)
+                this._watchField (field)
+            }
+        }
+    }
+
+    _addErrorMsg (field) {
+        let err = `<div class="${this.errorClass}">${this.errors [field.name]}</div>`
+        field.parentNode.insertAdjacentHTML ('beforeend', err)
+    }
+
+    _watchField (field) {
+        field.addEventListener ('input', () => {
+            let error = field.parentNode.querySelector (`.${this.errorClass}`)
+            if (this.patterns [field.name]) {
+                if (this.patterns [field.name].test (field.value)) {
+                    field.classList.remove ('invalid')
+                    field.classList.add ('valid')
+                    if (error) error.remove ()
+                } else {
+                    field.classList.remove ('valid')
+                    field.classList.add ('invalid')
+                    if (!error) this._addErrorMsg (field)
+                }
+            }
+        })
+    }
+}
+</script>
+</body>
+</html>
