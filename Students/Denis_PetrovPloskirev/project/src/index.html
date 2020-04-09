@@ -29,6 +29,7 @@
                         </div>
                         <div class="right-block">
                             <button name="del-btn" class="del-btn" 
+                            @click="removeProduct($event.target)"
                             :data-id="product.id_product"
                             :data-name="product.product_name">&times;</button>
                         </div>
@@ -57,6 +58,7 @@
                         <button 
                         class="buy-btn" 
                         name="buy-btn"
+                        @click="addProduct($event.target)"
                         :data-name="product.product_name"
                         :data-price="product.price"
                         :data-id="product.id_product"
