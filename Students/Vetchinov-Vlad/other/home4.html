@@ -24,19 +24,23 @@
     <form action="#">
         <p>Имя:</p>
         <label>
-            <input type="text" id="name" placeholder="Влад" data-error='0'>
+            <input type="text" id="name" placeholder="Влад">
+            <span class="error-msg"></span>
         </label>
         <p>Телефон</p>
         <label>
-            <input type="text" id="phone" placeholder="+7(000)000-0000" data-error='0'>
+            <input type="text" id="phone" placeholder="+7(000)000-0000">
+            <span class="error-msg"></span>
         </label>
         <p>E-mail:</p>
         <label>
-            <input type="text" id="e-mail" placeholder="mymail@mail.ru" data-error='0'>
+            <input type="text" id="e-mail" placeholder="mymail@mail.ru">
+            <span class="error-msg"></span>
         </label>
         <p>Сообщение</p>
         <label>
             <input type="text" id="text-description">
+            <span class="error-msg"></span>
         </label>
         <br><br>
         <input type="submit">
@@ -94,13 +98,13 @@
                 if (isEntry) {
                     target.classList.remove('red')
                     target.classList.add('green')
+                    target.nextElementSibling.innerText = ""
                 }
                 else {
                     target.classList.remove('green')
                     target.classList.add('red')
-                    if (target.dataset.error == '0') {
-                        target.insertAdjacentHTML("afterend", `<span>Введите данные в формате ${target.placeholder} </span>`)
-                        target.dataset.error = '1'
+                    if (target.nextElementSibling.innerText == "") {
+                        target.nextElementSibling.innerText = `Введите данные в формате ${target.placeholder}`
                     }
                 }
             }
