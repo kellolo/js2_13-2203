@@ -1,10 +1,10 @@
-//fakes
+ //fakes
 const catalogImage = 'https://placehold.it/200x150';
 const cartImage = 'https://placehold.it/100x80';
 const API = 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses';
 
-//PARENTS
-class List {
+ //PARENTS
+ class List {
     constructor(url, container) {
         this.url = url;
         this.container = container;
@@ -20,7 +20,7 @@ class List {
 
         // return new Promise ((res, rej) => {
         //     let xhr = new XMLHttpRequest()
-
+            
         //     xhr.onreadystatechange = () => {
         //         if(xhr.readyState === 4) {
         //             if(xhr.status === 200) {
@@ -44,42 +44,42 @@ class List {
         })
         block.innerHTML = htmlStr
     }
-}
+ }
 
-class ListItem {
+ class ListItem {
     constructor(obj, img = catalogImage) {
         this.item = obj
         this.img = img
     }
     render() {
         return `
-             <div class="product-item">
-                 <img src="https://placehold.it/300x200" alt="${this.item.product_name}">
-                 <!--img src="${this.img}" width="300" height="200" alt="${this.item.product_name}"-->
-                 <div class="desc">
-                     <h1>${this.item.product_name}</h1>
-                     <p>${this.item.price}</p>
-                     <button 
-                     class="buy-btn" 
-                     name="buy-btn"
-                     data-name="${this.item.product_name}"
-                     data-price="${this.item.price}"
-                     data-id="${this.item.id_product}"
-                     >Купить</button>
-                 </div>
-             </div>
-         `
+            <div class="product-item">
+                <img src="https://placehold.it/300x200" alt="${this.item.product_name}">
+                <!--img src="${this.img}" width="300" height="200" alt="${this.item.product_name}"-->
+                <div class="desc">
+                    <h1>${this.item.product_name}</h1>
+                    <p>${this.item.price}</p>
+                    <button 
+                    class="buy-btn" 
+                    name="buy-btn"
+                    data-name="${this.item.product_name}"
+                    data-price="${this.item.price}"
+                    data-id="${this.item.id_product}"
+                    >Купить</button>
+                </div>
+            </div>
+        `
     }
-}
-
-//CHILDREN
-class Catalog extends List {
-    constructor(cart, url = '/catalogData.json', container = '.products') {
+ }
+ 
+ //CHILDREN
+ class Catalog extends List {
+     constructor(cart, url = '/catalogData.json', container = '.products') {
         super(url, container);
         this.cart = cart
-    }
+     }
 
-    _init() {
+     _init() {
         this.getData(API + this.url)
             .then(d => d.json())
             .then(data => { this.items = data })
@@ -87,22 +87,22 @@ class Catalog extends List {
                 this.render()
                 this._eventHandler()
             })
-    }
+     }
 
-    _eventHandler() {
+     _eventHandler() {
         document.querySelector (this.container).addEventListener ('click', (evt) => {
             if (evt.target.name === 'buy-btn') {
                 this.cart.addProduct(evt.target)
             }
         })
-    }
-}
-class Cart extends List {
+     }
+ }
+ class Cart extends List {
     constructor(url = '/getBasket.json', container = '.cart-block') {
         super(url, container);
-    }
+     }
 
-    _init() {
+     _init() {
         this.getData(API + this.url)
             .then(d => d.json())
             .then(data => { this.items = data.contents })
@@ -110,106 +110,77 @@ class Cart extends List {
                 this.render()
                 this._eventHandler()
             })
-    }
+     }
 
-    _eventHandler() {
+     _eventHandler() {
         document.querySelector (this.container).addEventListener ('click', (evt) => {
             if (evt.target.name === 'del-btn') {
                 this.removeProduct(evt.target)
             }
         })
-    }
+     }
     addProduct(item) {
         fetch(API + '/addToBasket.json')
             .then(d => d.json())
             .then(data => {
                 //{result: 1}
                 if(data.result) {
-                    let name = item.dataset.name
-                    let find = this.items.find (product => product.product_name === name)
-                    if (find) {
-                        find.quantity++
-                    } else {
-                        let newProd = {
-                            product_name: item.dataset['name'],
-                            price: item.dataset['price'],
-                            id_product: item.dataset['id'],
-                            quantity: 1
-                        }
-
-                        this.items.push (newProd)
-                    }
-                    this.render ()
+                    //доделать
+                    console.log(`Add ${item.dataset.name}`)
                 }
             })
     }
-
-
     removeProduct(item) {
-        fetch(API + '/deleteFromBasket.json')
-            .then(d => d.json())
-            .then(data => {
-                if (data.result){
-                    let name = item.dataset.name
-                    let find = this.items.find (product => product.product_name === name)
-                    if (find.quantity > 1) {
-                        find.quantity--
-                    } else {
-                        this.items.splice (this.items.indexOf(find), 1)
-                    }
-                    this.render ()
-                }
-            })
+        console.log(`Removed ${item.dataset.name}`)
     }
-}
+ }
 
-
-class CatalogItem extends ListItem {}
-class CartItem extends ListItem {
-    constructor(obj, img = cartImage) {
-        super(obj, img)
-    }
-    render() {
-        return `<div class="cart-item" data-id="${this.item.id_product}">
-                     <img src="${this.img}" alt="">
-                     <div class="product-desc">
-                         <p class="product-title">${this.item.product_name}</p>
-                         <p class="product-quantity">${this.item.quantity}</p>
-                         <p class="product-single-price">${this.item.price}</p>
-                     </div>
-                     <div class="right-block">
-                         <button name="del-btn" class="del-btn" 
-                         data-id="${this.item.id_product}"
-                         data-name="${this.item.product_name}">&times;</button>
-                     </div>
-                 </div>`
-    }
-}
+ class CatalogItem extends ListItem {}
+ class CartItem extends ListItem {
+     constructor(obj, img = cartImage) {
+         super(obj, img)
+     }
+     render() {
+         return `<div class="cart-item" data-id="${this.item.id_product}">
+                    <img src="${this.img}" alt="">
+                    <div class="product-desc">
+                        <p class="product-title">${this.item.product_name}</p>
+                        <p class="product-quantity">${this.item.quantity}</p>
+                        <p class="product-single-price">${this.item.price}</p>
+                    </div>
+                    <div class="right-block">
+                        <button name="del-btn" class="del-btn" 
+                        data-id="${this.item.id_product}"
+                        data-name="${this.item.product_name}">&times;</button>
+                    </div>
+                </div>`
+     }
+ }
 
 let dependencies = {
     Catalog: CatalogItem,
     Cart: CartItem
 }
 
-export default () => {
+ export default () => {
     let cart = new Cart()
     let catalog = new Catalog(cart)
-}
-
-
-//ИМИТАЦИЯ РАБОТЫ БАЗЫ ДАННЫХ И СЕРВЕРА
+ }
+ 
+ 
+ //ИМИТАЦИЯ РАБОТЫ БАЗЫ ДАННЫХ И СЕРВЕРА
 
 //  let PRODUCTS_NAMES = ['Processor', 'Display', 'Notebook', 'Mouse', 'Keyboard']
 //  let PRICES = [100, 120, 1000, 15, 18]
 //  let IDS = [0, 1, 2, 3, 4]
-//  let IMGS = ['https://cs8.pikabu.ru/post_img/big/2017/12/25/5/1514188160141511997.jpg',
+//  let IMGS = ['https://cs8.pikabu.ru/post_img/big/2017/12/25/5/1514188160141511997.jpg', 
 //  'https://store.storeimages.cdn-apple.com/8756/as-images.apple.com/is/HMUB2?wid=1144&hei=1144&fmt=jpeg&qlt=80&op_usm=0.5,0.5&.v=1563827752399',
 //  'https://zeon18.ru/files/item/Xiaomi-Mi-Notebook-Air-4G-Officially-Announced-Weboo-co-2%20(1)_1.jpg',
 //  'https://files.sandberg.it/products/images/lg/640-05_lg.jpg',
 //  'https://images-na.ssl-images-amazon.com/images/I/81PLqxtrJ3L._SX466_.jpg']
 
 //  //let products = [] //массив объектов
-
+ 
 //  let catalog = {
 //     items: [],
 //     container: '.products',
@@ -253,8 +224,8 @@ export default () => {
 //                     <div class="desc">
 //                         <h1>${item.product_name}</h1>
 //                         <p>${item.price}</p>
-//                         <button
-//                         class="buy-btn"
+//                         <button 
+//                         class="buy-btn" 
 //                         name="buy-btn"
 //                         data-name="${item.product_name}"
 //                         data-price="${item.price}"
@@ -297,7 +268,7 @@ export default () => {
 //             let prod = this._createNewProduct (product)
 //             this.items.push (prod)
 //         }
-
+         
 //         this._checkTotalAndSum ()
 //         this.render ()
 //     },
@@ -317,11 +288,11 @@ export default () => {
 //         } else {
 //             this.items.splice (this.items.indexOf(find), 1)
 //         }
-
+         
 //         this._checkTotalAndSum ()
 //         this.render ()
 //     },
-
+    
 //     _checkTotalAndSum () {
 //         let qua = 0
 //         let pr = 0
