@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Document</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      width: 800px;
+      margin: 0 auto;
+      line-height: 1.5;
+    }
+
+    h1 {
+      text-align: center;
+    }
+
+    form {
+      font-size: 20px;
+      margin: 0 auto;
+    }
+
+    label {
+      display: block;
+      margin: 15px auto 0 auto;
+    }
+
+    input,
+    textarea {
+      display: block;
+      height: 30px;
+      margin: 0 auto;
+      width: 300px;
+      font-size: 16px;
+      outline: none;
+      border: 1px solid #888;
+      border-radius: 5px;
+      padding: 0 10px;
+    }
+
+    .valid {
+      border-color: #0f0;
+    }
+
+    .invalid {
+      border-color: #f00;
+    }
+
+    textarea {
+      height: 100px;
+    }
+
+    input[type="submit"] {
+      cursor: pointer;
+      background-color: #333;
+      color: #ddd;
+      margin-top: 30px;
+      transition: background-color .5s ease-in-out;
+    }
+
+    .remark {
+      opacity: 0;
+      margin: 0 auto 10px auto;
+      text-align: center;
+      font-size: 16px;
+      color: darkred;
+      transition: opacity .3s ease-in-out;
+    }
+
+    input[type="submit"].err {
+      background-color: darkred;
+    }
+
+    input[type="submit"].valided {
+      background-color: darkgreen;
+    }
+
+    .show {
+      opacity: 1;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>Form Validation</h1>
+  <form action="#" id="validationForm">
+    <label>
+      <input id="nameField" type="text" name="Name" placeholder="Имя">
+      <p class="remark" id="NameRemark">Укажите только имя</p>
+    </label>
+    <label>
+      <input id="phoneField" type="text" name="Phone" placeholder="+7(495)123-4567">
+      <p class="remark" id="PhoneRemark">Укажите телефон в формате +7(495)123-4567</p>
+    </label>
+    <label>
+      <input id="mailField" type="text" name="Mail" placeholder="e-mail">
+      <p class="remark" id="MailRemark">Укажите e-mail в корректном формате</p>
+    </label>
+    <label>
+      <textarea name="Message" id="textField" placeholder="Сообщение" rows="10"></textarea>
+    </label>
+
+    <input type="submit" value="Отправить">
+    <p class="errMessage remark">Корректно заполните все поля</p>
+  </form>
+
+  <script>
+    class FormValidationInterface {
+      constructor(containerID, nameID, telID, mailID) {
+        this.container = document.querySelector(containerID)
+        this.nameField = this.container.querySelector(nameID)
+        this.telField = this.container.querySelector(telID)
+        this.mailField = this.container.querySelector(mailID)
+        this.regName = /^[а-я]+$|^[a-z]+$/i
+        this.regPhone = /^\+\d\(\d{3}\)\d{3}\-\d{4}$/
+        this.regMail = /^\w+(\.|\-)?\w+\@\w+\.\w{2,10}$/i
+        this.regMessage = /./i
+        this.validation = false
+        this.init()
+      }
+
+      validateInput(e) {
+        this.validateResult = this[`reg${e.target.name}`].test(e.target.value)
+        this.showInputResult(e)
+      }
+
+      showInputResult(e) {
+        let rem = this.container.querySelector(`#${e.target.name}Remark`)
+        if (this.validateResult) {
+          e.target.classList.add('valid')
+          e.target.classList.remove('invalid')
+          rem && rem.classList.remove('show')
+        } else {
+          e.target.classList.remove('valid')
+          e.target.classList.add('invalid')
+          rem && rem.classList.add('show')
+        }
+      }
+
+      checkForm(e) {
+        e.preventDefault()
+        let val = this.container.querySelectorAll('.valid')
+        val.length == 4 ? this.validation = true : this.validation = false
+        this.showResult()
+      }
+
+      showResult() {
+        if (this.validation) {
+          this.container.querySelector('.errMessage').classList.remove('show')
+          this.container.querySelector('input[type="submit"]').classList.add('valided')
+        } else {
+          this.container.querySelector('.errMessage').classList.add('show')
+          this.container.querySelector('input[type="submit"]').classList.remove('valided')
+          this.container.querySelector('input[type="submit"]').classList.add('err')
+          setTimeout(() => {
+            this.container.querySelector('.errMessage').classList.remove('show')
+            this.container.querySelector('input[type="submit"]').classList.remove('err')
+          }, 2000)
+        }
+      }
+      
+      init() {
+        this.container.addEventListener('change', (e) => {
+          this.validateInput(e)
+        })
+        this.container.addEventListener('submit', (e) => {
+          this.checkForm(e)
+        })
+      }
+    }
+
+    let form = new FormValidationInterface('#validationForm', '#nameField', '#phoneField', '#mailField')
+  </script>
+</body>
+
+</html>
