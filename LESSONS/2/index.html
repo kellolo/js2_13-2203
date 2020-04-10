@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <script>
+        class Human {
+            constructor(n, a, g = 'male') {
+                this.name = n
+                this.age = a
+                this.gender = g
+
+                this._greet()
+            }
+
+            goWork() {
+                console.log(this.name + ' goes work :(')
+            }
+
+            _greet() {
+                console.log(this.name + ' greets you')
+            }
+        }
+
+        class Male extends Human { }
+
+        class Female extends Human {
+            constructor(n, a, g = 'female') {
+                super(n, a, g)
+                this.isPregnant = false
+            }
+            getChild() {
+                if(this.isPregnant) {
+                    console.log(this.name + ' is now pregnant')
+                    this.isPregnant = true
+                } else {
+                    console.log(this.name + ' is already pregnant')
+                }
+            }
+        }
+
+        let oleg = new Male ('Oleg', 25)
+        let olga = new Female ('Olga', 23)
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <style>
+        form {
+            width: 300px
+        }
+        label {
+            display: block;
+            margin-bottom: 10px;
+        }
+    </style>
+</head>
+<body>
+    <form action="#" id="uForm">
+        <fieldset>
+            <label>
+                <input type="radio" name="burger" value="big" data-price = '100', data-calories = '40'> Большой бургер (100$, 40 ccal)
+            </label>
+            <label>
+                <input type="radio" name="burger" value="small" data-price = '50', data-calories = '20' checked> Маленький бургер (50$, 20 ccal)
+            </label>
+        </fieldset>
+        <fieldset>
+            <label>
+                <input type="checkbox" name="filling" value="cheese" data-price = "10" data-calories = "20"> С сыром (10$, 20 ccal)
+            </label>
+            <label>
+                <input type="checkbox" name="filling" value="salad" data-price = "20" data-calories = "5"> С салатом (20$, 5 ccal)
+            </label>
+            <label>
+                <input type="checkbox" name="filling" value="potato" data-price = "15" data-calories = "10"> С картофелем (15$, 10ccal)
+            </label>
+        </fieldset>
+        <fieldset>
+            <label>
+                <input type="checkbox" name="topping" value="spice" data-price = "15" data-calories = "0"> Со специями (15$, 0 ccal)
+            </label>
+            <label>
+                <input type="checkbox" name="topping" value="souse" data-price = "20" data-calories = "5"> С майонезом (20$, 5 ccal)
+            </label>
+        </fieldset>
+    </form>
+
+    <button id="okBtn">Choise Burger</button>
+    <script>
+        let form = document.querySelector ('#uForm')
+        let btn = document.querySelector ('#okBtn')
+        let burgers = []
+
+        btn.addEventListener ('click', choiseBurger)
+
+        function choiseBurger () {
+            let newBurger= new Burger ('burger', 'filling', 'topping', 'sum', 'sumCal')
+            burgers.push (newBurger)
+        }
+
+
+
+        class Burger {
+            constructor(burger, filling, topping) {
+                this.Burger = this._check(burger)
+                this.Filling = this._getArrayFilling(filling)
+                this.Topping = this._getArrayTopping(topping)
+                this.sum = this._price(burger, filling, topping);
+                this.cal = this._calories(burger, filling, topping);
+            }
+
+            _check(attrName) {
+                let obj = document.querySelector(`input[name=${attrName}]:checked`)
+                return obj.value
+            }
+
+            _getArrayFilling(attrName) {
+                let objArrF = [...document.querySelectorAll(`input[name=${attrName}]:checked`)]
+                let arr = []
+                objArrF.forEach(el => {
+                    arr.push(el.value)
+                })
+                return arr
+            }
+
+            _getArrayTopping(attrName) {
+                let objArrT = [...document.querySelectorAll(`input[name=${attrName}]:checked`)]
+                let arr = []
+                objArrT.forEach(el => {
+                    arr.push(el.value)
+                })
+                return arr
+            }
+
+            _price(attrBurger, attrFilling, attrTopping) {
+                let sum = 0;
+                let obj = document.querySelector(`input[name=${attrBurger}]:checked`)
+                sum = +obj.dataset['price']
+                let objArrFilling = [...document.querySelectorAll(`input[name=${attrFilling}]:checked`)]
+                objArrFilling.forEach(el => { sum += + el.dataset.price })
+                let objArrTopping = [...document.querySelectorAll(`input[name=${attrTopping}]:checked`)]
+                objArrTopping.forEach(el => { sum += + el.dataset.price })
+                return sum
+            }
+
+            _calories(attrBurger, attrFilling, attrTopping) {
+                let sumCal = 0;
+                let obj = document.querySelector(`input[name=${attrBurger}]:checked`)
+                sumCal = +obj.dataset['calories']
+                let objArrFilling = [...document.querySelectorAll(`input[name=${attrFilling}]:checked`)]
+                objArrFilling.forEach(el => { sumCal+= + el.dataset.calories })
+                let objArrTopping = [...document.querySelectorAll(`input[name=${attrTopping}]:checked`)]
+                objArrTopping.forEach(el => { sumCal+= + el.dataset.calories })
+                return sumCal
+            }
+
+        }
+
+
+    </script>
+</body>
+</html>

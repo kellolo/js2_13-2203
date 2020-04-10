@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <style>
+        .invalid{
+            border:2px solid red;
+        }
+        .valid{
+            border:2px solid green;
+        }
+        .error-msg{
+            color: red;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <form id="SuperForm" method="POST" action="#">
+        <div>
+            <label>Имя</label>
+            <input name="name" type="text"><br>
+        </div>
+        <div>
+            <label>Телефон</label>
+            <input name="phone" type="text"><br>
+        </div>
+        <div>
+            <label>E-mail</label>
+            <input name="email" type="text"><br>
+        </div>
+        <div>
+            <label>текст</label>
+            <input name="text" type="text"><br>
+        </div>
+        <button>Отправить</button>
+    </form>
+
+    <script src="scr.js"></script>
+</body>
+</html>
+
