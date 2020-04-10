@@ -5,7 +5,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
-    <title>Home_work_5</title>
+    <title>Shop (H.W 5)</title>
 </head>
 
 <body>
@@ -14,8 +14,8 @@
             <div class="logo">E-shop</div>
             <div class="cart">
                 <form action="#" class="search-form">
-                    <input type="text" class="search-field" @input="search=$event.target.value">
-                    <button class="btn-search" @click="searchItem">
+                    <input type="text" class="search-field">
+                    <button class="btn-search">
                         <i class="fas fa-search"></i>
                     </button>
                 </form>
@@ -35,7 +35,8 @@
                                 <p class="product-single-price">{{item.price}}</p>
                             </div>
                             <div class="right-block">
-                                <button name="del-btn" class="del-btn" v-bind:data-id="item.id_product" @click="deleteCart">&times;</button>
+                                <button name="del-btn" class="del-btn" v-bind:data-id="item.id_product"
+                                    @click="deleteCart">&times;</button>
                             </div>
                         </div>
                     </div>
@@ -56,7 +57,8 @@
                         <h1>{{item.product_name}}</h1>
                         <p>{{item.price}}</p>
                         <button class="buy-btn" name="buy-btn" v-bind:data-name="item.product_name"
-                        v-bind:data-price="item.price" v-bind:data-id="item.id_product" @click="addCart">Купить</button>
+                            v-bind:data-price="item.price" v-bind:data-id="item.id_product"
+                            @click="addCart">Купить</button>
                     </div>
                 </div>
             </div>
@@ -65,9 +67,11 @@
 
 
 
-<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
-<script defer src="https://use.fontawesome.com/releases/v5.7.2/js/all.js" integrity="sha384-0pzryjIRos8mFBWMzSSZApWtPl/5++eIfzYmTgBBmXYdhvxPc+XcFEk+zJwDgWbP" crossorigin="anonymous"></script>
-<script src="js/main.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script defer src="https://use.fontawesome.com/releases/v5.7.2/js/all.js"
+        integrity="sha384-0pzryjIRos8mFBWMzSSZApWtPl/5++eIfzYmTgBBmXYdhvxPc+XcFEk+zJwDgWbP" crossorigin="anonymous">
+    </script>
+    <script src="js/main.js"></script>
 </body>
 
 </html>
