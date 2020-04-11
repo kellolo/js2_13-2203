@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<style>
+    * {
+        padding: 0;
+        margin: 0;
+    }
+    
+    body {
+        background-color: slategrey;
+    }
+    
+    h1 {
+        font-size: 25px;
+    }
+    
+    form {
+        background-color: ghostwhite;
+    }
+    
+    fieldset {
+        padding: 5px;
+        border: 1px solid black;
+    }
+    
+    .container {
+        margin: 0 auto;
+        text-align: center;
+        width: 660px;
+        font-size: 16px;
+        font-family: 'Spicy Rice', cursive;
+    }
+    
+    .name-field {
+        display: block;
+    }
+    
+    label {
+        display: inline-block;
+        width: 200px;
+        height: 100px;
+        background-size: 100px 100px;
+        background-repeat: no-repeat;
+        background-position-x: center;
+    }
+    
+    label#small {
+        background-image: url(img/burger-small.png);
+    }
+    
+    label#big {
+        background-image: url(img/burger-big.png);
+    }
+    
+    label#cheese {
+        background-image: url(img/cheese.png);
+    }
+    
+    label#salad {
+        background-image: url(img/salad.png);
+    }
+    
+    label#potato {
+        background-image: url(img/potato.png);
+    }
+    
+    label#priprava {
+        background-image: url(img/priprava.jpg);
+    }
+    
+    label#mayonez {
+        background-image: url(img/mayonez.png);
+    }
+    
+    .result_field {
+        text-align: left;
+        position: relative;
+    }
+    
+    label > input[type=radio],
+    input[type=checkbox] {
+        display: none;
+    }
+    
+    .empty-span {
+        display: inline-block;
+        width: 200px;
+        height: 100px;
+        vertical-align: middle;
+    }
+    
+    input[type="submit"] {
+        float: right;
+        text-align: center;
+        padding: 10px;
+        position: absolute;
+        right: 30px;
+        top: calc(50% - 13px);
+    }
+    
+    input:checked + span {
+        border-bottom: 3px solid green;
+        padding-bottom: 0px;
+    }
+    input + span {
+        padding-bottom: 3px
+     }
+</style>
+
+<head>
+    <link href="https://fonts.googleapis.com/css2?family=Spicy+Rice&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <title>Make burger</title>
+</head>
+
+<body>
+    <div class="container">
+        <h1>Собери бургер</h1>
+        <form action="#">
+            <fieldset> <span class="name-field">Размер</span>
+                <label id="small">
+                    <input type="radio" name="size" value="Маленький" data-price="50" data-calory="20" checked><span class="empty-span"></span><span>Маленький</span></label>
+                <label id="big">
+                    <input type="radio" name="size" value="Большой" data-price="100" data-calory="40"><span class="empty-span"></span><span>Большой</span> </label>
+            </fieldset>
+            <fieldset> <span class="name-field">Содержимое бургера</span>
+                <label id="cheese">
+                    <input type="radio" name="filling" value="Сыр" data-price="10" data-calory="20" checked><span class="empty-span"></span><span>С сыром</span> </label>
+                <label id="salad">
+                    <input type="radio" name="filling" value="Салат" data-price="20" data-calory="5"><span class="empty-span"></span><span>С салатом </span> </label>
+                <label id="potato">
+                    <input type="radio" name="filling" value="Картофель" data-price="15" data-calory="10"><span class="empty-span"></span><span>С картофелем</span> </label>
+            </fieldset>
+            <fieldset> <span class="name-field">Дополнительно</span>
+                <label id="priprava">
+                    <input type="checkbox" name="topping" value="Приправа" data-price="15" data-calory="0"><span class="empty-span"></span><span>Посыпать приправой</span> </label>
+                <label id="mayonez">
+                    <input type="checkbox" name="topping" value="Майонез" data-price="20" data-calory="5"><span class="empty-span"></span><span>Полить майонезом</span> </label>
+            </fieldset>
+            <fieldset class="result_field"> <span class="name-field">Итого</span>
+                <p class="result_price"></p>
+                <p class="result_calory"></p>
+                <p class="result_size">Размер: Маленький</p>
+                <p class="result_filling">Начинка: Сыр</p>
+                <p class="result_topping">Дополнительно:</p>
+                <input type="submit" value="Заказать"> </fieldset>
+        </form>
+    </div>
+</body>
+<script>
+    'use strict'
+    class Hamburger {
+        constructor(size, filling, topping) {
+            this.size = this._getInput(size)
+            this.filling = this._getInput(filling)
+            this.topping = this._getArrayInput(topping)
+            this._init()
+        }
+        _init() {
+            this._renderPriceCalory()
+            this._getSumPriceAndCalory()
+            this._getDataResult()
+        }
+        _getInput(atrrName) {
+            let obj = document.querySelector(`input[name='${atrrName}']:checked`)
+            return obj.value
+        }
+        _getArrayInput(atrrName) {
+            let arr = []
+            let items = document.querySelectorAll(`input[name='${atrrName}']:checked`)
+            items.forEach(item => arr.push(item.value))
+            return arr
+        }
+        _renderPriceCalory() {
+            let labels = [...document.querySelectorAll("label")]
+            labels.forEach(label => {
+                let input = label.querySelector('input')
+                let price = input.dataset.price
+                let calory = input.dataset.calory
+                input.parentNode.insertAdjacentHTML("beforeend", `<span> +${price} рублей +${calory} калорий</span>`)
+            })
+        }
+        _getDataResult() {
+            let form = document.querySelector('form')
+            form.addEventListener('input', this._getSumPriceAndCalory)
+            form.addEventListener('input', this._getSizeFillingTopping)
+        }
+        _getSumPriceAndCalory() {
+            let resultPrice = document.querySelector('.result_price')
+            let resultCalory = document.querySelector('.result_calory')
+            let sumPrice = 0
+            let sumCalory = 0
+            let checkedInput = [...document.querySelectorAll('input:checked')]
+            checkedInput.forEach(item => {
+                sumPrice += +item.dataset.price
+                sumCalory += +item.dataset.calory
+            })
+            resultPrice.textContent = 'Стоимость: ' + sumPrice + ' рублей'
+            resultCalory.textContent = 'ЭнергЦен: ' + sumCalory + ' калорий'
+        }
+        _getSizeFillingTopping() {
+            let resultSize = document.querySelector('.result_size')
+            resultSize.textContent = 'Размер: ' + this.size.value
+            let resultFilling = document.querySelector('.result_filling')
+            resultFilling.textContent = 'Начинка: ' + this.filling.value
+            let toppings = [...document.querySelectorAll('input[name=topping]:checked')]
+            let resultTopping = document.querySelector('.result_topping')
+            resultTopping.textContent = 'Дополнительно:'
+            toppings.forEach(topping => {
+                resultTopping.textContent += ' ' + topping.value + ','
+            })
+        }
+    }
+    let hamburger = new Hamburger('size', 'filling', 'topping')
+</script>
+
+</html>
