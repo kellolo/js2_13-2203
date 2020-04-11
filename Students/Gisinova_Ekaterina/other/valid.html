@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        input {
+            width: 200px;
+            padding: 5px 10px;
+            margin: 0px 0;
+            border-radius: 5px;
+        }
+
+        button{
+            border: none;
+            background: black;
+            color: white;
+            padding: 10px 20px;
+            font-weight: bold;
+            border-radius: 5px;
+            margin-top: 30px;
+        }
+
+        .invalid{
+            border: 2px solid red;
+        }
+        .valid{
+            border: 2px solid green;
+        }
+    </style>
+</head>
+<body>
+<form action="#" method="post" class="some" id="myform">
+    <div>
+        <label>
+            <p> Введите ваше имя</p>
+            <input type="text" name="name" id="name">
+        </label>
+    </div>
+    <div>
+        <label>
+            <p> Введите телефон в формате +7(000)000-0000</p>
+            <input type="tel" name="phone" id="phone">
+        </label>
+    </div>
+    <div>
+        <label>
+            <p> Введите ваш email в формате "mymail@mail.ru, или my.mail@mail.ru, или my-mail@mail.ru"</p>
+            <input type="email" name="email" id="email">
+        </label>
+    </div>
+    <button id="val-btn">Submit</button>
+</form>
+
+<script>
+
+    let name = document.querySelector('#name');
+    let phone = document.querySelector('#phone');
+    let email = document.querySelector('#email');
+
+    name.addEventListener('change', checkUserName);
+
+    function checkUserName(n) {
+        const regName =  /^[a-zа-яё]+$/i;
+        const check = regName.test(n.target.value);
+        if (!check) {
+            name.classList.add('invalid');
+        } else {
+            name.classList.add('valid');
+        }
+    }
+
+    phone.addEventListener('change', checkUserPhone);
+
+    function checkUserPhone(n) {
+        const regPhone = /^\+7\(\d{3}\)\d{3}-\d{4}$/;
+        const check = regPhone.test(n.target.value);
+        if (!check) {
+            phone.classList.add('invalid');
+        } else {
+            phone.classList.add('valid');
+        }
+    }
+
+    email.addEventListener('change', checkUserEmail);
+
+    function checkUserEmail(e) {
+        const regEmail =  /^[\w._-]+@\w+\.[a-z]{2,4}$/;
+        const check = regEmail.test(e.target.value);
+        if (!check) {
+            email.classList.add('invalid');
+        } else {
+            email.classList.add('valid');
+        }
+    }
+
+
+    // class ValidationForm {
+    //     constructor(name, phone, email){
+    //         this.name = document.querySelector('#name');
+    //         this.phone = document.querySelector('#phone');
+    //         this.email = document.querySelector('#email');
+    //     }
+    //
+    //     checkUserName(name) {
+    //         this.name.addEventListener('change', () => {
+    //             let regName = /^[a-zа-яё]+$/i;
+    //             let check = regName.test(this.name.target.value);
+    //             if (!check) {
+    //                 this.name.classList.add('invalid')
+    //             } else {
+    //                 this.name.classList.add('valid')
+    //             }
+    //         })
+    //     }
+    //
+    //
+    //     checkUserPhone(phone) {
+    //         this.phone.addEventListener('change', () => {
+    //             let regPhone =  /^\+7\(\d{3}\)\d{3}-\d{4}$/;
+    //             let check = regPhone.test(this.phone.target.value);
+    //             if (!check) {
+    //                 this.phone.classList.add('invalid')
+    //             } else {
+    //                 this.phone.classList.add('valid')
+    //             }
+    //         })
+    //     }
+    //
+    //
+    //     checkUserEmail(email) {
+    //         this.email.addEventListener('change', () => {
+    //             let regEmail = /^[\w._-]+@\w+\.[a-z]{2,4}$/;
+    //             let check = regEmail.test(this.email.target.value);
+    //             if (!check) {
+    //                 this.email.classList.add('invalid')
+    //             } else {
+    //                 this.email.classList.add('valid')
+    //             }
+    //         })
+    //     }
+    //
+    // }
+    //
+    // let valid = new ValidationForm ('#name', '#phone', '#email')
+
+
+</script>
+</body>
+</html>

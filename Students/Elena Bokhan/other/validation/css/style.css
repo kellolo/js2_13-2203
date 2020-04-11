@@ -1,0 +1,47 @@
+.task-one{
+    width: 400px;
+    height: 300;
+}
+.quotes{
+    background-color: rgb(106, 110, 119); 
+    color: white;
+    padding: 10px 20px;
+    text-transform: uppercase;
+}
+hr{
+    margin: 30px;
+}
+form{
+    width: 400px;
+    height: 500px;
+}
+input {
+    display: block;
+}
+label{
+    font-family: Arial, Helvetica, sans-serif;
+    color: darkgrey;
+    font-size: 14px;
+}
+button{
+    display: block;
+    background-color: rgb(106, 110, 119);
+    color: white;
+    outline-style: none;
+    border-style: none;
+    margin: 15px;
+    width: 100px;
+    padding: 10px 10px;       
+}
+button:hover{
+    background-color: rgb(146, 146, 146);
+}
+button:disabled{
+    background-color: rgb(175, 175, 175); 
+}
+.valid-border{
+    border: 2px solid green;
+}
+.unvalid-border{
+    border: 2px solid rgb(104, 9, 17);
+}
