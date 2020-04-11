@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        .container {
+            display: flex;
+            flex-direction: column;
+            width: 40%;
+            margin: 0 auto
+        }
+        .post {
+            border-radius: 5px;
+            border: 2px solid grey;
+            padding: 15px;
+            margin-bottom: 10px
+        }
+        .post-footer {
+            text-align: right
+        }
+        .font-it {
+            font-style: italic
+        }
+        .red {
+            color: red
+        }
+    </style>
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <div class="container">
+
+            <div class="post" v-for="item of items" :key="item.id">
+                <div class="user">
+                    <strong>{{ item.name }}</strong>
+                </div>
+                <button @click="toggle(item)"> {{ !item.hidden ? '-' : '+' }} </button>
+                <div class="post-body" v-show="!item.hidden">
+                    {{ item.body }}    
+                </div>
+                <div class="post-footer">
+                    <a href="#"> {{ item.email }} </a>
+                </div>
+            </div>
+
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+        let app = new Vue ({
+            el: '#app',
+            data: {
+                items: [],
+                url: './comments.json',
+                show: true
+            },
+            methods: {
+                getData() {
+                    return fetch(this.url).then(d => d.json())
+                },
+                toggle(el) {
+                    el.hidden ? el.hidden = !el.hidden : this.$set(el, 'hidden', true)
+                    console.log(el)
+                }
+            },
+            async mounted() {
+                this.items = await this.getData()
+                // console.log(this.items)
+            }
+        })
+    </script>
+</body>
+</html>
