@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Reg</title>
+  </head>
+  <body>
+    <div class="container">
+      <p id ='txt'>'You haven't to do anything, silly' - she said.</p>
+      <p id ='txt2'></p>
+    </div>
+    <script>
+        txt = document.getElementById('txt').textContent;
+        reg = /('\B|\B')/g;
+        newTxt = txt.replace(reg, '"');
+        document.getElementById('txt2').textContent = newTxt;
+    </script>
+  </body>
+</html>
