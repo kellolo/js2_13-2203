@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>RegExp</title>
+</head>
+
+<body>
+    <style>
+        .green {
+            border: 5px solid green;
+        }
+
+        .red {
+            border: 5px solid red;
+        }
+    </style>
+    <p class="text"> Он произнёс: 'Мне что-то нездоровится сегодня', — и умолк;
+        <br> И только когда он шептал: 'Мама! Мама!' — ему становилось как будто легче.
+        <br> На вопрос мой: 'Жив ли старый смотритель?' — никто не мог дать мне удовлетворительного ответа.
+        <br> Aren't </p>
+    <hr>
+    <form action="#">
+        <p>Имя:</p>
+        <label>
+            <input type="text" id="name" placeholder="Влад">
+            <span class="error-msg"></span>
+        </label>
+        <p>Телефон</p>
+        <label>
+            <input type="text" id="phone" placeholder="+7(000)000-0000">
+            <span class="error-msg"></span>
+        </label>
+        <p>E-mail:</p>
+        <label>
+            <input type="text" id="e-mail" placeholder="mymail@mail.ru">
+            <span class="error-msg"></span>
+        </label>
+        <p>Сообщение</p>
+        <label>
+            <input type="text" id="text-description">
+            <span class="error-msg"></span>
+        </label>
+        <br><br>
+        <input type="submit">
+    </form>
+    <script>
+        //1 Задание
+        let text = document.querySelector('.text').innerText
+
+        function replaceQuot() {
+            const reg = /\B'/g
+            document.querySelector('.text').innerText = text.replace(reg, '"')
+        }
+        replaceQuot()
+        //2 Задание
+        class Form {
+            constructor() {
+                this.form = document.querySelector('form')
+                this.inputs = [...document.querySelectorAll('input[type="text"]')]
+                this._init()
+            }
+            _init() {
+                this._handleEvent()
+            }
+            _handleEvent() {
+                this.inputs.forEach((input) => {
+                    input.addEventListener('keyup', (event) =>{
+                        this._handleKeyUp(event.target)
+                    })
+                })
+            }
+            
+            _handleKeyUp(target) {
+                let isEntry = this._handleChangeInput(target)
+                this._handleError(isEntry, target)
+            }
+            //Сравнение input.value с регулярным выражением
+            _handleChangeInput(target) {
+                const name = /^([a-zа-яё ]+)$/
+                const phone = /^(\+7\(\d{3}\)\d{3}-\d{4})$/
+                const email = /^([a-z0-9_\.-]+)@([a-z0-9_\.-]+)\.([a-z\.]{2,6})$/
+                let isEntry
+                if (target.id == 'name') {
+                    isEntry = name.test(target.value)
+                }
+                else if (target.id == 'phone') {
+                    isEntry = phone.test(target.value)
+                }
+                else if (target.id == 'e-mail') {
+                    isEntry = email.test(target.value)
+                } else { return true}
+                return isEntry
+            }
+            //Добавление рамки для input и вывод сообщения
+            _handleError(isEntry, target) {
+                if (isEntry) {
+                    target.classList.remove('red')
+                    target.classList.add('green')
+                    target.nextElementSibling.innerText = ""
+                }
+                else {
+                    target.classList.remove('green')
+                    target.classList.add('red')
+                    if (target.nextElementSibling.innerText == "") {
+                        target.nextElementSibling.innerText = `Введите данные в формате ${target.placeholder}`
+                    }
+                }
+            }
+        }
+        let form = new Form()
+    </script>
+</body>
+
+</html>

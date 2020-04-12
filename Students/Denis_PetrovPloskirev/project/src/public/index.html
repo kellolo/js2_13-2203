@@ -8,7 +8,7 @@
 </head>
 <body>
     <div id="app">
-        <header>
+        <!-- <header>
             <div class="logo">E-shop</div>
             <div class="cart">
                 <form action="#" class="search-form">
@@ -19,11 +19,8 @@
                 </form>
                 <button class="btn-cart" @click="showCart">Cart</button>
                 <div class="cart-block" v-show="cart.show">
-                    <div class="d-flex">
-                        <strong class="d-block">Всего товаров </strong> <div id="quantity">{{cart.totalAmount}}</div>
-                    </div> 
-                    <hr>
-                    <div class="cart-items" :data-id="product.id_product" v-for="product of cart.items">
+
+                    <div class="cart-item" :data-id="product.id_product" v-for="product of cart.items">
                         <img src="https://placehold.it/100x80" alt="#">
                         <div class="product-desc">
                             <p class="product-title">{{product.product_name}}</p>
@@ -32,13 +29,21 @@
                         </div>
                         <div class="right-block">
                             <button name="del-btn" class="del-btn" 
+                            @click="removeProduct($event.target)"
                             :data-id="product.id_product"
                             :data-name="product.product_name">&times;</button>
                         </div>
                     </div>
+                    <div class="d-flex">
+                        <strong class="d-block">Всего товаров </strong> <div id="quantity">{{this.cart.totalAmount}}</div>
+                    </div>
+                    <hr>
+                    <div class="cart-items">
+                        
+                    </div>
                     <hr>
                     <div class="d-flex">
-                        <strong class="d-block">Общая ст-ть:</strong> <div id="price">{{cart.totalCost}}</div>
+                        <strong class="d-block">Общая ст-ть:</strong> <div id="price">{{this.cart.totalCost}}</div>
                     </div>
                 </div>
             </div>
@@ -53,6 +58,7 @@
                         <button 
                         class="buy-btn" 
                         name="buy-btn"
+                        @click="addProduct($event.target)"
                         :data-name="product.product_name"
                         :data-price="product.price"
                         :data-id="product.id_product"
@@ -60,18 +66,14 @@
                     </div>
                 </div>
             </div>
-        </main>
+        </main> -->
     </div>
+    
     
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script defer src="https://use.fontawesome.com/releases/v5.7.2/js/all.js" integrity="sha384-0pzryjIRos8mFBWMzSSZApWtPl/5++eIfzYmTgBBmXYdhvxPc+XcFEk+zJwDgWbP" crossorigin="anonymous"></script>
 </body>
 </html>
-
-
-
-
-
 
 
 
