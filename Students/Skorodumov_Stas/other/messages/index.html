@@ -8,18 +8,32 @@
 </head>
 
 <body>
-    <div class="center">
+    <div id="form-center">
         <h2 id="form-title">Форма отправки сообщения</h2>
-        <form method="post" class="message-form">
-            <p id="form-description">Заполните все данныe</p>
-            <textarea id="user-text" name="textarea" placeholder="Напишите Ваше сообщение" required></textarea>
-            <input id="user-name" type="text" name="name" placeholder="Ваше имя" required>
-            <input id="user-email" type="text" name="email" placeholder="Email" required>
-            <input id="user-phone" type="tel" name="phone" placeholder="Номер формата +7(000)000-0000" required>
-            <input id="user-submit" type="submit" value="Отправить">
+        <form action="#" method="post" id="message-form" class="some">
+            <p id="form-description">* Заполните все данныe</p>
+            <label>
+                <textarea class="user-text" id="user-text" name="textarea" placeholder="Напишите Ваше сообщение" required></textarea>
+                <input onclick="regText(strMessage)" id="userInput" type="button" value="Замените кавычки"></label>
+            <label>
+                <input id="user-name" type="text" name="name" placeholder="Ваше имя" required>
+            </label>
+            <label>
+                <input id="user-email" type="text" name="email" placeholder="Ваш email" required>
+            </label>
+            <label>
+                <input id="user-phone" type="tel" name="phone" placeholder="Укажите номер телефона" required>
+            </label>
+            <button id="user-submit" type="submit" value="Отправить">Отправить</button>
         </form>
+        <article class="article">
+            <p id="desc-name">Имя содержит только буквы *</p>
+            <p id="desc-email">E-mail имеет вид mymail@mail.ru или my.mail@mail.ru или my-mail@mail.ru *</p>
+            <p id="desc-phone">Номер телефона имеет вид +7(000)000-0000 *</p>
+        </article>
+
     </div>
-    <script src="./public/js/main.js"></script>      
+    <script src="./public/js/main.js"></script>
 </body>
 
 </html>
