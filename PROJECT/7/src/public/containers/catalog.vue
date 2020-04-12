@@ -12,7 +12,8 @@ export default {
     data() {
         return {
             items: [],
-            url: 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses/catalogData.json'
+            // url: 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses/catalogData.json'
+            url: '/api/catalog'
         }
     },
     methods: {
@@ -20,10 +21,16 @@ export default {
             this.$parent.$refs.cartRef.addItem(item)
         },
         addNewCatalogItem(p) {
-            this.items.push({
-                id_product: new Date() + '',
-                product_name: p.name,
-                price: p.price
+            let newItem = JSON.parse(JSON.stringify(p));
+            this.$parent.post(this.url, newItem)
+            .then(res => {
+                if(res.id) {
+                    this.items.push({
+                        id_product: res.id,
+                        product_name: newItem.product_name,
+                        price: newItem.price
+                    })
+                }
             })
         }
     },

@@ -25,7 +25,7 @@
     <template v-else-if="type === 'temp'">
         <div class="desc w-75">
             <label >
-                <input type="text" placeholder="Item name" v-model="newProduct.name" class="w-50">
+                <input type="text" placeholder="Item name" v-model="newProduct.product_name" class="w-50">
             </label>
             <label >
                 <input type="number" placeholder="Item price" v-model="newProduct.price" class="w-50">
@@ -50,7 +50,7 @@ export default {
     data() {
         return {
             newProduct: {
-                name: '',
+                product_name: '',
                 price: 0
             }
         }
@@ -65,9 +65,9 @@ export default {
     },
     methods: {
         createNew(item) {
-            if(item.name && item.price) {
+            if(item.product_name && item.price) {
                 this.$emit('createnew', item); //событие сгенерировано
-                this.newProduct.name = '';
+                this.newProduct.product_name = '';
                 this.newProduct.price = 0;
             }
         }
