@@ -16,7 +16,7 @@ button:focus{
     text-transform: uppercase;
     font-weight: bold;
 }
-.btn-cart{
+.btn-cart {
     background-color: #fafafa;
     padding: 10px 20px;
     border: 1px solid transparent;
@@ -102,7 +102,7 @@ img {
     border-bottom: 10px solid white;
 }
 
-.buy-btn, .del-btn{
+.buy-btn, .del-btn, input[type="submit"]{
     margin-top: 5px;
     background-color: #2f2a2d;
     padding: 5px 15px;
@@ -112,7 +112,7 @@ img {
     transition: all ease-in-out .4s;
     cursor: pointer;
 }
-.buy-btn:hover, .del-btn:hover{
+.buy-btn:hover, .del-btn:hover, input[type="submit"]:hover {
     background-color: #fafafa;
     color: #2f2a2d;
     border: 1px solid #2f2a2d;
