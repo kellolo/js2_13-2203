@@ -135,6 +135,7 @@ class CartItem extends ListItem {
                 </div>
                 `
     }
+
 }
 
 
@@ -159,6 +160,7 @@ class Cart extends List {
         })
     }
 
+
     addProduct(item) {
         this.getData(`${API_URL}/addToBasket.json`)
             .then(data => {
@@ -179,11 +181,13 @@ class Cart extends List {
                         };
                         this.goods = [product];
                         this.render();
+                        /* this._checkTotalAndSum(); */
                     }
                 } else {
                     alert('Error');
                 }
                 console.log(`Add ${item.dataset.name}`)
+
             })
     }
 
@@ -203,14 +207,30 @@ class Cart extends List {
                 } else {
                     alert('Error');
                 }
+                /*  this._checkTotalAndSum() */
             })
     }
     // доделать textcontent
     _updateCart(product) {
         let block = document.querySelector(`.cart-item[data-id="${product.id_product}"]`);
-        block.querySelector('.product-quantity').textContent = `Quantity: ${product.quantity}`;
-        block.querySelector('.product-price').textContent = `$: ${product.quantity * product.price}`;
+        block.querySelector('.product-quantity').textContent = `quantity: ${product.quantity}`;
+        block.querySelector('.product-price').textContent = `price $: ${product.quantity * product.price}`;
     }
+
+    /* _checkTotalAndSum() {
+        let qua = 0
+        let pr = 0
+        this.items.forEach(item => {
+            qua += item.quantity
+            pr += item.price * item.quantity
+        })
+        this.total = qua
+        this.sum = pr
+        document.querySelector('#quantity').innerText = this.total;
+        document.querySelector('#price').innerText = this.sum;
+    } */
+
+
 }
 
 //-------------------class CatalogItem-------------------
