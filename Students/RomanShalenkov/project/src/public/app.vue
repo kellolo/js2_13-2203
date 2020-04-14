@@ -10,7 +10,7 @@
                 </button>
             </form>
             <button class="btn-cart">Cart</button>
-            <cart />
+            <cart ref="cartRef"/>
         </div>
     </header>
     <main>
@@ -22,16 +22,27 @@
 <script>
 import cart from './containers/cart.vue'
 import catalog from './containers/catalog.vue'
+
 export default {
     components: { cart, catalog },
     // components: { cart: cart, catalog: catalog, tagName: componentName },
     methods: {
         get(url) {
             return fetch(url).then(d => d.json())
+        },
+        post(url, obj) {
+            return fetch(url, {
+                method: 'POST',
+                headers: {
+                    "Content-Type": "application/json"
+                    },
+                body: JSON.stringify(obj)
+            }).then(d => d.json())
         }
     }
 }
 </script>
 
 <style lang="sass">
+
 </style>
