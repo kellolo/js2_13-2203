@@ -1,6 +1,7 @@
 <template>
   <div class="products">
     <item v-for="item of items" :key="item.id_product" :item="item"/>
+    <item :type="'temp'" @createnew="addNewCatalogItem"/>
   </div>
 </template>
 
@@ -16,7 +17,14 @@ export default {
     },
     methods: {
         addItem(item) {
-            console.log(item.product_name + ' added')
+            this.$parent.$refs.cartRef.addItem(item)
+        },
+        addNewCatalogItem(p) {
+            this.items.push({
+                id_product: new Date() + '',
+                product_name: p.name,
+                price: p.price
+            })
         }
     },
     mounted() {
