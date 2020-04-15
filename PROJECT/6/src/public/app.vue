@@ -10,7 +10,7 @@
                 </button>
             </form>
             <button class="btn-cart">Cart</button>
-            <cart />
+            <cart ref="cartRef"/>
         </div>
     </header>
     <main>
