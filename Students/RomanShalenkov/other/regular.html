@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <style>
+        div {
+            width: 800px;
+            margin: 0 auto;
+        }
+
+        span {
+            font-size: 18px;
+            line-height: 1.5;
+        }
+        .center {
+            text-align: center;
+        }
+        button {
+            background-color: darkred;
+            padding: 10px;
+            border: none;
+            color: #fff;
+            text-transform: uppercase;
+        }
+    </style>
+    <title>Regular</title>
+  </head>
+  <body>
+    <div>
+        <span id="text">
+        'Lorem ipsum, dolor sit amet consectetur adipisicing elit.' 
+        'Tempore sapiente incidunt excepturi ipsum voluptas laudantium libero dignissimos, quam accusamus soluta illo, odit quisquam ullam rem!' 
+        'Soluta dicta at iure error.'
+        'Laudantium omnis velit deleniti iure cupiditate quos aliquam explicabo dolor dignissimos nobis ex optio delectus sit, pariatur praesentium ducimus sint vero possimus nesciunt sed temporibus necessitatibus!' 
+        'Repellendus, sequi. Laboriosam, deleniti!'
+        'Sapiente, odio illum sequi quisquam eaque laboriosam officia veritatis mollitia assumenda itaque atque consequatur velit, distinctio alias ex sed quam incidunt repudiandae reiciendis sunt molestiae quas, rerum nobis.' 
+        'Delectus, ipsum. I'm different, and I like being different. Calvin's voice was unnaturally loud.'
+        'Maybe I don't like being different, Meg said, but I don't want to be like everybody else, either.'
+        </span>
+        <span id="text-change"></span>
+    </div>
+    <div class="center">
+        <button onclick="changeText()">Заменить кавычки</button>
+    </div>
+    
+    <script>
+        let text1 = document.getElementById('text'); 
+        let textСhange = document.getElementById('text-change');
+        let btn = document.querySelector('button');
+        const changeText = () => {
+            let str = text1.textContent;
+            text1.remove();
+            btn.remove();
+            textСhange.innerText = str.replace(/^'|(\s)'|'(\s)|'$/g, '$1"$2');
+        };
+    </script>
+  </body>
+</html>

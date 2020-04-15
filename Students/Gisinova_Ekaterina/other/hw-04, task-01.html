@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Task_01</title>
+</head>
+<body>
+
+<div id="textForCreate">
+    <p>He said, 'I can't make ballet class tonight, son.' <br>
+        They yelled, 'You hooligans!' <br>
+        'We’re late,' she said to her sister. <br>
+    </p>
+</div>
+
+<script>
+    textForCreate = document.getElementById('textForCreate').textContent
+    reg = /('\B|\B')/g
+    createText = textForCreate.replace(reg, '"')
+    let div = document.createElement('div')
+    document.body.append(div)
+    div.innerText = createText
+</script>
+
+</body>
+

@@ -1,49 +1,66 @@
-.center {
+body {
+    height: 1vh;
+}
+
+#form-center {
     width: 680px;
+    height: 620px;
     display: block;
-    top: 45%;
-    left: 50%;
-    position: absolute;
+    margin-top: 420px;
+    margin-left: 50%;
+    position: relative;
     transform: translate(-50%, -50%);
-}
-
-#form-error {
-    border: 2px solid red;
-}
-
-.message-form {
-    width: 600px;
     border: 1px solid darkgrey;
-    display: block;
-    height: 230px;
-    padding: 30px 40px 40px 40px;
-    margin: auto;
-    display: flex;
-    align-items: flex-start;
-    flex-wrap: wrap;
-    justify-content: space-between;
 }
 
+.valid {
+    border: 2px solid green;
+}
+
+.invalid {
+    color: red;
+    margin: 0;
+}
+
+.error-msg {
+    border: 2px solid red;
+    color: red;
+}
+
+#message-form {
+    width: 600px;
+    display: block;
+    padding: 30px 40px 0 40px;
+    margin: auto;
+}
+
+input {
+    outline: none;
+}
+
+input:focus {
+    outline: none;
+}
 
 #form-title {
     text-align: center;
     font-family: sans-serif;
     font-weight: 100;
     color: darkgrey;
-    text-transform: uppercase; 
+    text-transform: uppercase;
 }
 
 #form-description {
-     font-size: 14px;
-    
+    font-size: 14px;
     font-family: sans-serif;
     font-weight: 100;
     color: darkgrey;
-    margin-left: 50px;
+    margin-left: 20px;
     margin-top: 0;
 }
+
 #user-text {
-    width: 100%;
+    width: 568px;
     margin: 10px 0;
     height: 70px;
     resize: none;
@@ -52,19 +69,53 @@
     font-size: 14px;
     padding-left: 20px;
     padding-right: 10px;
+
+}
+
+.user-text {
+    color: darkgrey;
+}
+
+#userInput {
+    width: 600px;
+    padding: 10px 0;
+    text-indent: 0;
+    text-transform: uppercase;
+    text-align: center;
+    display: block;
 }
 
 #user-name,
 #user-email,
 #user-phone {
-    width: 288px;
+    width: 295px;
     padding: 10px 0;
     text-indent: 15px;
-    margin-bottom: 12px;
+    margin-top: 12px;
 }
 
 #user-submit {
-    width: 289px;
+    width: 299px;
     padding: 10px 0;
-    text-indent: 15px;
+    text-indent: 0;
+    text-transform: uppercase;
+    text-align: center;
+    display: block;
+    margin-top: 12px;
+    margin-bottom: 50px;
+}
+
+.article {
+    position: absolute;
+    bottom: 10px;
+}
+
+#desc-name,
+#desc-email,
+#desc-phone {
+    font-size: 12px;
+    font-family: sans-serif;
+    font-weight: 100;
+    color: darkgrey;
+    margin: 0 0 0 40px;
 }
