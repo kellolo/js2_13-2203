@@ -1,0 +1,19 @@
+{
+ "contents": [
+  {
+   "id_product": 1,
+   "product_name": "Notebook",
+   "price": 1000
+  },
+  {
+   "id_product": 2,
+   "product_name": "Display",
+   "price": 200
+  },
+  {
+   "id_product": 3,
+   "product_name": "Keyboard",
+   "price": 20
+  }
+ ]
+}
