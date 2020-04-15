@@ -1,6 +1,7 @@
 <template>
   <div class="products">
     <item v-for="item of items" :key="item.id_product" :item="item"/>
+    <item :type="'temp'" @createnew="addNewCatalogItem"/>
   </div>
 </template>
 
@@ -11,12 +12,28 @@ export default {
     data() {
         return {
             items: [],
-            url: 'https://raw.githubusercontent.com/stanislavfor/online-store-url/master/responses/catalogData.json'
+            // url: 'https://raw.githubusercontent.com/stanislavfor/online-store-url/master/responses/catalogData.json'
+            url: '/api/catalog',
+           
         }
     },
     methods: {
         addItem(item) {
-            console.log(item.product_name + ' added to cart')
+            this.$parent.$refs.cartRef.addItem(item)
+        },
+        addNewCatalogItem(p) {
+            let newItem = JSON.parse(JSON.stringify(p));
+            this.$parent.post(this.url, newItem)
+            .then(res => {
+                if(res.id) {
+                    this.items.push({
+                        id_product: res.id,
+                        product_name: newItem.product_name,
+                        price: newItem.price,
+                        img: newItem.img
+                    })
+                }
+            })
         }
     },
     mounted() {
@@ -29,3 +46,5 @@ export default {
 <style>
 
 </style>
+
+
