@@ -26,6 +26,11 @@ import catalog from './containers/catalog.vue'
 export default {
     components: { cart, catalog },
     // components: { cart: cart, catalog: catalog, tagName: componentName },
+    data() {
+        return {
+            show: true
+        };
+    },
     methods: {
         get(url) {
             return fetch(url).then(d => d.json())

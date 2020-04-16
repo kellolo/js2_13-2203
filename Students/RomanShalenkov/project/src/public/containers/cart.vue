@@ -1,9 +1,9 @@
 <template>
   <div class="cart-block ">
-    <!--div class="d-flex">
+    <div class="d-flex">
         <strong class="d-block">Всего товаров</strong> <div id="quantity"></div>
     </div>
-    <hr-->
+    <hr>
     <div class="cart-items">
         <!--item /-->
         <item 
@@ -13,10 +13,10 @@
         :type="'cart'"
         @deleteitem="removeItem"/>
     </div>
-    <!--hr>
+    <hr>
     <div class="d-flex">
         <strong class="d-block">Общая ст-ть:</strong> <div id="price"></div>
-    </div-->
+    </div>
 </div>
 </template>
 
@@ -26,8 +26,8 @@ export default {
     components: { item },
     data() {
         return {
-            url: 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses/getBasket.json',
-            items: []
+            items: [],
+            url: 'api/cart'
         }
     },
     methods: {
@@ -36,7 +36,12 @@ export default {
             if (find) {
                 find.quantity++
             } else {
-                this.items.push(Object.assign({}, item, {quantity: 1}))
+                let newItem = JSON.parse(JSON.stringify(item));
+                this.$parent.post(this.url, newItem).then(res => {            
+                    if (res) {
+                        this.items.push(Object.assign({}, res, { quantity: 1 }));
+                    }
+                });
             }
         },
         removeItem(item) {
@@ -44,7 +49,11 @@ export default {
             if (find.quantity > 1) {
                 find.quantity--
             } else {
-                this.items.splice(this.items.indexOf(find), 1)
+                this.$parent.get(`${this.url}/${item.id_product}`).then(res => {
+                    if (res) {
+                    this.items.splice(this.items.indexOf(item), 1);
+                    }
+                })
             }
         }
     },
