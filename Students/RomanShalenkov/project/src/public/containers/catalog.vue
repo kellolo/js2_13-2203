@@ -12,6 +12,7 @@ export default {
     data() {
         return {
             items: [],
+            // url: 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses/catalogData.json'
             url: '/api/catalog'
         }
     },
