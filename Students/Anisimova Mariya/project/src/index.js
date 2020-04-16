@@ -1,8 +1,12 @@
-<<<<<<< HEAD
-=======
-import './public/css/style.css';
-import './public/css/normalize.css';
->>>>>>> 5161b9d915b6f39951e6827f7a8724f8a48f550e
-import app from './public/js/app.js'
+import './public/css/style.css'
+import './public/css/normalize.css'
 
-app()
+import 'bootstrap'
+import 'bootstrap/dist/css/bootstrap.min.css'
+
+import Vue from 'vue'
+import app from './public/app.vue'
+
+new Vue({
+    render: h => h(app)
+}).$mount('#app')

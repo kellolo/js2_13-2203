@@ -12,7 +12,7 @@ export default {
     data() {
         return {
             items: [],
-            url: 'api/catalog'
+            url: '/api/catalog'
         }
     },
     methods: {
