@@ -1,0 +1,44 @@
+[
+    {
+        "id_product": 1,
+        "product_name": "Processor",
+        "img": "https://i.ibb.co/s9gr3sF/1514188160141511997.jpg",
+        "price": 100,
+        "quantity": 1
+ },
+    {
+        "id_product": 2,
+        "product_name": "Display",
+        "img": "https://i.ibb.co/Y8FLz2v/HMUB2.png",
+        "price": 120,
+        "quantity": 1
+ },
+    {
+        "id_product": 3,
+        "product_name": "Notebook",
+        "img": "https://i.ibb.co/P1HmQS7/Xiaomi-Mi-Notebook-Air.jpg",
+        "price": 1000,
+        "quantity": 1
+ },
+    {
+        "id_product": 4,
+        "product_name": "Mouse",
+        "img": "https://i.ibb.co/jfYmLvN/640-05-lg.jpg",
+        "price": 15,
+        "quantity": 1
+ },
+    {
+        "id_product": 5,
+        "product_name": "Keyboard",
+        "img": "https://i.ibb.co/nbJxcp2/81-PLqxtr-J3-L-SX466.png",
+        "price": 18,
+        "quantity": 1
+ },
+    {
+        "id_product": 6,
+        "product_name": "Power Supply",
+        "img": "https://i.ibb.co/44DVKL1/orig.png",
+        "price": 180,
+        "quantity": 1
+ }
+]
