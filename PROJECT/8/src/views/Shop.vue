@@ -1,30 +1,30 @@
 <template>
-  <div :class="{
+    <div :class="{
       big: big,
       small: !big
-  }">
-    <header class="d-flex">
-        <div class="logo">E-shop</div>
-        <div class="cart">
-            <form action="#" class="search-form">
-                <input type="text" class="search-field">
-                <button class="btn-search">
-                    <i class="fas fa-search"></i>
-                </button>
-            </form>
-            <button class="btn-cart">Cart</button>
-            <cart ref="cartRef"/>
-        </div>
-    </header>
-    <main>
-        <catalog />
-    </main>
-  </div>
+    }">
+        <header class="d-flex">
+            <div class="logo">E-shop</div>
+            <div class="cart">
+                <form action="#" class="search-form">
+                    <input type="text" class="search-field">
+                    <button class="btn-search">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </form>
+                <button class="btn-cart">Cart</button>
+                <cart ref="cartRef"/>
+            </div>
+        </header>
+        <main>
+            <catalog />
+        </main>
+    </div>
 </template>
 
 <script>
-import cart from './containers/cart.vue'
-import catalog from './containers/catalog.vue'
+import cart from '../containers/cart.vue'
+import catalog from '../containers/catalog.vue'
 
 export default {
     data() {
@@ -67,13 +67,3 @@ export default {
     }
 }
 </script>
-
-<style>
-    .small {
-        font-size: 1em
-    }
-    
-    .big {
-        font-size: 3em
-    }
-</style>
