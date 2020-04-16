@@ -6,7 +6,7 @@
     </div>
     <hr />
     <div class="cart-items">
-      <item v-for="item of items" :key="item.id_product" :item="item" type="cart"/>
+      <item v-for="item of items" :key="item.id_product" :item="item" type="cart" />
     </div>
     <hr />
     <div class="d-flex">
@@ -23,46 +23,40 @@ export default {
   data() {
     return {
       items: [],
-      url:
-        "https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses/getBasket.json"
-    };
+      // url: "https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses/getBasket.json"
+      url: "/api/cart"
+    }
   },
   methods: {
-    removeProduct(item) {
-      this.$parent
-        .get(
-          "https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses/deleteFromBasket.json"
-        )
-        .then(response => {
-          if (response.result == 1) {
-            let id = +item.id_product
-            let find = this.items.find(elem => elem.id_product === id)
-            if (find.quantity > 1) {
-              find.quantity--
-            } else {
-              this.items.splice(this.items.indexOf(find), 1)
-            }
-          }
-        })
-        
+    addItem(obj) {
+      this.$parent.post(this.url, obj).then(res => {
+        console.log(res)
+        this.items = res.contents
+      })
     },
+    removeProduct(obj) {
+      this.$parent.delete(this.url, obj).then(res => {
+        console.log(res)
+        this.items = res.contents
+      })
+    }
   },
   computed: {
     totalAmount() {
       let total = 0
-      this.items.forEach(elem => total += elem.quantity)
+      this.items.forEach(elem => (total += elem.quantity))
       return total
     },
     totalCost() {
       let total = 0
-      this.items.forEach(elem => total += elem.price * elem.quantity)
+      this.items.forEach(elem => (total += elem.price * elem.quantity))
       return total
     }
   },
   mounted() {
     this.$parent.get(this.url).then(data => (this.items = data.contents))
   }
-};
+}
 </script>
 
 <style>

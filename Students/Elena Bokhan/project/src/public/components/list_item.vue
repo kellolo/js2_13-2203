@@ -1,7 +1,7 @@
 <template>
     <div :class="calcWrapClass">
         <img :src="calcImage" alt="_" />
-        <template v-if="type==='catalog'">            
+        <template v-if="type.match(/catalog/)">            
             <!--img src="${item.img}" width="300" height="200" alt="${item.product_name}"-->
             <div class="desc">
                 <h1>{{ item.product_name }}</h1>
@@ -16,20 +16,18 @@
                 <p class="product-single-price">{{item.price}}</p>
             </div>
             <div class="right-block">
-                <button name="del-btn" class="del-btn" @click="$parent.deleteCart(item)">&times;</button>
+                <button name="del-btn" class="del-btn" @click="$emit('deleteitem',item)">&times;</button>
             </div>
         </template> 
-        <template v-else> 
-            <hr>
-            <p> Шаблон добавки товара</p>
+        <template v-else-if="type=='templ'">           
             <div class="desc">
-                <p>ID:</p>
-                <input type="text" @input="id=$event.target.value">
-                <h1>Name:</h1>                
-                <input type="text" @input="product_name=$event.target.value">
-                <p>Price:</p>
-                <input type="text" @input="price=$event.target.value">
-                <button class="buy-btn" name="buy-btn" @click="$parent.addNew({id:id,product_name:product_name,price:price})">Добавить</button>
+                <label>Name:
+                <input type="text" v-model="newProduct.product_name">
+                </label>
+                <label>Price:
+                <input type="number" v-model="newProduct.price">
+                </label>
+                <button class="buy-btn" name="buy-btn" @click="createNew(newProduct)">Добавить</button>
             </div>
         </template>        
     </div>
@@ -40,15 +38,31 @@ export default {
     props: {
         item: { type: Object },
         type: { type: String, default: "catalog" }
-    },
+    },    
+    data(){
+        return {
+            newProduct:{
+                product_name:'',
+                price:0
+            }
+        }
+    },    
     computed: {
         calcWrapClass() {
-            if (this.type === "catalog") return "product-item"
-            else if (this.type === "cart") return "cart-item";
-            else return "product-item"
+            return this.type.match(/catalog|templ/)? "product-item" : "cart-item"
         },
         calcImage() {
-            return `https://placehold.it/${this.type === "catalog" ? "300x200" : "100x80"}`
+            return `https://placehold.it/${this.type.match(/catalog|templ/) ? "300x200" : "100x80"}`
+        }
+    },
+    methods:{
+         createNew(item){
+            debugger
+            if (item.product_name && item.price){
+                this.$emit('createnew',item)
+                this.newProduct.product_name=''
+                this.newProduct.price=0
+            }
         }
     }
 }
