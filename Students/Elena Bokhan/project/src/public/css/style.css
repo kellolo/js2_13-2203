@@ -85,6 +85,7 @@ img {
 
 .cart {
     position: relative;
+    text-align: end;
 }
 
 .cart-block {

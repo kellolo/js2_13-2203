@@ -17,6 +17,9 @@ button:focus{
     font-weight: bold;
 }
 .btn-cart{
+    position: absolute;
+    top: 0;
+    right: 0;
     background-color: #fafafa;
     padding: 10px 20px;
     border: 1px solid transparent;
