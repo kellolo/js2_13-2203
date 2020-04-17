@@ -1,3 +1,10 @@
 {
-    "contents": []
+ "contents": [
+  {
+   "id_product": 5,
+   "product_name": "Phones",
+   "price": 25,
+   "quantity": 1
+  }
+ ]
 }

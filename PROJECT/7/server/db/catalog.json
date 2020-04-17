@@ -38,5 +38,15 @@
   "id_product": 8,
   "product_name": "Gamepad",
   "price": 24
+ },
+ {
+  "product_name": "Qwerty",
+  "price": "300",
+  "id_product": 1587057985418
+ },
+ {
+  "product_name": "Asdf",
+  "price": "123",
+  "id_product": 1587058766730
  }
 ]
