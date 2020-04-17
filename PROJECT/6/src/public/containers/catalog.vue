@@ -1,6 +1,6 @@
 <template>
   <div class="products">
-    <item v-for="item of items" :key="item.id_product" :item="item"/>
+    <item v-for="item of filteredItems" :key="item.id_product" :item="item"/>
     <item :type="'temp'" @createnew="addNewCatalogItem"/>
   </div>
 </template>
@@ -12,6 +12,7 @@ export default {
     data() {
         return {
             items: [],
+            filteredItems: [],
             url: 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses/catalogData.json'
         }
     },
@@ -25,11 +26,22 @@ export default {
                 product_name: p.name,
                 price: p.price
             })
+        },
+        filter(str) {
+            if (!str) {
+                this.filteredItems = this.items
+            } else {
+                let reg = new RegExp(str, 'gi')
+                this.filteredItems = this.items.filter (item => item.product_name.search(reg))
+            }
         }
     },
     mounted() {
         this.$parent.get(this.url)
-        .then(data => this.items = data)
+        .then(data => {
+            this.items = data
+            this.filteredItems = data
+        })
     }
 }
 </script>

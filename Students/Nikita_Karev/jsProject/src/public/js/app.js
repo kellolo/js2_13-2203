@@ -58,6 +58,13 @@ const app = new Vue({
         this.cart.totalCoast = quan
         this.cart.totalAmount = pr
       },
+      // checkCountOfProducts() {
+      //   debugger
+      //   let count = 0
+      //   if (this.cart.items.quantity = count) {
+          
+      //   }
+      // },
       removeProduct(item) {
         this.getData(API + 'deleteFromBasket.json')
           .then((response) => {
@@ -69,6 +76,7 @@ const app = new Vue({
               } else {
                 this.cart.items.splice(this.cart.items.indexOf(find), 1)
               }
+              // this.checkCountOfProducts()
               this.checkTotalAndSum()
             }
           })
