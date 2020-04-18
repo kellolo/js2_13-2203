@@ -8,7 +8,7 @@
                     <button 
                         class="buy-btn" 
                         name="buy-btn"
-                        @click="$parent.$parent.$refs.cart.addItem(item)"
+                        @click="$parent.addItem(item)"
                         >Купить</button>
                 </div> 
             </template>
@@ -22,15 +22,14 @@
                     <button
                         name="del-btn"
                         class="del-btn"
-                        @click="$parent.$parent.$refs.cart.removeItem(item)"
+                        @click="$emit('removeCartItem', item)"
                         >&times;</button>
                 </div>
             </template>
             <template v-else-if="type === 'temp'">
-                <!-- <img :src="'https://placehold.it/200x150'" @click="addImg" class="pointer"> -->
                 <div class="desc w-100">
                     <label >
-                        <input type="text" placeholder="Item name" v-model="newProduct.name" class="w-100">
+                        <input type="text" placeholder="Item name" v-model="newProduct.product_name" class="w-100">
                     </label>
                     <label >
                         <input type="number" placeholder="Item price" v-model="newProduct.price" class="w-100">
@@ -45,12 +44,8 @@
 </template>
 
 <script>
-// import cart from '../containers/cart.vue'
-// import catalog from '../containers/catalog.vue'
 
 export default {
-    // components: { cart, catalog },
-    // components: { cart: cart, catalog: catalog, tagName: componentName }
     props: {
         item: { type: Object },
         type: { type: String, default: 'catalog' }
@@ -58,14 +53,13 @@ export default {
     data() {
         return {
             newProduct: {
-                name: '',
+                product_name: '',
                 price: 0
             }
         }
     },
     computed: {
         calcWrapClass() {
-            // console.log('Я пытаюсь понять какой враппер оформить')
             return this.type.match(/catalog|temp/) ? 'product-item' : 'cart-item'
         },
         calcImg() {
@@ -74,15 +68,12 @@ export default {
     } ,
     methods: {
         createNew(item) {
-            if (item.name && item.price) {
+            if (item.product_name && item.price) {
                 this.$emit('create', item)
-                this.newProduct.name = ''
+                this.newProduct.product_name = ''
                 this.newProduct.price = 0
             }
         }
     }   
 }
 </script>
-
-<style>
-</style>
