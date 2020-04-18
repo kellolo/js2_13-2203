@@ -8,17 +8,17 @@ header{
     color: #fafafa;
     padding: 30px 80px;
 }
-button:focus{
-    outline: none;
+button{
+    outline: none!important;
 }
 .logo{
-
     text-transform: uppercase;
     font-weight: bold;
 }
 .btn-cart{
     background-color: #fafafa;
     padding: 10px 20px;
+    margin-right: 10px;
     border: 1px solid transparent;
     color: #2f2a2d;
     border-radius: 5px;
@@ -80,6 +80,8 @@ img {
 
 .cart{
     position: relative;
+    display: flex;
+    justify-content: flex-end;
 }
 .cart-block{
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.62);
@@ -135,8 +137,10 @@ img {
     display: flex;
 }
 .cart-item img{
+    width: 100px;
+    height: 80px;
     align-self: flex-start;
-    margin-right: 15px;
+    margin-right: 25px;
 }
 .product-single-price{
     color: #474747;
@@ -147,10 +151,15 @@ img {
 }
 .product-desc{
     max-width: 150px;
+    justify-self: flex-start!important;
 }
 .product-quantity {
     margin-top: 15px;
     font-size: 0.75em;
+}
+.left-block {
+    display: flex;
+    flex-direction: row;
 }
 .right-block{
     text-align: right;
