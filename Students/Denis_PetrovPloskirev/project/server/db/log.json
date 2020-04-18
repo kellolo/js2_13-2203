@@ -1,0 +1,68 @@
+[
+ {
+  "time": "2020-04-17T21:14:34.849Z",
+  "id_product": 3,
+  "product_name": "Keyboard",
+  "operation": "add to cart"
+ },
+ {
+  "time": "2020-04-17T22:22:52.867Z",
+  "id_product": 5,
+  "product_name": "Phones",
+  "operation": "added to cart"
+ },
+ {
+  "time": "2020-04-17T22:22:56.212Z",
+  "id_product": "5",
+  "product_name": "Phones",
+  "operation": "changed quantity 1"
+ },
+ {
+  "time": "2020-04-17T22:22:59.316Z",
+  "id_product": "5",
+  "product_name": "Phones",
+  "operation": "changed quantity -1"
+ },
+ {
+  "time": "2020-04-17T22:23:02.521Z",
+  "id_product": "5",
+  "product_name": "Phones",
+  "operation": "removed from cart"
+ },
+ {
+  "time": "2020-04-17T22:23:50.613Z",
+  "id_product": 5,
+  "product_name": "Phones",
+  "operation": "added to cart"
+ },
+ {
+  "time": "2020-04-17T22:23:54.451Z",
+  "id_product": "5",
+  "product_name": "Phones",
+  "operation": "changed quantity 1"
+ },
+ {
+  "time": "2020-04-17T22:23:58.330Z",
+  "id_product": "5",
+  "product_name": "Phones",
+  "operation": "changed quantity -1"
+ },
+ {
+  "time": "2020-04-17T22:24:02.403Z",
+  "id_product": "5",
+  "product_name": "Phones",
+  "operation": "removed from cart"
+ },
+ {
+  "time": "2020-04-18T13:02:03.750Z",
+  "id_product": 5,
+  "product_name": "Phones",
+  "operation": "added to cart"
+ },
+ {
+  "time": "2020-04-18T13:02:05.522Z",
+  "id_product": "5",
+  "product_name": "Phones",
+  "operation": "removed from cart"
+ }
+]
