@@ -8,17 +8,17 @@ header{
     color: #fafafa;
     padding: 30px 80px;
 }
-button:focus{
-    outline: none;
+button{
+    outline: none!important;
 }
 .logo{
-
     text-transform: uppercase;
     font-weight: bold;
 }
 .btn-cart{
     background-color: #fafafa;
     padding: 10px 20px;
+    margin-right: 10px;
     border: 1px solid transparent;
     color: #2f2a2d;
     border-radius: 5px;
@@ -80,6 +80,8 @@ img {
 
 .cart{
     position: relative;
+    display: flex;
+    justify-content: flex-end;
 }
 .cart-block{
     box-shadow: 0 0 5px rgba(0, 0, 0, 0.62);
