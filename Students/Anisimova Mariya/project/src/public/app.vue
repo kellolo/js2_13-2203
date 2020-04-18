@@ -3,13 +3,18 @@
     <header>
         <div class="logo">E-shop</div>
         <div class="cart">
-            <search-component @search="$refs.catalog.filter"/>
+            <form action="#" class="search-form">
+                <input type="text" class="search-field">
+                <button class="btn-search">
+                    <i class="fas fa-search"></i>
+                </button>
+            </form>
             <button class="btn-cart">Cart</button>
-            <cart ref="cartRef"/>
+            <cart />
         </div>
     </header>
     <main>
-        <catalog ref="catalog" />
+        <catalog />
     </main>
   </div>
 </template>
@@ -17,11 +22,9 @@
 <script>
 import cart from './containers/cart.vue'
 import catalog from './containers/catalog.vue'
-import searchComponent from './components/searchComponent.vue'
-
+import temp from "./containers/temp.vue"
 export default {
-    components: { cart, catalog, searchComponent },
-    // components: { cart: cart, catalog: catalog, tagName: componentName },
+    components: { cart, catalog },
     methods: {
         get(url) {
             return fetch(url).then(d => d.json())
@@ -30,6 +33,5 @@ export default {
 }
 </script>
 
-<style lang="sass">
-
+<style>
 </style>

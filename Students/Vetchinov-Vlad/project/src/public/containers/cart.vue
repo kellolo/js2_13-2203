@@ -34,45 +34,22 @@ export default {
         addItem(item) {
             let find = this.items.find(el => el.id_product == item.id_product);
             if (find) {
-                this.$parent.put('/api/cart/' + item.id_product, { amount: 1 })
-                    .then(res => {
-                        if (res.status) {
-                            find.quantity++
-                        }
-                    })
+                find.quantity++
             } else {
-                let newItem = Object.assign({}, item, {quantity: 1})
-                this.$parent.post('/api/cart', newItem)
-                    .then(res => {
-                        if (res.status) {
-                            newItem.id_product = res.id
-                            this.items.push(newItem)
-                        }
-                    })
-                
+                this.items.push(Object.assign({}, item, {quantity: 1}))
             }
         },
         removeItem(item) {
             let find = this.items.find(el => el.id_product == item.id_product);
             if (find.quantity > 1) {
-                this.$parent.put('/api/cart/' + item.id_product, { amount: -1 })
-                    .then(res => {
-                        if (res.status) {
-                            find.quantity--
-                        }
-                    })
+                find.quantity--
             } else {
-                this.$parent.delete('/api/cart/' + item.id_product)
-                    .then(res => {
-                        if (res.status) {
-                            this.items.splice(this.items.indexOf(find), 1)
-                        }
-                    })
+                this.items.splice(this.items.indexOf(find), 1)
             }
         }
     },
     mounted() {
-        this.$parent.get('/api/cart').then(d => this.items = d.contents)
+        this.$parent.get(this.url).then(d => this.items = d.contents)
     }
 }
 </script>
