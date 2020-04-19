@@ -1,6 +1,9 @@
 let express = require('express');
 let fs = require('fs');
-
+let writer = require('./utils/writer.js');
+let stats = require('./utils/stats.js');
+let catalog = require('./services/catalog.js');
+let cart = require('./services/cart.js');
 let server = express();
 
 server.use(express.json());
@@ -8,84 +11,81 @@ server.use(express.json());
 server.get('/catalog', (req, res) => {
     fs.readFile('./server/db/catalog.json', 'utf-8', (err, data) => {
         if (!err) {
-            res.send(data)
+            res.send(data);
         }
     })
 })
 server.get('/cart', (req, res) => {
     fs.readFile('./server/db/cart.json', 'utf-8', (err, data) => {
         if (!err) {
-            res.send(data)
-        }
-    })
-})
-// получить конкретный товар
-server.get('/catalog/:id', (req, res) => {
-    fs.readFile('./server/db/catalog.json', 'utf-8', (err, data) => {
-        if (!err) {
-            let arr = JSON.parse(data);
-            let id = req.params.id;
-            let item = arr.find(elem => elem.id_product == id);
-            res.json(item);
-        }
-    })
-})
-// получить конкретный товар корзины
-server.get('/cart/:id', (req, res) => {
-    fs.readFile('./server/db/cart.json', 'utf-8', (err, data) => {
-        if (!err) {
-            let objcart = JSON.parse(data);
-            let arr = objcart.contents;
-            let id = req.params.id;            
-            let item = arr.find(elem => elem.id_product == id);
-            arr.splice(arr.indexOf(item), 1);
-            fs.writeFile('./server/db/cart.json', JSON.stringify(objcart, null, ' '), err => {
-                if (!err) {
-                    res.json(item)
-                } else {
-                    res.sendStatus(500)
-                }
-            })
+            res.send(data);
         }
     })
 })
 
 server.post('/catalog', (req, res) => {
     fs.readFile('./server/db/catalog.json', 'utf-8', (err, data) => {
-        if (!err) {
-            let arr = JSON.parse(data);
-            let item = req.body;
-            item.id_product = parseInt(new Date().getTime() / 1000);
-            arr.push(item);
-            fs.writeFile('./server/db/catalog.json', JSON.stringify(arr, null, ' '), err => {
-                if (!err) {
-                    res.json({ id: item.id_product })
-                } else {
-                    res.sendStatus(500)
-                }
-            })
-
+        if (!err) {            
+            let {newCatalog, idNew}= catalog.add(JSON.parse(data),req.body);
+            writer('./server/db/catalog.json',newCatalog)
+                .then(status => {
+                    if (status) {
+                        stats(req.body, 'Добавлен в каталог товаров');
+                        res.json({ id: idNew });
+                    } else {
+                        res.sendStatus(500);
+                    }
+                })
         }
     })
 })
 server.post('/cart', (req, res) => {
     fs.readFile('./server/db/cart.json', 'utf-8', (err, data) => {
         if (!err) {
-            let objcart = JSON.parse(data);
-            let arr = objcart.contents;
-            let item = req.body;
-            arr.push(item);
-            fs.writeFile('./server/db/cart.json', JSON.stringify(objcart, null, ' '), err => {
-                if (!err) {
-                    res.json(item)
+            let newCart= cart.add(JSON.parse(data),req.body);
+            writer('./server/db/cart.json',newCart)            
+            .then(status => {
+                if (status) {
+                    stats(req.body, 'Добавлен в корзину');
+                    res.json({ status:1 });
                 } else {
-                    res.sendStatus(500)
+                    res.sendStatus(500);
                 }
             })
-
+        }
+    })
+})
+server.put('/cart/:id', (req, res) => {
+    fs.readFile('./server/db/cart.json', 'utf-8', (err, data) => {
+        if (!err) {
+            let {newCart,item}= cart.change(JSON.parse(data),req.params.id, req.body.amount);
+            writer('./server/db/cart.json',newCart)
+            .then(status => {
+                if (status) {
+                    stats(item, req.body.amount==1 ? 'Увеличили количество товара на 1':'Уменьшили количество товара на 1');
+                    res.json({ status:1 });
+                } else {
+                    res.sendStatus(500);
+                }
+            })
+        }
+    })
+})
+server.delete('/cart/:id', (req, res) => {
+    fs.readFile('./server/db/cart.json', 'utf-8', (err, data) => {
+        if (!err) {
+            let {newCart,item}= cart.delete(JSON.parse(data),req.params.id);
+            writer('./server/db/cart.json',newCart)
+            .then(status => {
+                if (status) {
+                    stats(item, 'Удален из корзины');
+                    res.json({ status:1 });
+                } else {
+                    res.sendStatus(500);
+                }
+            })
         }
     })
 })
 
-
-server.listen(3000, () => { })
+server.listen(3000, () => { });
