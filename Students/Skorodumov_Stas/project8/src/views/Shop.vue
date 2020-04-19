@@ -13,7 +13,7 @@
         </div>        
         <div class="cart">
             <form action="#" class="search-form"  > 
-                <input type="text" class="search-field" placeholder="Product name search" v-model="searchLine" @input="filterGoods()">    
+                <input type="text" class="search-field" v-model="search" placeholder="Product name search">    
                 <button class="btn-search"><i class="fas fa-search"></i></button>
             </form>
             <button class="btn-cart" @click="isVisibleCart = !isVisibleCart">Cart</button>
@@ -27,10 +27,9 @@
   </div>  
 </template>
 
-
 <script>
-import cart from './containers/cart.vue'
-import catalog from './containers/catalog.vue'
+import cart from '../containers/cart.vue'
+import catalog from '../containers/catalog.vue'
 
 export default {    
     components: { cart, catalog },
@@ -39,7 +38,7 @@ export default {
         return {            
             isVisibleCart: false, 
             isVisiblePanel: true,            
-            searchLine: " ",            
+            search: " ",
             big: false
         }
     },
@@ -72,26 +71,18 @@ export default {
                     },
                 body: JSON.stringify(obj)
             }).then(d => d.json())
-        },
-
-    filterGoods() {
-       /*   let reg = new RegExp(str, 'gi');  */   
-       return this.catalog.search (item => {
-            return item.product_name.toLowerCase().includes(this.searchLine.toLowerCase())
+        }
+    },
+    computed: {
+        filteredItems() {
+        /* let reg = new RegExp(str, 'gi');  */   
+        return this.items.filter(item => {
+            return item.product_name.toLowerCase().includes(this.search.toLowerCase())
         })
         }
-    }
+     } 
 
 
   }
 
 </script>
-<style>
-    .small {
-        font-size: 1em
-    }
-    
-    .big {
-        font-size: 2em
-    }
-</style>
