@@ -16,10 +16,10 @@
 </template>
 
 <script>
-import cart from "./containers/cart.vue"
-import catalog from "./containers/catalog.vue"
-import adminPanel from "./containers/adminPanel.vue"
-import searchBlock from "./containers/filter.vue"
+import cart from "../containers/cart.vue";
+import catalog from "../containers/catalog.vue";
+import adminPanel from "../containers/adminPanel.vue";
+import searchBlock from "../containers/filter.vue";
 
 export default {
   components: { cart, catalog, adminPanel, searchBlock },
@@ -27,11 +27,11 @@ export default {
   data: function() {
     return {
       showCart: false
-    }
+    };
   },
   methods: {
     get(url) {
-      return fetch(url).then(d => d.json())
+      return fetch(url).then(d => d.json());
     },
     post(url, obj) {
       return fetch(url, {
@@ -40,7 +40,7 @@ export default {
           "Content-Type": "application/json"
         },
         body: JSON.stringify(obj)
-      }).then(d => d.json())
+      }).then(d => d.json());
     },
     delete(url) {
       return fetch(url, {
@@ -48,7 +48,7 @@ export default {
         headers: {
           "Content-Type": "application/json"
         }
-      }).then(d => d.json())
+      }).then(d => d.json());
     },
     put(url, obj) {
       return fetch(url, {
@@ -57,11 +57,8 @@ export default {
           "Content-Type": "application/json"
         },
         body: JSON.stringify(obj)
-      }).then(d => d.json())
+      }).then(d => d.json());
     }
   }
-}
+};
 </script>
-
-<style lang="sass">
-</style>
