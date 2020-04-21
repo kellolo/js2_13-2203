@@ -1,0 +1,32 @@
+[
+ {
+  "operation": "Уменьшили количество товара на 1",
+  "product": "Display",
+  "time": "April 19th 2020, 4:15:33 pm"
+ },
+ {
+  "operation": "Удален из корзины",
+  "product": "Display",
+  "time": "April 19th 2020, 4:15:42 pm"
+ },
+ {
+  "operation": "Увеличили количество товара на 1",
+  "product": "ipad",
+  "time": "April 19th 2020, 4:57:59 pm"
+ },
+ {
+  "operation": "Уменьшили количество товара на 1",
+  "product": "ipad",
+  "time": "April 19th 2020, 4:58:00 pm"
+ },
+ {
+  "operation": "Удален из корзины",
+  "product": "ipad",
+  "time": "April 19th 2020, 4:58:17 pm"
+ },
+ {
+  "operation": "Добавлен в корзину",
+  "product": "Gamepad",
+  "time": "April 19th 2020, 4:58:22 pm"
+ }
+]
