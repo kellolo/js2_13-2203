@@ -210,7 +210,7 @@ class Cart extends List {
                 /*  this._checkTotalAndSum() */
             })
     }
-    // доделать textcontent
+    
     _updateCart(product) {
         let block = document.querySelector(`.cart-item[data-id="${product.id_product}"]`);
         block.querySelector('.product-quantity').textContent = `quantity: ${product.quantity}`;

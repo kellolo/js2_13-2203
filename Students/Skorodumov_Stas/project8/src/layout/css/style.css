@@ -38,6 +38,7 @@ span {
     border-radius: 5px;
     border: 2px solid #0d201b;
     transition: all ease-in-out .4s;
+    font-size: 1.1em;
 }
 
 .logo:hover {
@@ -264,7 +265,7 @@ img {
     font-size: large;
 }
 
-.admin-block > label > input {
+.admin-block>label>input {
     width: 255px;
 }
 
