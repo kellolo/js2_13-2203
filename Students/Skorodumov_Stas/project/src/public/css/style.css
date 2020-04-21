@@ -19,10 +19,8 @@ body {
     position: relative;
 }
 
-button,
-button:active,
 button:focus {
-    outline: none;
+    outline: 0;
 }
 
 span {
@@ -39,6 +37,15 @@ span {
     height: 89px;
     border-radius: 5px;
     border: 2px solid #0d201b;
+    transition: all ease-in-out .4s;
+}
+
+.logo:hover {
+    border: 2px solid #fff;
+}
+
+.logo:focus {
+    outline: 0;
 }
 
 .btn-cart {
@@ -69,10 +76,6 @@ span {
     width: 900px;
     flex-wrap: wrap;
     margin: 0 auto;
-    /* column-gap: 30px;
-    display: grid;
-    grid-template-columns: repeat(auto-fit, 200px);
-    grid-template-rows: 1fr; */
     padding: 40px 80px;
     justify-content: space-between;
 }
@@ -86,7 +89,7 @@ p {
     flex-direction: column;
     width: 200px;
     border-radius: 5px;
-    overflow: hidden;
+    overflow: 0;
     margin: 20px 0;
 }
 
@@ -172,7 +175,7 @@ img {
 
 .product-single-price {
     color: #474747;
-    font-size: 0.5em;
+    font-size: 0.7em;
 }
 
 .product-price {
@@ -268,7 +271,7 @@ img {
 aside {
     align-items: center;
     border-radius: 5px;
-    padding: 5px 0 0 0;
+    padding: 12px 0;
     margin: 10px 82px 25px 82px;
     background: #0d201b;
     color: #fff;
@@ -279,7 +282,8 @@ aside {
 }
 
 aside::before {
-    content: "Press a logo 'E-SHOP'";
+    content: "press a logo above";
+    font-size: small;
 }
 
 .filteredResultBlock {

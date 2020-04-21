@@ -38,5 +38,15 @@
   "id_product": 8,
   "product_name": "Gamepad",
   "price": 24
+ },
+ {
+  "product_name": "smartWatch",
+  "price": "200",
+  "id_product": 1587298809
+ },
+ {
+  "product_name": "ipad",
+  "price": "40",
+  "id_product": 1587300292
  }
 ]

@@ -13,23 +13,33 @@ export default {
     data() {
         return {
             items: [],
-            url: 'https://raw.githubusercontent.com/JohnCarmack117/online-store-api/master/responses/catalogData.json'
+            url: '/api/catalog'
         }
     },
     methods: {
+      addItem(item) {
+        this.$parent.$refs.cart.addItem(item)
+      },
       addNewCatalogItem(p) {
-        this.items.push({
-          id_product: new Date() + '',
-          product_name: p.name,
-          price: p.price
-        })
+        let newItem = JSON.parse(JSON.stringify(p))
+        this.$parent.post(this.url, newItem)
+        .then(res => {
+            if(res.id) {
+                this.items.push({
+                    id_product: res.id,
+                    product_name: newItem.product_name,
+                    price: newItem.price
+                })
+            }
+        })  
       }
     },
     mounted() {
-        this.$parent.get(this.url).then(data => (this.items = data))        
+        this.$parent.get(this.url)
+         .then(data => {
+           this.items = data
+           this.filteredItems = data
+         })        
     }
 }
 </script>
-
-<style>
-</style>
