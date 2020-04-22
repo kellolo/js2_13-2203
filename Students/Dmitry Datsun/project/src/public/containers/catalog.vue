@@ -1,6 +1,7 @@
 <template>
     <div class="products">
-        <item v-for="item of filteredList" :key="item.id_product" :item="item" :type="'catalog'"/>
+        <item v-for="item of filteredItems" :key="item.id_product" :item="item" :type="'catalog'"/>
+        <item :type="'temp'" @createNew="addNewCatalogItem" />
     </div>
 </template>
 
@@ -11,32 +12,45 @@ export default {
     data() {
         return {
             items: [],
-            url: 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses/catalogData.json',
+            filteredItems: [],
+            // url: 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses/catalogData.json',
+            url: "api/catalog"
         }
     },
     methods: {
         addItem(item) {
-            let cart = this.$parent.getChild('cart')
-            if (cart) {
-                if (find = cart.items.find(x => x.id_product === item.id_product)) {
-                    find.quantity++
-                } else {
-                    cart.items.push ({
-                        product_name: item.product_name,
-                        price: item.price,
-                        id_product: item.id_product,
-                        quantity: 1
-                    })
+            this.$parent.getData(this.url + '/' + item.id_product)
+            .then(data => {
+                if (data) {
+                    this.$parent.$refs.cartRef.addItem(item);
+                    this.$parent.$refs.cartRef.checkTotalAndSum();
                 }
-                console.log(item.product_name + ' added')
-                cart.checkTotalAndSum()
+            })
+        },
+        addNewCatalogItem(prod) {
+            let newItem = JSON.parse(JSON.stringify(prod))
+            this.$parent.postData(this.url, newItem)
+            .then(res => {
+                if (res.id) {
+                    this.items.push({
+                        id_product: res.id,
+                        product_name: newItem.product_name,
+                        price: newItem.price
+                    });
+                }
+            })
+        },
+        filter(str) {
+            console.log(str)
+            if (!str) {
+                this.filteredItems = this.items;
+            } else {
+                let reg = new RegExp(str, 'gi');
+                this.filteredItems = this.items.filter(x => x.product_name.search(reg))
             }
         }
     },
     computed: {
-        cart() {
-            return this.$parent.getChild('cart')
-        },
         filteredList: function() {
             return this.items.filter(function (elem) {
                 return true
@@ -49,7 +63,10 @@ export default {
     },
     mounted() {
         this.$parent.getData(this.url)
-        .then(data => this.items = data)
+        .then(data => {
+            this.items = data;
+            this.filteredItems = data;
+        })
     }
 }
 </script>

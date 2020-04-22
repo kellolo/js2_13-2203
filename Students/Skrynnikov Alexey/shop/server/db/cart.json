@@ -1,0 +1,30 @@
+{
+ "amount": 1010,
+ "countGoods": 2,
+ "contents": [
+  {
+   "id_product": 4,
+   "product_name": "Mouse",
+   "price": 10,
+   "quantity": 4
+  },
+  {
+   "id_product": 5,
+   "product_name": "Phones",
+   "price": 25,
+   "quantity": 3
+  },
+  {
+   "id_product": 6,
+   "product_name": "Router",
+   "price": 30,
+   "quantity": 1
+  },
+  {
+   "id_product": 3,
+   "product_name": "Keyboard",
+   "price": 20,
+   "quantity": 2
+  }
+ ]
+}

@@ -1,10 +1,10 @@
-const HtmlWebpackPlugin = require('html-webpack-plugin');
 const MiniCssExtractPlugin = require('mini-css-extract-plugin');
+const HtmlWebpackPlugin = require("html-webpack-plugin");
 const VueLoaderPlugin = require("vue-loader/lib/plugin");
 
 module.exports = {
-    module : {
-        rules : [
+    module: {
+        rules: [
             {
                 test: /\.css$/,
                 use: [
@@ -23,14 +23,27 @@ module.exports = {
             } 
         ]
     },
-    plugins : [
-        new MiniCssExtractPlugin ({
+    plugins: [
+        new MiniCssExtractPlugin({
             filename: 'css/[name].css',
-            chunkFilename: '[id].css'
+            chunkFilename: '[id].css',
         }),
-        new HtmlWebpackPlugin ({
-            template: './src/index.html'
+        new HtmlWebpackPlugin({
+            template: "./src/public/index.html"
         }),
         new VueLoaderPlugin()
-    ]
-}
+    ],
+    devServer: {
+        open: true,
+        hot: true,
+        port: 8080,
+        proxy: {
+            '/api': {
+                target: 'http://localhost:3000',
+                pathRewrite: { '^/api' : '' },
+                secure: false,
+                changeOrigin: true
+            }
+        }
+    }
+};
