@@ -6,7 +6,7 @@
         <div v-show="countGoods">
             <hr>
             <div class="cart-items">
-                <item v-for="item of items" :key="item.id_product" :item="item" :type="'cart'"/>
+                <item v-for="item of items" :key="item.id_product" :item="item" :type="'cart'" @deleteItem="removeItem" />
             </div>
             <hr>
             <div class="d-flex">
@@ -24,20 +24,54 @@ export default {
     data() {
         return {
             items: [],
-            url: 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses/getBasket.json',
+            // url: 'https://raw.githubusercontent.com/GeekBrainsTutorial/online-store-api/master/responses/getBasket.json',
+            url: 'api/cart',
             countGoods: 0,
             amount: 0,
         }
     },
     methods: {
+        addItem(item) {
+            let find = this.items.find(x => x.id_product == item.id_product);
+            if (find) {
+                this.$parent.putData('api/cart/' + item.id_product, {amount: 1})
+                .then(res => {
+                    if (res.status) {
+                        find.quantity++;
+                        this.checkTotalAndSum()
+                    }
+                });
+            } else {
+                let newItem = Object.assign({}, item, {quantity: 1});
+                this.$parent.postData('api/cart', newItem)
+                .then(res => {
+                    if (res.status) {
+                        this.items.push(newItem);
+                        this.checkTotalAndSum()
+                    }
+                });
+            }
+            console.log(item.product_name + ' added')
+        },
         removeItem(item) {
             let find = this.items.find(x => x.id_product == item.id_product)
             if (find.quantity > 1) {
-                find.quantity--
+                this.$parent.putData('api/cart/' + item.id_product, {amount: -1})
+                .then(res => {
+                    if (res.status) {
+                        find.quantity--;
+                        this.checkTotalAndSum();
+                    }
+                });
             } else {
-                this.items.splice (this.items.indexOf(find), 1)
+                this.$parent.deleteData('api/cart/' + item.id_product)
+                .then(res => {
+                    if (res.status) {
+                        this.items.splice(this.items.indexOf(find), 1);
+                        this.checkTotalAndSum();
+                    }
+                });
             }
-            this.checkTotalAndSum()
             console.log(item.product_name + ' removed')
         },
         checkTotalAndSum () {

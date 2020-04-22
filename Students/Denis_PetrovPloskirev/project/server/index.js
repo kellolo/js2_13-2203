@@ -2,19 +2,14 @@ let express = require('express')
 let fs = require('fs')
 let server = express()
 
+
+let writer = require('./utils/writer.js')
+let logger = require('./utils/logger.js')
+
+let catalog = require('./services/catalog.js')
+let cart = require('./services/cart.js')
+
 server.use(express.json())
-
-function totalAmount(arr) {
-  let total = 0
-  arr.forEach(elem => (total += elem.quantity))
-  return total
-}
-
-function totalCost(arr) {
-  let total = 0
-  arr.forEach(elem => (total += elem.price * elem.quantity))
-  return total
-}
 
 server.get('/catalog/', (req, res) => {
   fs.readFile('./server/db/catalog.json', 'utf-8', (err, data) => {
@@ -30,7 +25,6 @@ server.get('/catalog/:id', (req, res) => {
       let arr = JSON.parse(data)
       let id = req.params.id
       let item = arr.find(el => el.id_product == id)
-      // res.send(JSON.stringify(item))
       res.json(item)
     }
   })
@@ -64,55 +58,67 @@ server.get('/cart/', (req, res) => {
   })
 })
 
+
 server.post('/cart', (req, res) => {
   fs.readFile('./server/db/cart.json', 'utf-8', (err, data) => {
     if (!err) {
-      let cartOnServer = JSON.parse(data)
-      let incomeData = req.body
-      let id = +incomeData.id_product
-      let find = cartOnServer.contents.find(elem => elem.id_product === id)
-      if (find) {
-        find.quantity++
-      } else {
-        cartOnServer.contents.push({
-          ...incomeData,
-          quantity: 1
+      let newCart = cart.add(JSON.parse(data), req.body)
+      writer('./server/db/cart.json', newCart)
+        .then(status => {
+          if (status) {
+            res.json({
+              status: 1
+            })
+          } else {
+            res.sendStatus(500)
+          }
         })
-      }
-      cartOnServer.countGoods = totalAmount(cartOnServer.contents)
-      cartOnServer.amount = totalCost(cartOnServer.contents)
-      fs.writeFile('./server/db/cart.json', JSON.stringify(cartOnServer, null, ' '), err => {
-        if (!err) {
-          res.json(cartOnServer)
-        } else {
-          res.sendStatus(500)
-        }
-      })
+        .then(() => {
+          logger(req)
+        })
     }
   })
 })
 
-server.delete('/cart', (req, res) => {
+server.delete('/cart/:id', (req, res) => {
   fs.readFile('./server/db/cart.json', 'utf-8', (err, data) => {
     if (!err) {
-      let cartOnServer = JSON.parse(data)
-      let incomeData = req.body
-      let id = +incomeData.id_product
-      let find = cartOnServer.contents.find(elem => elem.id_product === id)
-      if (find.quantity > 1) {
-        find.quantity--
-      } else {
-        cartOnServer.contents.splice(cartOnServer.contents.indexOf(find), 1)
-      }
-      cartOnServer.countGoods = totalAmount(cartOnServer.contents)
-      cartOnServer.amount = totalCost(cartOnServer.contents)
-      fs.writeFile('./server/db/cart.json', JSON.stringify(cartOnServer, null, ' '), err => {
-        if (!err) {
-          res.json(cartOnServer)
-        } else {
-          res.sendStatus(500)
-        }
-      })
+      let newCart = cart.delete(JSON.parse(data), req.params.id)
+      writer('./server/db/cart.json', newCart)
+        .then(status => {
+          if (status) {
+            res.json({
+              status: 1
+            })
+          } else {
+            res.sendStatus(500)
+          }
+        })
+        .then(() => {
+          logger(req)
+        })
+    }
+  })
+})
+
+server.put('/cart/:id', (req, res) => {
+  fs.readFile('./server/db/cart.json', 'utf-8', (err, data) => {
+    if (!err) {
+      let newCart = cart.change(JSON.parse(data), req.params.id, req.body.amount)
+      console.log(newCart)
+      writer('./server/db/cart.json', newCart)
+        .then(status => {
+          if (status) {
+            res.json({
+              status: 1
+            })
+          } else {
+            res.sendStatus(500)
+          }
+        })
+        .then(() => {
+          logger(req)
+        })
     }
   })
 })

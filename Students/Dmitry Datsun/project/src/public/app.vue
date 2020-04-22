@@ -1,21 +1,16 @@
 <template>
     <div>
-    <header>
+    <header class="d-flex">
         <div class="logo">E-shop</div>
         <div class="cart">
-            <form action="#" class="search-form">
-                <input type="text" class="search-field">
-                <button class="btn-search">
-                    <i class="fas fa-search"></i>
-                </button>
-            </form>
+            <search-comp @search="$refs.catalogRef.filter()" />
             <button class="btn-cart" v-on:click="isVisibleCart=!isVisibleCart">Cart</button>
-            <cart />
+            <cart ref="cartRef" />
         </div>
     </header>
     <main>
         <button class="buy-btn" name="new-btn">Создать</button>
-        <catalog />
+        <catalog ref="catalogRef" />
     </main>
     </div>
 </template>
@@ -23,9 +18,10 @@
 <script>
 import cart from './containers/cart.vue'
 import catalog from './containers/catalog.vue'
+import searchComp from './components/searchComp.vue'
 
 export default {
-    components: {cart, catalog},
+    components: {cart, catalog, searchComp},
     data() {
         return {
             isVisibleCart: false,
@@ -33,10 +29,31 @@ export default {
     },
     methods: {
         getData(url) {
-            return fetch(url).then(d => d.json())
+            return fetch(url)
+            .then(d => d.json())
         },
-        getChild(tag) {
-            return this.$children.find(x => x.$options._componentTag == tag)
+        postData(url, obj) {
+            return fetch(url, {
+                method: 'POST',
+                headers: {"Content-Type": 'application/json'},
+                body: JSON.stringify(obj)
+            })
+            .then(d => d.json())
+        },
+        deleteData(url) {
+            return fetch(url, {
+                method: 'DELETE',
+                headers: {"Content-Type": 'application/json'}
+            })
+            .then(d => d.json())
+        },
+        putData(url, obj) {
+            return fetch(url, {
+                method: 'PUT',
+                headers: {"Content-Type": 'application/json'},
+                body: JSON.stringify(obj)
+            })
+            .then(d => d.json())
         },
     }
 }

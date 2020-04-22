@@ -42,9 +42,17 @@ export default {
         body: JSON.stringify(obj)
       }).then(d => d.json())
     },
-    delete(url, obj) {
+    delete(url) {
       return fetch(url, {
         method: "DELETE",
+        headers: {
+          "Content-Type": "application/json"
+        }
+      }).then(d => d.json())
+    },
+    put(url, obj) {
+      return fetch(url, {
+        method: "PUT",
         headers: {
           "Content-Type": "application/json"
         },
