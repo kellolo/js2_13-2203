@@ -1,31 +1,26 @@
 <template>
   <div>
-    <header>
+    <header class="d-flex">
         <div class="logo">E-shop</div>
         <div class="cart">
-            <form action="#" class="search-form">
-                <input type="text" class="search-field">
-                <button class="btn-search">
-                    <i class="fas fa-search"></i>
-                </button>
-            </form>
-            <button class="btn-cart">Cart</button>
-            <cart ref="cartRef"/>
+            <search-component @search="$refs.catalog.filter()"/>
+            <button class="btn-cart" @click="show=!show">Cart</button>
+            <cart ref="cartRef"/>            
         </div>
     </header>
     <main>
-        <catalog />
+        <catalog ref="catalog" />
     </main>
   </div>
 </template>
 
 <script>
-import cart from './containers/cart.vue'
-import catalog from './containers/catalog.vue'
+import cart from './containers/cart.vue';
+import catalog from './containers/catalog.vue';
+import searchComponent from './components/searchComponent.vue';
 
 export default {
-    components: { cart, catalog },
-    // components: { cart: cart, catalog: catalog, tagName: componentName },
+    components: { cart, catalog, searchComponent },
     data() {
         return {
             show: true
@@ -43,11 +38,28 @@ export default {
                     },
                 body: JSON.stringify(obj)
             }).then(d => d.json())
+        },
+        delete(url) {
+            return fetch(url, {
+                method: 'DELETE',
+                headers: {
+                    "Content-Type": "application/json"
+                    },
+            }).then(d => d.json())
+        },
+        put(url, obj) {
+            return fetch(url, {
+                method: 'PUT',
+                headers: {
+                    "Content-Type": "application/json"
+                    },
+                body: JSON.stringify(obj)
+            }).then(d => d.json())
         }
     }
 }
 </script>
 
-<style lang="sass">
+<style>
 
 </style>
