@@ -15,9 +15,9 @@
 </template>
 
 <script>
-import cart from './containers/cart.vue';
-import catalog from './containers/catalog.vue';
-import searchComponent from './components/searchComponent.vue';
+import cart from '../containers/cart.vue';
+import catalog from '../containers/catalog.vue';
+import searchComponent from '../components/searchComponent.vue';
 
 export default {
     components: { cart, catalog, searchComponent },

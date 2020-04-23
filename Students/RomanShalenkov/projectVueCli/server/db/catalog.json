@@ -38,10 +38,5 @@
   "id_product": 8,
   "product_name": "Gamepad",
   "price": 24
- },
- {
-  "product_name": "Play Station",
-  "price": "1000",
-  "id_product": 1587549633056
  }
 ]
