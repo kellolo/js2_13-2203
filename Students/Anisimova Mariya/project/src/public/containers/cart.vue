@@ -33,32 +33,46 @@ export default {
         addItem(item) {
             let find = this.items.find(el => el.id_product == item.id_product);
             if (find) {
-                find.quantity++;
+                this.$parent.put('/api/cart/' + item.id_product, { amount: 1 })
+                    .then(res => {
+                        if (res.status) {
+                            find.quantity++
+                        }
+                    })
             } else {
-                let newItem = JSON.parse(JSON.stringify(item));
-                this.$parent.post(this.url, newItem).then(res => {            
-                    if (res) {
-                        this.items.push(Object.assign({}, res, { quantity: 1 }));
-                    }
-                });
+                let newItem = Object.assign({}, item, {quantity: 1})
+                this.$parent.post('/api/cart', newItem)
+                    .then(res => {
+                        if (res.status) {
+                            newItem.id_product = item.id_product
+                            this.items.push(newItem)
+                        }
+                    })
+                
             }
         },
         removeItem(item) {
             let find = this.items.find(el => el.id_product == item.id_product);
-            if (item.quantity > 1) {
-                item.quantity--;
+            if (find.quantity > 1) {
+                this.$parent.put('/api/cart/' + item.id_product, { amount: -1 })
+                    .then(res => {
+                        if (res.status) {
+                            find.quantity--
+                        }
+                    })
             } else {
-                this.$parent.get(`${this.url}/${item.id_product}`).then(res => {
-                    if (res) {
-                    this.items.splice(this.items.indexOf(item), 1);
-                    }
-                })
+                this.$parent.delete('/api/cart/' + item.id_product)
+                    .then(res => {
+                        if (res.status) {
+                            this.items.splice(this.items.indexOf(find), 1)
+                        }
+                    })
             }
         }
     },
     mounted() {
         this.$parent.get(this.url)
-        .then(data => this.items = data.contents);
+        .then(data => {this.items = data.contents});
     }
 }
 </script>

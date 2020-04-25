@@ -1,6 +1,9 @@
 let express = require('express');
 let fs = require('fs');
+let writer = require('./utils/writer.js');
 
+let catalog = require('./services/catalog.js');
+let cart = require('./services/cart.js');
 let server = express();
 
 server.use(express.json());
@@ -8,7 +11,7 @@ server.use(express.json());
 server.get('/catalog', (req, res) => {
     fs.readFile('./server/db/catalog.json', 'utf-8', (err, data) => {
         if(!err) {
-            res.send(data)
+            res.send(data);
         }
     })
 });
@@ -16,37 +19,7 @@ server.get('/catalog', (req, res) => {
 server.get('/cart', (req, res) => {
     fs.readFile('./server/db/cart.json', 'utf-8', (err, data) => {
         if(!err) {
-            res.send(data)
-        }
-    })
-});
-
-server.get('/catalog/:id', (req, res) => {
-    fs.readFile('./server/db/catalog.json', 'utf-8', (err, data) => {
-        if (!err) {
-            let arr = JSON.parse(data);
-            let id = req.params.id;
-            let item = arr.find(elem => elem.id_product == id);
-            res.json(item);
-        }
-    })
-});
-
-server.get('/cart/:id', (req, res) => {
-    fs.readFile('./server/db/cart.json', 'utf-8', (err, data) => {
-        if (!err) {
-            let cartArr = JSON.parse(data);
-            let basketArr = cartArr.contents;
-            let id = req.params.id;            
-            let item = basketArr.find(elem => elem.id_product == id);
-            basketArr.splice(basketArr.indexOf(item), 1);
-            fs.writeFile('./server/db/cart.json', JSON.stringify(cartArr, null, ' '), err => {
-                if (!err) {
-                    res.json(item)
-                } else {
-                    res.sendStatus(500)
-                }
-            })
+            res.send(data);
         }
     })
 });
@@ -54,35 +27,63 @@ server.get('/cart/:id', (req, res) => {
 server.post('/catalog', (req, res) => {
     fs.readFile('./server/db/catalog.json', 'utf-8', (err, data) => {
         if(!err) {
-            let arr = JSON.parse(data);
-            let item = req.body;
-            item.id_product = Date.now();
-            arr.push(item);
-            fs.writeFile('./server/db/catalog.json', JSON.stringify(arr, null, ' '), err => {
-                if(!err) {
-                    res.json({id: item.id_product})
-                } else {
-                    res.sendStatus(500)
+            let { newCatalog, idNew } = catalog.add(JSON.parse(data), req.body);
+            writer('./server/db/catalog.json', newCatalog)
+                .then (status => {
+                    if (status) {
+                        res.json({id: idNew});
+                    } else {
+                    res.sendStatus(500);
                 }
             })
         }
     })
 });
 
-server.post('/cart', (req, res) => {
+server.post ('/cart', (req, res) => {
     fs.readFile('./server/db/cart.json', 'utf-8', (err, data) => {
         if(!err) {
-            let cartArr = JSON.parse(data);
-            let basketArr = cartArr.contents;
-            let item = req.body;
-            basketArr.push({...item, quantity: 1});
-            fs.writeFile('./server/db/cart.json', JSON.stringify(cartArr, null, ' '), err => {
-                if(!err) {
-                    res.json(item)
-                } else {
-                    res.sendStatus(500)
-                }
-            })
+            let newCart = cart.add(JSON.parse(data), req.body);
+            writer('./server/db/cart.json', newCart)
+                .then (status => {
+                    if (status) {
+                        res.json({status: 1});
+                    } else {
+                        res.sendStatus(500);
+                    }
+                })
+        }
+    })
+});
+
+server.delete ('/cart/:id', (req, res) => {
+    fs.readFile('./server/db/cart.json', 'utf-8', (err, data) => {
+        if(!err) {
+            let newCart = cart.delete(JSON.parse(data), req.params.id);
+            writer('./server/db/cart.json', newCart)
+                .then (status => {
+                    if (status) {
+                        res.json({status: 1});
+                    } else {
+                        res.sendStatus(500);
+                    }
+                })
+        }
+    })
+});
+
+server.put ('/cart/:id', (req, res) => {
+    fs.readFile('./server/db/cart.json', 'utf-8', (err, data) => {
+        if(!err) {
+            let newCart = cart.change(JSON.parse(data), req.params.id, req.body.amount);
+            writer('./server/db/cart.json', newCart)
+                .then (status => {
+                    if (status) {
+                        res.json({status: 1});
+                    } else {
+                        res.sendStatus(500);
+                    }
+                })
         }
     })
 });
