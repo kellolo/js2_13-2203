@@ -1,0 +1,16 @@
+{
+ "contents": [
+  {
+   "id_product": 3,
+   "product_name": "Keyboard",
+   "price": 20,
+   "quantity": 2
+  },
+  {
+   "id_product": 8,
+   "product_name": "Gamepad",
+   "price": 24,
+   "quantity": 1
+  }
+ ]
+}
